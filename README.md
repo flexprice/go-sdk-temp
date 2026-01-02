@@ -248,7 +248,7 @@ FlexPrice API: FlexPrice API Service
 
 To add the SDK as a dependency to your project:
 ```bash
-go get github.com/flexprice/go-sdk
+go get github.com/flexprice/go-sdk-temp
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -262,17 +262,17 @@ package main
 
 import (
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := gosdk.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -304,17 +304,17 @@ package main
 
 import (
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := gosdk.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -644,9 +644,9 @@ package main
 
 import (
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
-	"github.com/flexprice/go-sdk/retry"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"log"
 	"models/operations"
 )
@@ -654,9 +654,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	s := gosdk.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{}, operations.WithRetries(
@@ -686,18 +686,18 @@ package main
 
 import (
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
-	"github.com/flexprice/go-sdk/retry"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := gosdk.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		gosdk.WithRetryConfig(
+		gosdktemp.WithRetryConfig(
 			retry.Config{
 				Strategy: "backoff",
 				Backoff: &retry.BackoffStrategy{
@@ -708,7 +708,7 @@ func main() {
 				},
 				RetryConnectionErrors: false,
 			}),
-		gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -746,18 +746,18 @@ package main
 import (
 	"context"
 	"errors"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
-	"github.com/flexprice/go-sdk/models/sdkerrors"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/models/sdkerrors"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := gosdk.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -804,12 +804,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/flexprice/go-sdk"
+	"github.com/flexprice/go-sdk-temp"
 )
 
 var (
 	httpClient = &http.Client{Timeout: 30 * time.Second}
-	sdkClient  = gosdk.New(gosdk.WithClient(httpClient))
+	sdkClient  = gosdktemp.New(gosdktemp.WithClient(httpClient))
 )
 ```
 

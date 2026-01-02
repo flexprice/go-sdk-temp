@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/flexprice/go-sdk/optionalnullable"
-	"github.com/flexprice/go-sdk/types"
+	"github.com/flexprice/go-sdk-temp/optionalnullable"
+	"github.com/flexprice/go-sdk-temp/types"
 )
 
 func populateForm(paramName string, explode bool, objType reflect.Type, objValue reflect.Value, delimiter string, defaultValue *string, allowEmptyValue map[string]struct{}, getFieldName func(reflect.StructField) string) url.Values {

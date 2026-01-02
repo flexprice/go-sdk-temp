@@ -31,16 +31,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.GetCustomersIDInvoicesSummary(ctx, "<id>")
@@ -85,17 +85,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.GetInvoices(ctx, operations.GetInvoicesRequest{})
@@ -140,17 +140,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoices(ctx, components.DtoCreateInvoiceRequest{
@@ -201,17 +201,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesPreview(ctx, components.DtoGetPreviewInvoiceRequest{
@@ -258,17 +258,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesSearch(ctx, components.TypesInvoiceFilter{})
@@ -313,16 +313,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.GetInvoicesID(ctx, "<id>", nil, nil)
@@ -369,17 +369,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PutInvoicesID(ctx, "<id>", components.DtoUpdateInvoiceRequest{})
@@ -425,16 +425,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesIDCommsTrigger(ctx, "<id>")
@@ -479,16 +479,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesIDFinalize(ctx, "<id>")
@@ -533,17 +533,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PutInvoicesIDPayment(ctx, "<id>", components.DtoUpdatePaymentStatusRequest{
@@ -591,16 +591,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesIDPaymentAttempt(ctx, "<id>")
@@ -645,16 +645,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.GetInvoicesIDPdf(ctx, "<id>", nil)
@@ -698,16 +698,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesIDRecalculate(ctx, "<id>", nil)
@@ -753,16 +753,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Invoices.PostInvoicesIDVoid(ctx, "<id>")

@@ -22,17 +22,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Coupons.GetCoupons(ctx, operations.GetCouponsRequest{})
@@ -77,17 +77,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Coupons.PostCoupons(ctx, components.DtoCreateCouponRequest{
@@ -136,16 +136,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Coupons.GetCouponsID(ctx, "<id>")
@@ -190,17 +190,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Coupons.PutCouponsID(ctx, "<id>", components.DtoUpdateCouponRequest{})
@@ -246,16 +246,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Coupons.DeleteCouponsID(ctx, "<id>")

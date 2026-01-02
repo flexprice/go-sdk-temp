@@ -25,30 +25,30 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Events.PostEvents(ctx, components.DtoIngestEventRequest{
-        CustomerID: gosdk.Pointer("customer456"),
-        EventID: gosdk.Pointer("event123"),
+        CustomerID: gosdktemp.Pointer("customer456"),
+        EventID: gosdktemp.Pointer("event123"),
         EventName: "api_request",
         ExternalCustomerID: "customer456",
         Properties: map[string]string{
             ""response_status"": "200}",
             "{"request_size"": "100",
         },
-        Source: gosdk.Pointer("api"),
-        Timestamp: gosdk.Pointer("2024-03-20T15:04:05Z"),
+        Source: gosdktemp.Pointer("api"),
+        Timestamp: gosdktemp.Pointer("2024-03-20T15:04:05Z"),
     })
     if err != nil {
         log.Fatal(err)
@@ -91,7 +91,7 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"os"
 	"log"
 )
@@ -99,9 +99,9 @@ import(
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     example, fileErr := os.Open("example.file")
@@ -151,17 +151,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Events.PostEventsBulk(ctx, components.DtoBulkIngestEventRequest{
@@ -208,16 +208,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Events.PostEventsHuggingfaceInference(ctx)
@@ -260,16 +260,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Events.GetEventsMonitoring(ctx, nil)
@@ -314,7 +314,7 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"os"
 	"log"
 )
@@ -322,9 +322,9 @@ import(
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     example, fileErr := os.Open("example.file")
@@ -374,7 +374,7 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"os"
 	"log"
 )
@@ -382,9 +382,9 @@ import(
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     example, fileErr := os.Open("example.file")
@@ -434,7 +434,7 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"os"
 	"log"
 )
@@ -442,9 +442,9 @@ import(
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     example, fileErr := os.Open("example.file")

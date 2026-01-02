@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk/internal/utils"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
 )
 
 // DtoPauseSubscriptionRequest - Request object for pausing an active subscription with various pause modes and options

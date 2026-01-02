@@ -23,16 +23,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksChargebeeTenantIDEnvironmentID(ctx, "<id>", "<id>")
@@ -76,16 +76,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksHubspotTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")
@@ -130,16 +130,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksNomodTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
@@ -184,16 +184,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksQuickbooksTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
@@ -238,16 +238,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksRazorpayTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")
@@ -292,16 +292,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Webhooks.PostWebhooksStripeTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")

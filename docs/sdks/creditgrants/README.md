@@ -23,17 +23,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.GetCreditgrants(ctx, operations.GetCreditgrantsRequest{})
@@ -78,17 +78,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.PostCreditgrants(ctx, components.DtoCreateCreditGrantRequest{
@@ -138,16 +138,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.GetCreditgrantsID(ctx, "<id>")
@@ -192,17 +192,17 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
-	"github.com/flexprice/go-sdk/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.PutCreditgrantsID(ctx, "<id>", components.DtoUpdateCreditGrantRequest{})
@@ -248,16 +248,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.DeleteCreditgrantsID(ctx, "<id>")
@@ -302,16 +302,16 @@ package main
 
 import(
 	"context"
-	gosdk "github.com/flexprice/go-sdk"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdk.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        gosdk.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.CreditGrants.GetPlansIDCreditgrants(ctx, "<id>")

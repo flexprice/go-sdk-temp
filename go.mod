@@ -1,4 +1,4 @@
-module github.com/flexprice/go-sdk
+module github.com/flexprice/go-sdk-temp
 
 go 1.22
 

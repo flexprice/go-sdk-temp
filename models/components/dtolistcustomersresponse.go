@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk/internal/utils"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
 )
 
 // DtoListCustomersResponse - Response object for listing customers with pagination
