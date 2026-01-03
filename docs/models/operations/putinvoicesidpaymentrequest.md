@@ -1,9 +1,0 @@
-# PutInvoicesIDPaymentRequest
-
-
-## Fields
-
-| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ID`                                                                                                 | *string*                                                                                             | :heavy_check_mark:                                                                                   | Invoice ID                                                                                           |
-| `Body`                                                                                               | [components.DtoUpdatePaymentStatusRequest](../../models/components/dtoupdatepaymentstatusrequest.md) | :heavy_check_mark:                                                                                   | Payment Status Update Request                                                                        |

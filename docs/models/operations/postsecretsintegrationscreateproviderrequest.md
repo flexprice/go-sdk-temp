@@ -1,9 +1,0 @@
-# PostSecretsIntegrationsCreateProviderRequest
-
-
-## Fields
-
-| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `Provider`                                                                                       | *string*                                                                                         | :heavy_check_mark:                                                                               | Integration provider                                                                             |
-| `Body`                                                                                           | [components.DtoCreateIntegrationRequest](../../models/components/dtocreateintegrationrequest.md) | :heavy_check_mark:                                                                               | Integration creation request                                                                     |

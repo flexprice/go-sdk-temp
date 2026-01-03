@@ -1,9 +1,0 @@
-# PutTaxesAssociationsIDRequest
-
-
-## Fields
-
-| Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
-| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| `ID`                                                                                                   | *string*                                                                                               | :heavy_check_mark:                                                                                     | Tax Config ID                                                                                          |
-| `Body`                                                                                                 | [components.DtoTaxAssociationUpdateRequest](../../models/components/dtotaxassociationupdaterequest.md) | :heavy_check_mark:                                                                                     | Tax Config Request                                                                                     |

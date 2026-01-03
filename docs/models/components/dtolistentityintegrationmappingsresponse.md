@@ -1,9 +1,0 @@
-# DtoListEntityIntegrationMappingsResponse
-
-
-## Fields
-
-| Field                                                                                                              | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `Items`                                                                                                            | [][components.DtoEntityIntegrationMappingResponse](../../models/components/dtoentityintegrationmappingresponse.md) | :heavy_minus_sign:                                                                                                 | N/A                                                                                                                |
-| `Pagination`                                                                                                       | [*components.TypesPaginationResponse](../../models/components/typespaginationresponse.md)                          | :heavy_minus_sign:                                                                                                 | N/A                                                                                                                |
