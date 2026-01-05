@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/flexprice/go-sdk-temp/v2/retry"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"io"
 	"math"
 	"math/rand"

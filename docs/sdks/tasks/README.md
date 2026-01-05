@@ -22,17 +22,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Tasks.GetTasks(ctx, operations.GetTasksRequest{})
@@ -77,17 +77,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Tasks.PostTasks(ctx, components.DtoCreateTaskRequest{
@@ -137,16 +137,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Tasks.GetTasksResult(ctx, "<id>")
@@ -191,16 +191,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Tasks.GetTasksID(ctx, "<id>")
@@ -245,17 +245,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Tasks.PutTasksIDStatus(ctx, "<id>", components.DtoUpdateTaskStatusRequest{

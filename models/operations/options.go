@@ -4,8 +4,8 @@ package operations
 
 import (
 	"errors"
-	"github.com/flexprice/go-sdk-temp/v2/internal/utils"
-	"github.com/flexprice/go-sdk-temp/v2/retry"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"time"
 )
 

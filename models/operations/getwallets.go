@@ -5,7 +5,7 @@ package operations
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/flexprice/go-sdk-temp/v2/internal/utils"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
 )
 
 type GetWalletsOrder string

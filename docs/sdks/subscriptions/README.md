@@ -36,17 +36,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptions(ctx, operations.GetSubscriptionsRequest{})
@@ -91,17 +91,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptions(ctx, components.DtoCreateSubscriptionRequest{
@@ -151,17 +151,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsAddon(ctx, components.DtoAddAddonRequest{
@@ -209,17 +209,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.DeleteSubscriptionsAddon(ctx, components.DtoRemoveAddonRequest{
@@ -266,17 +266,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PutSubscriptionsLineitemsID(ctx, "<id>", components.DtoUpdateSubscriptionLineItemRequest{})
@@ -322,17 +322,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.DeleteSubscriptionsLineitemsID(ctx, "<id>", components.DtoDeleteSubscriptionLineItemRequest{})
@@ -378,17 +378,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsSearch(ctx, components.TypesSubscriptionFilter{})
@@ -433,23 +433,23 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsUsage(ctx, components.DtoGetUsageBySubscriptionRequest{
-        EndTime: v2.Pointer("2024-03-20T00:00:00Z"),
-        LifetimeUsage: v2.Pointer(false),
-        StartTime: v2.Pointer("2024-03-13T00:00:00Z"),
+        EndTime: gosdktemp.Pointer("2024-03-20T00:00:00Z"),
+        LifetimeUsage: gosdktemp.Pointer(false),
+        StartTime: gosdktemp.Pointer("2024-03-13T00:00:00Z"),
         SubscriptionID: "123",
     })
     if err != nil {
@@ -493,16 +493,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptionsID(ctx, "<id>")
@@ -547,17 +547,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDActivate(ctx, "<id>", components.DtoActivateDraftSubscriptionRequest{
@@ -605,16 +605,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptionsIDAddonsAssociations(ctx, "<id>")
@@ -659,17 +659,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDCancel(ctx, "<id>", components.DtoCancelSubscriptionRequest{
@@ -717,17 +717,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDChangeExecute(ctx, "<id>", components.DtoSubscriptionChangeRequest{
@@ -779,17 +779,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDChangePreview(ctx, "<id>", components.DtoSubscriptionChangeRequest{
@@ -841,16 +841,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptionsIDEntitlements(ctx, "<id>", nil)
@@ -896,16 +896,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptionsIDGrantsUpcoming(ctx, "<id>")
@@ -950,17 +950,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDPause(ctx, "<id>", components.DtoPauseSubscriptionRequest{
@@ -1008,16 +1008,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.GetSubscriptionsIDPauses(ctx, "<id>")
@@ -1062,17 +1062,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Subscriptions.PostSubscriptionsIDResume(ctx, "<id>", components.DtoResumeSubscriptionRequest{

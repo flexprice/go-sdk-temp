@@ -4,17 +4,17 @@ package main
 
 import (
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})

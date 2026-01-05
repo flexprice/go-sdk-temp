@@ -3,7 +3,7 @@
 package operations
 
 import (
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	"github.com/flexprice/go-sdk-temp/models/components"
 )
 
 type PutTaxesRatesIDRequest struct {

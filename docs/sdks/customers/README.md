@@ -27,17 +27,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomers(ctx, operations.GetCustomersRequest{})
@@ -82,17 +82,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.PostCustomers(ctx, components.DtoCreateCustomerRequest{
@@ -139,16 +139,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomersExternalExternalID(ctx, "<id>")
@@ -193,17 +193,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.PostCustomersSearch(ctx, components.TypesCustomerFilter{})
@@ -248,17 +248,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomersUsage(ctx, operations.GetCustomersUsageRequest{})
@@ -303,16 +303,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomersID(ctx, "<id>")
@@ -357,17 +357,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.PutCustomersID(ctx, "<id>", components.DtoUpdateCustomerRequest{})
@@ -413,16 +413,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     err := s.Customers.DeleteCustomersID(ctx, "<id>")
@@ -464,16 +464,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomersIDEntitlements(ctx, "<id>", nil, nil)
@@ -520,16 +520,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Customers.GetCustomersIDGrantsUpcoming(ctx, "<id>")

@@ -1,223 +1,15 @@
-# FlexPrice Go SDK
+# gosdktemp
 
-This is the Go client library for the FlexPrice API.
+Developer-friendly & type-safe Go SDK specifically catered to leverage *gosdktemp* API.
 
-## Installation
+[![Built by Speakeasy](https://img.shields.io/badge/Built_by-SPEAKEASY-374151?style=for-the-badge&labelColor=f3f4f6)](https://www.speakeasy.com/?utm_source=gosdktemp&utm_campaign=go)
+[![License: MIT](https://img.shields.io/badge/LICENSE_//_MIT-3b5bdb?style=for-the-badge&labelColor=eff6ff)](https://opensource.org/licenses/MIT)
 
-```bash
-go get github.com/flexprice/go-sdk
-```
 
-## Usage
+<br /><br />
+> [!IMPORTANT]
+> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/flexprice/develop-cw0). Delete this section before > publishing to a package manager.
 
-### Basic API Usage
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"log"
-	"os"
-	"time"
-
-	flexprice "github.com/flexprice/go-sdk"
-	"github.com/joho/godotenv"
-	"github.com/samber/lo"
-)
-
-// This sample application demonstrates how to use the FlexPrice Go SDK
-// to create and retrieve events, showing the basic patterns for API interaction.
-// To run this example:
-// 1. Copy this file to your project
-// 2. Create a .env file with FLEXPRICE_API_KEY and FLEXPRICE_API_HOST
-// 3. Run with: go run main.go
-
-// Sample .env file:
-// FLEXPRICE_API_KEY=your_api_key_here
-// FLEXPRICE_API_HOST=api.cloud.flexprice.io/v1
-
-func RunSample() {
-	// Load .env file if present
-	godotenv.Load()
-
-	// Get API credentials from environment
-	apiKey := os.Getenv("FLEXPRICE_API_KEY")
-	apiHost := os.Getenv("FLEXPRICE_API_HOST")
-
-	if apiKey == "" || apiHost == "" {
-		log.Fatal("Missing required environment variables: FLEXPRICE_API_KEY and FLEXPRICE_API_HOST")
-	}
-
-	// Initialize API client
-	config := flexprice.NewConfiguration()
-	config.Scheme = "https"
-	config.Host = apiHost
-	config.AddDefaultHeader("x-api-key", apiKey)
-
-	client := flexprice.NewAPIClient(config)
-	ctx := context.Background()
-
-	// Generate a unique customer ID for this sample
-	customerId := fmt.Sprintf("sample-customer-%d", time.Now().Unix())
-
-	// Step 1: Create an event
-	fmt.Println("Creating event...")
-	eventRequest := flexprice.DtoIngestEventRequest{
-		EventName:          "Sample Event",
-		ExternalCustomerId: customerId,
-		Properties: &map[string]string{
-			"source":      "sample_app",
-			"environment": "test",
-			"timestamp":   time.Now().String(),
-		},
-		Source:    lo.ToPtr("sample_app"),
-		Timestamp: lo.ToPtr(time.Now().Format(time.RFC3339)),
-	}
-
-	// Send the event creation request
-	result, response, err := client.EventsAPI.EventsPost(ctx).
-		Event(eventRequest).
-		Execute()
-
-	if err != nil {
-		log.Fatalf("Error creating event: %v", err)
-	}
-
-	if response.StatusCode != 202 {
-		log.Fatalf("Expected status code 202, got %d", response.StatusCode)
-	}
-
-	// The result is a map, so we need to use map access
-	eventId := result["event_id"]
-	fmt.Printf("Event created successfully! ID: %v\n\n", eventId)
-
-	// Step 2: Retrieve events for this customer
-	fmt.Println("Retrieving events for customer...")
-	events, response, err := client.EventsAPI.EventsGet(ctx).
-		ExternalCustomerId(customerId).
-		Execute()
-
-	if err != nil {
-		log.Fatalf("Error retrieving events: %v", err)
-	}
-
-	if response.StatusCode != 200 {
-		log.Fatalf("Expected status code 200, got %d", response.StatusCode)
-	}
-
-	// Process the events (the response is a map)
-	fmt.Printf("Raw response: %+v\n\n", response)
-
-	for i, event := range events.Events {
-		fmt.Printf("Event %d: %v - %v\n", i+1, event.Id, event.EventName)
-		fmt.Printf("Event properties: %v\n", event.Properties)
-	}
-
-	fmt.Println("Sample application completed successfully!")
-}
-
-func main() {
-	RunSample()
-}
-```
-
-### Async Client Usage
-
-The FlexPrice Go SDK includes an asynchronous client for more efficient event tracking, especially for high-volume applications:
-
-```go
-func RunAsyncSample(client *flexprice.APIClient) {
-	// Create an AsyncClient with debug enabled
-	asyncConfig := flexprice.DefaultAsyncConfig()
-	asyncConfig.Debug = true
-	asyncClient := client.NewAsyncClientWithConfig(asyncConfig)
-
-	// Example 1: Simple event
-	err := asyncClient.Enqueue(
-		"api_request",
-		"customer-123",
-		map[string]interface{}{
-			"path":             "/api/resource",
-			"method":           "GET",
-			"status":           "200",
-			"response_time_ms": 150,
-		},
-	)
-	if err != nil {
-		log.Fatalf("Failed to enqueue event: %v", err)
-	}
-	fmt.Println("Enqueued simple event")
-
-	// Example 2: Event with additional options
-	err = asyncClient.EnqueueWithOptions(flexprice.EventOptions{
-		EventName:          "file_upload",
-		ExternalCustomerID: "customer-123",
-		CustomerID:         "cust_456",  // Optional internal FlexPrice ID
-		EventID:            "event_789", // Custom event ID
-		Properties: map[string]interface{}{
-			"file_size_bytes": 1048576,
-			"file_type":       "image/jpeg",
-			"storage_bucket":  "user_uploads",
-		},
-		Source:    "upload_service",
-		Timestamp: time.Now().Format(time.RFC3339),
-	})
-	if err != nil {
-		log.Fatalf("Failed to enqueue event: %v", err)
-	}
-	fmt.Println("Enqueued event with custom options")
-
-	// Example 3: Batch multiple events
-	for i := 0; i < 10; i++ {
-		err = asyncClient.Enqueue(
-			"batch_example",
-			fmt.Sprintf("customer-%d", i),
-			map[string]interface{}{
-				"index": i,
-				"batch": "demo",
-			},
-		)
-		if err != nil {
-			log.Fatalf("Failed to enqueue batch event: %v", err)
-		}
-	}
-	fmt.Println("Enqueued 10 batch events")
-
-	// Wait for a moment to let the API requests complete
-	fmt.Println("Waiting for events to be processed...")
-	time.Sleep(time.Second * 5)
-	
-	// Explicitly close the client - this will flush any remaining events
-	fmt.Println("Closing client...")
-	asyncClient.Close()
-	
-	fmt.Println("Example completed successfully!")
-}
-```
-
-## Async Client Benefits
-
-The async client provides several advantages:
-
-1. **Efficient Batching**: Events are automatically batched for more efficient API usage
-2. **Background Processing**: Events are sent asynchronously, not blocking your application
-3. **Auto-Generated IDs**: EventIDs are automatically generated if not provided
-4. **Rich Property Types**: Properties support various types (numbers, booleans, etc.)
-5. **Detailed Logging**: Enable debug mode for comprehensive logging
-
-## Features
-
-- Complete API coverage
-- Type-safe client
-- Detailed documentation
-- Error handling
-- Batch processing for high-volume applications
-
-## Documentation
-
-For detailed API documentation, refer to the code comments and the official FlexPrice API documentation. 
 <!-- Start Summary [summary] -->
 ## Summary
 
@@ -227,12 +19,7 @@ FlexPrice API: FlexPrice API Service
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [FlexPrice Go SDK](#flexprice-go-sdk)
-  * [Installation](#installation)
-  * [Usage](#usage)
-  * [Async Client Benefits](#async-client-benefits)
-  * [Features](#features)
-  * [Documentation](#documentation)
+* [gosdktemp](#gosdktemp)
   * [SDK Installation](#sdk-installation)
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
@@ -240,6 +27,9 @@ FlexPrice API: FlexPrice API Service
   * [Retries](#retries)
   * [Error Handling](#error-handling)
   * [Custom HTTP Client](#custom-http-client)
+* [Development](#development)
+  * [Maturity](#maturity)
+  * [Contributions](#contributions)
 
 <!-- End Table of Contents [toc] -->
 
@@ -248,7 +38,7 @@ FlexPrice API: FlexPrice API Service
 
 To add the SDK as a dependency to your project:
 ```bash
-go get github.com/flexprice/go-sdk-temp/v2
+go get github.com/flexprice/go-sdk-temp
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -262,17 +52,17 @@ package main
 
 import (
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -304,17 +94,17 @@ package main
 
 import (
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -397,6 +187,10 @@ func main() {
 * [PutCreditgrantsID](docs/sdks/creditgrants/README.md#putcreditgrantsid) - Update a credit grant
 * [DeleteCreditgrantsID](docs/sdks/creditgrants/README.md#deletecreditgrantsid) - Delete a credit grant
 * [GetPlansIDCreditgrants](docs/sdks/creditgrants/README.md#getplansidcreditgrants) - Get plan credit grants
+
+### [CustomerPortal](docs/sdks/customerportal/README.md)
+
+* [GetPortalExternalID](docs/sdks/customerportal/README.md#getportalexternalid) - Create a customer portal session
 
 ### [Customers](docs/sdks/customers/README.md)
 
@@ -644,9 +438,9 @@ package main
 
 import (
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
-	"github.com/flexprice/go-sdk-temp/v2/retry"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"log"
 	"models/operations"
 )
@@ -654,9 +448,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{}, operations.WithRetries(
@@ -686,18 +480,18 @@ package main
 
 import (
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
-	"github.com/flexprice/go-sdk-temp/v2/retry"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/retry"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithRetryConfig(
+		gosdktemp.WithRetryConfig(
 			retry.Config{
 				Strategy: "backoff",
 				Backoff: &retry.BackoffStrategy{
@@ -708,7 +502,7 @@ func main() {
 				},
 				RetryConnectionErrors: false,
 			}),
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -746,18 +540,18 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
-	"github.com/flexprice/go-sdk-temp/v2/models/sdkerrors"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
+	"github.com/flexprice/go-sdk-temp/models/sdkerrors"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := v2.New(
+	s := gosdktemp.New(
 		"https://api.example.com",
-		v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
 	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
@@ -804,12 +598,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/flexprice/go-sdk-temp/v2"
+	"github.com/flexprice/go-sdk-temp"
 )
 
 var (
 	httpClient = &http.Client{Timeout: 30 * time.Second}
-	sdkClient  = v2.New(v2.WithClient(httpClient))
+	sdkClient  = gosdktemp.New(gosdktemp.WithClient(httpClient))
 )
 ```
 
@@ -817,3 +611,18 @@ This can be a convenient way to configure timeouts, cookies, proxies, custom hea
 <!-- End Custom HTTP Client [http-client] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
+
+# Development
+
+## Maturity
+
+This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
+to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
+looking for the latest version.
+
+## Contributions
+
+While we value open-source contributions to this SDK, this library is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation. 
+We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
+
+### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=gosdktemp&utm_campaign=go)

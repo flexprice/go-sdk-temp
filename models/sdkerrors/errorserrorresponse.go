@@ -4,7 +4,7 @@ package sdkerrors
 
 import (
 	"encoding/json"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	"github.com/flexprice/go-sdk-temp/models/components"
 )
 
 type ErrorsErrorResponse struct {

@@ -29,19 +29,19 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetCustomersWallets(ctx, nil, v2.Pointer(false), nil)
+    res, err := s.Wallets.GetCustomersWallets(ctx, nil, gosdktemp.Pointer(false), nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -85,16 +85,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.GetCustomersIDWallets(ctx, "<id>")
@@ -139,17 +139,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.GetWallets(ctx, operations.GetWalletsRequest{})
@@ -194,17 +194,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PostWallets(ctx, components.DtoCreateWalletRequest{
@@ -251,16 +251,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PostWalletsSearch(ctx, nil)
@@ -305,16 +305,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PostWalletsTransactionsSearch(ctx, nil, nil)
@@ -360,16 +360,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.GetWalletsID(ctx, "<id>")
@@ -414,17 +414,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PutWalletsID(ctx, "<id>", components.DtoUpdateWalletRequest{})
@@ -470,16 +470,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.GetWalletsIDBalanceRealTime(ctx, "<id>")
@@ -524,16 +524,16 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PostWalletsIDTerminate(ctx, "<id>")
@@ -578,17 +578,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.PostWalletsIDTopUp(ctx, "<id>", components.DtoTopUpWalletRequest{
@@ -636,17 +636,17 @@ package main
 
 import(
 	"context"
-	"github.com/flexprice/go-sdk-temp/v2"
-	"github.com/flexprice/go-sdk-temp/v2/models/operations"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := v2.New(
+    s := gosdktemp.New(
         "https://api.example.com",
-        v2.WithSecurity("<YOUR_API_KEY_HERE>"),
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     res, err := s.Wallets.GetWalletsIDTransactions(ctx, operations.GetWalletsIDTransactionsRequest{

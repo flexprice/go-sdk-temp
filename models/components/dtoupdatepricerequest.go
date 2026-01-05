@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/v2/internal/utils"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
 )
 
 type DtoUpdatePriceRequest struct {
@@ -11,6 +11,7 @@ type DtoUpdatePriceRequest struct {
 	Amount        *string            `json:"amount,omitzero"`
 	BillingModel  *TypesBillingModel `json:"billing_model,omitzero"`
 	Description   *string            `json:"description,omitzero"`
+	DisplayName   *string            `json:"display_name,omitzero"`
 	EffectiveFrom *string            `json:"effective_from,omitzero"`
 	// GroupID is the id of the group to update the price in
 	GroupID *string `json:"group_id,omitzero"`
@@ -54,6 +55,13 @@ func (d *DtoUpdatePriceRequest) GetDescription() *string {
 		return nil
 	}
 	return d.Description
+}
+
+func (d *DtoUpdatePriceRequest) GetDisplayName() *string {
+	if d == nil {
+		return nil
+	}
+	return d.DisplayName
 }
 
 func (d *DtoUpdatePriceRequest) GetEffectiveFrom() *string {

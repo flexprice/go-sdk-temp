@@ -15,7 +15,7 @@ import (
 	"reflect"
 	"regexp"
 
-	"github.com/flexprice/go-sdk-temp/v2/optionalnullable"
+	"github.com/flexprice/go-sdk-temp/optionalnullable"
 )
 
 const (

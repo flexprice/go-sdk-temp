@@ -3,8 +3,8 @@
 package operations
 
 import (
-	"github.com/flexprice/go-sdk-temp/v2/internal/utils"
-	"github.com/flexprice/go-sdk-temp/v2/models/components"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/go-sdk-temp/models/components"
 )
 
 type PostWalletsTransactionsSearchRequest struct {

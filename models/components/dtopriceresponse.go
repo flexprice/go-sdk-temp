@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/v2/internal/utils"
+	"github.com/flexprice/go-sdk-temp/internal/utils"
 )
 
 type DtoPriceResponse struct {
@@ -17,9 +17,9 @@ type DtoPriceResponse struct {
 	// BillingPeriodCount is the count of the billing period ex 1, 3, 6, 12
 	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// ConversionRate is the conversion rate of the price unit to the fiat currency
-	ConversionRate *float64 `json:"conversion_rate,omitzero"`
-	CreatedAt      *string  `json:"created_at,omitzero"`
-	CreatedBy      *string  `json:"created_by,omitzero"`
+	ConversionRate *string `json:"conversion_rate,omitzero"`
+	CreatedAt      *string `json:"created_at,omitzero"`
+	CreatedBy      *string `json:"created_by,omitzero"`
 	// Currency 3 digit ISO currency code in lowercase ex usd, eur, gbp
 	Currency *string `json:"currency,omitzero"`
 	// Description of the price
@@ -58,7 +58,7 @@ type DtoPriceResponse struct {
 	// PriceUnit is the code of the price unit (e.g., 'btc', 'eth')
 	PriceUnit *string `json:"price_unit,omitzero"`
 	// PriceUnitAmount is the amount of the price unit
-	PriceUnitAmount *float64 `json:"price_unit_amount,omitzero"`
+	PriceUnitAmount *string `json:"price_unit_amount,omitzero"`
 	// PriceUnitID is the id of the price unit (for CUSTOM type)
 	PriceUnitID *string `json:"price_unit_id,omitzero"`
 	// PriceUnitTiers are the tiers for the price unit when BillingModel is TIERED
@@ -133,7 +133,7 @@ func (d *DtoPriceResponse) GetBillingPeriodCount() *int64 {
 	return d.BillingPeriodCount
 }
 
-func (d *DtoPriceResponse) GetConversionRate() *float64 {
+func (d *DtoPriceResponse) GetConversionRate() *string {
 	if d == nil {
 		return nil
 	}
@@ -301,7 +301,7 @@ func (d *DtoPriceResponse) GetPriceUnit() *string {
 	return d.PriceUnit
 }
 
-func (d *DtoPriceResponse) GetPriceUnitAmount() *float64 {
+func (d *DtoPriceResponse) GetPriceUnitAmount() *string {
 	if d == nil {
 		return nil
 	}

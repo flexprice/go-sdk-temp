@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/flexprice/go-sdk-temp/v2/optionalnullable"
+	"github.com/flexprice/go-sdk-temp/optionalnullable"
 )
 
 func PopulateHeaders(_ context.Context, req *http.Request, headers interface{}, globals interface{}) {

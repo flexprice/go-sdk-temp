@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/flexprice/go-sdk-temp/v2/optionalnullable"
-	"github.com/flexprice/go-sdk-temp/v2/types"
+	"github.com/flexprice/go-sdk-temp/optionalnullable"
+	"github.com/flexprice/go-sdk-temp/types"
 )
 
 func GenerateURL(_ context.Context, serverURL, path string, pathParams interface{}, globals interface{}) (string, error) {
