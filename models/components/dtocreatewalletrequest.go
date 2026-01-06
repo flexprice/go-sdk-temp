@@ -40,8 +40,13 @@ type DtoCreateWalletRequest struct {
 	// If provided, the price unit will be used to set the currency and conversion rate of the wallet:
 	// - currency: set to price unit's base_currency
 	// - conversion_rate: set to price unit's conversion_rate
-	PriceUnit  *string          `json:"price_unit,omitzero"`
-	WalletType *TypesWalletType `json:"wallet_type,omitzero"`
+	PriceUnit *string `json:"price_unit,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
+	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
+	TopupConversionRate *string          `json:"topup_conversion_rate,omitzero"`
+	WalletType          *TypesWalletType `json:"wallet_type,omitzero"`
 }
 
 func (d DtoCreateWalletRequest) MarshalJSON() ([]byte, error) {
@@ -158,6 +163,13 @@ func (d *DtoCreateWalletRequest) GetPriceUnit() *string {
 		return nil
 	}
 	return d.PriceUnit
+}
+
+func (d *DtoCreateWalletRequest) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
 }
 
 func (d *DtoCreateWalletRequest) GetWalletType() *TypesWalletType {

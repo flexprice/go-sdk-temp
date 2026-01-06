@@ -7,7 +7,12 @@ import (
 )
 
 type DtoCreateCreditGrantRequest struct {
-	Cadence                TypesCreditGrantCadence             `json:"cadence"`
+	Cadence TypesCreditGrantCadence `json:"cadence"`
+	// amount in the currency =  number of credits * conversion_rate
+	// ex if conversion_rate is 1, then 1 USD = 1 credit
+	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
+	ConversionRate         *string                             `json:"conversion_rate,omitzero"`
 	Credits                string                              `json:"credits"`
 	ExpirationDuration     *int64                              `json:"expiration_duration,omitzero"`
 	ExpirationDurationUnit *TypesCreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
@@ -20,6 +25,11 @@ type DtoCreateCreditGrantRequest struct {
 	Priority               *int64                              `json:"priority,omitzero"`
 	Scope                  TypesCreditGrantScope               `json:"scope"`
 	SubscriptionID         *string                             `json:"subscription_id,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
+	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
+	TopupConversionRate *string `json:"topup_conversion_rate,omitzero"`
 }
 
 func (d DtoCreateCreditGrantRequest) MarshalJSON() ([]byte, error) {
@@ -38,6 +48,13 @@ func (d *DtoCreateCreditGrantRequest) GetCadence() TypesCreditGrantCadence {
 		return TypesCreditGrantCadence("")
 	}
 	return d.Cadence
+}
+
+func (d *DtoCreateCreditGrantRequest) GetConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ConversionRate
 }
 
 func (d *DtoCreateCreditGrantRequest) GetCredits() string {
@@ -122,4 +139,11 @@ func (d *DtoCreateCreditGrantRequest) GetSubscriptionID() *string {
 		return nil
 	}
 	return d.SubscriptionID
+}
+
+func (d *DtoCreateCreditGrantRequest) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
 }

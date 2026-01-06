@@ -19,7 +19,11 @@ type DtoUpdatePriceRequest struct {
 	// Non-critical fields (can be updated directly)
 	LookupKey *string           `json:"lookup_key,omitzero"`
 	Metadata  map[string]string `json:"metadata,omitzero"`
-	TierMode  *TypesBillingTier `json:"tier_mode,omitzero"`
+	// PriceUnitAmount is the price unit amount (for CUSTOM price unit type, FLAT_FEE/PACKAGE billing models)
+	PriceUnitAmount *string `json:"price_unit_amount,omitzero"`
+	// PriceUnitTiers are the price unit tiers (for CUSTOM price unit type, TIERED billing model)
+	PriceUnitTiers []DtoCreatePriceTier `json:"price_unit_tiers,omitzero"`
+	TierMode       *TypesBillingTier    `json:"tier_mode,omitzero"`
 	// Tiers determines the pricing tiers for this line item
 	Tiers             []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity,omitzero"`
@@ -90,6 +94,20 @@ func (d *DtoUpdatePriceRequest) GetMetadata() map[string]string {
 		return nil
 	}
 	return d.Metadata
+}
+
+func (d *DtoUpdatePriceRequest) GetPriceUnitAmount() *string {
+	if d == nil {
+		return nil
+	}
+	return d.PriceUnitAmount
+}
+
+func (d *DtoUpdatePriceRequest) GetPriceUnitTiers() []DtoCreatePriceTier {
+	if d == nil {
+		return nil
+	}
+	return d.PriceUnitTiers
 }
 
 func (d *DtoUpdatePriceRequest) GetTierMode() *TypesBillingTier {

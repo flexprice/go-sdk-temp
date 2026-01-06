@@ -4,6 +4,7 @@ package components
 
 import (
 	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/go-sdk-temp/optionalnullable"
 )
 
 type PricePrice struct {
@@ -48,7 +49,7 @@ type PricePrice struct {
 	// MeterID is the id of the meter for usage based pricing
 	MeterID *string `json:"meter_id,omitzero"`
 	// MinQuantity is the minimum quantity of the price
-	MinQuantity *string `json:"min_quantity,omitzero"`
+	MinQuantity optionalnullable.OptionalNullable[string] `json:"min_quantity,omitzero"`
 	// ParentPriceID references the root price (always set for price lineage tracking)
 	ParentPriceID *string `json:"parent_price_id,omitzero"`
 	// PriceUnit is the code of the price unit (e.g., 'btc', 'eth')
@@ -247,7 +248,7 @@ func (p *PricePrice) GetMeterID() *string {
 	return p.MeterID
 }
 
-func (p *PricePrice) GetMinQuantity() *string {
+func (p *PricePrice) GetMinQuantity() optionalnullable.OptionalNullable[string] {
 	if p == nil {
 		return nil
 	}

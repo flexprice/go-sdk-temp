@@ -7,7 +7,9 @@ import (
 )
 
 type DtoWalletTransactionResponse struct {
-	Amount              *string          `json:"amount,omitzero"`
+	Amount *string `json:"amount,omitzero"`
+	// conversion_rate is the conversion rate for the transaction to the currency
+	ConversionRate      *string          `json:"conversion_rate,omitzero"`
 	CreatedAt           *string          `json:"created_at,omitzero"`
 	CreatedBy           *string          `json:"created_by,omitzero"`
 	CreatedByUser       *DtoUserResponse `json:"created_by_user,omitzero"`
@@ -17,26 +19,28 @@ type DtoWalletTransactionResponse struct {
 	CreditsAvailable    *string          `json:"credits_available,omitzero"`
 	Currency            *string          `json:"currency,omitzero"`
 	// Customer response object containing all customer information
-	Customer          *DtoCustomerResponse        `json:"customer,omitzero"`
-	CustomerID        *string                     `json:"customer_id,omitzero"`
-	Description       *string                     `json:"description,omitzero"`
-	EnvironmentID     *string                     `json:"environment_id,omitzero"`
-	ExpiryDate        *string                     `json:"expiry_date,omitzero"`
-	ID                *string                     `json:"id,omitzero"`
-	IdempotencyKey    *string                     `json:"idempotency_key,omitzero"`
-	Metadata          map[string]string           `json:"metadata,omitzero"`
-	Priority          *int64                      `json:"priority,omitzero"`
-	ReferenceID       *string                     `json:"reference_id,omitzero"`
-	ReferenceType     *TypesWalletTxReferenceType `json:"reference_type,omitzero"`
-	Status            *TypesStatus                `json:"status,omitzero"`
-	TenantID          *string                     `json:"tenant_id,omitzero"`
-	TransactionReason *TypesTransactionReason     `json:"transaction_reason,omitzero"`
-	TransactionStatus *TypesTransactionStatus     `json:"transaction_status,omitzero"`
-	Type              *TypesTransactionType       `json:"type,omitzero"`
-	UpdatedAt         *string                     `json:"updated_at,omitzero"`
-	UpdatedBy         *string                     `json:"updated_by,omitzero"`
-	Wallet            *DtoWalletResponse          `json:"wallet,omitzero"`
-	WalletID          *string                     `json:"wallet_id,omitzero"`
+	Customer       *DtoCustomerResponse        `json:"customer,omitzero"`
+	CustomerID     *string                     `json:"customer_id,omitzero"`
+	Description    *string                     `json:"description,omitzero"`
+	EnvironmentID  *string                     `json:"environment_id,omitzero"`
+	ExpiryDate     *string                     `json:"expiry_date,omitzero"`
+	ID             *string                     `json:"id,omitzero"`
+	IdempotencyKey *string                     `json:"idempotency_key,omitzero"`
+	Metadata       map[string]string           `json:"metadata,omitzero"`
+	Priority       *int64                      `json:"priority,omitzero"`
+	ReferenceID    *string                     `json:"reference_id,omitzero"`
+	ReferenceType  *TypesWalletTxReferenceType `json:"reference_type,omitzero"`
+	Status         *TypesStatus                `json:"status,omitzero"`
+	TenantID       *string                     `json:"tenant_id,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	TopupConversionRate *string                 `json:"topup_conversion_rate,omitzero"`
+	TransactionReason   *TypesTransactionReason `json:"transaction_reason,omitzero"`
+	TransactionStatus   *TypesTransactionStatus `json:"transaction_status,omitzero"`
+	Type                *TypesTransactionType   `json:"type,omitzero"`
+	UpdatedAt           *string                 `json:"updated_at,omitzero"`
+	UpdatedBy           *string                 `json:"updated_by,omitzero"`
+	Wallet              *DtoWalletResponse      `json:"wallet,omitzero"`
+	WalletID            *string                 `json:"wallet_id,omitzero"`
 }
 
 func (d DtoWalletTransactionResponse) MarshalJSON() ([]byte, error) {
@@ -55,6 +59,13 @@ func (d *DtoWalletTransactionResponse) GetAmount() *string {
 		return nil
 	}
 	return d.Amount
+}
+
+func (d *DtoWalletTransactionResponse) GetConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ConversionRate
 }
 
 func (d *DtoWalletTransactionResponse) GetCreatedAt() *string {
@@ -202,6 +213,13 @@ func (d *DtoWalletTransactionResponse) GetTenantID() *string {
 		return nil
 	}
 	return d.TenantID
+}
+
+func (d *DtoWalletTransactionResponse) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
 }
 
 func (d *DtoWalletTransactionResponse) GetTransactionReason() *TypesTransactionReason {

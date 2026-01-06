@@ -7,24 +7,38 @@ import (
 )
 
 type DtoWalletResponse struct {
-	AlertConfig    *TypesAlertConfig  `json:"alert_config,omitzero"`
-	AlertEnabled   *bool              `json:"alert_enabled,omitzero"`
-	AlertState     *string            `json:"alert_state,omitzero"`
-	AutoTopup      *TypesAutoTopup    `json:"auto_topup,omitzero"`
-	Balance        *string            `json:"balance,omitzero"`
-	Config         *TypesWalletConfig `json:"config,omitzero"`
-	ConversionRate *string            `json:"conversion_rate,omitzero"`
-	CreatedAt      *string            `json:"created_at,omitzero"`
-	CreditBalance  *string            `json:"credit_balance,omitzero"`
-	Currency       *string            `json:"currency,omitzero"`
-	CustomerID     *string            `json:"customer_id,omitzero"`
-	Description    *string            `json:"description,omitzero"`
-	ID             *string            `json:"id,omitzero"`
-	Metadata       map[string]string  `json:"metadata,omitzero"`
-	Name           *string            `json:"name,omitzero"`
-	UpdatedAt      *string            `json:"updated_at,omitzero"`
-	WalletStatus   *TypesWalletStatus `json:"wallet_status,omitzero"`
-	WalletType     *TypesWalletType   `json:"wallet_type,omitzero"`
+	AlertConfig  *TypesAlertConfig  `json:"alert_config,omitzero"`
+	AlertEnabled *bool              `json:"alert_enabled,omitzero"`
+	AlertState   *string            `json:"alert_state,omitzero"`
+	AutoTopup    *TypesAutoTopup    `json:"auto_topup,omitzero"`
+	Balance      *string            `json:"balance,omitzero"`
+	Config       *TypesWalletConfig `json:"config,omitzero"`
+	// amount in the currency =  number of credits * conversion_rate
+	// ex if conversion_rate is 1, then 1 USD = 1 credit
+	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
+	ConversionRate *string           `json:"conversion_rate,omitzero"`
+	CreatedAt      *string           `json:"created_at,omitzero"`
+	CreatedBy      *string           `json:"created_by,omitzero"`
+	CreditBalance  *string           `json:"credit_balance,omitzero"`
+	Currency       *string           `json:"currency,omitzero"`
+	CustomerID     *string           `json:"customer_id,omitzero"`
+	Description    *string           `json:"description,omitzero"`
+	EnvironmentID  *string           `json:"environment_id,omitzero"`
+	ID             *string           `json:"id,omitzero"`
+	Metadata       map[string]string `json:"metadata,omitzero"`
+	Name           *string           `json:"name,omitzero"`
+	Status         *TypesStatus      `json:"status,omitzero"`
+	TenantID       *string           `json:"tenant_id,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
+	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
+	TopupConversionRate *string            `json:"topup_conversion_rate,omitzero"`
+	UpdatedAt           *string            `json:"updated_at,omitzero"`
+	UpdatedBy           *string            `json:"updated_by,omitzero"`
+	WalletStatus        *TypesWalletStatus `json:"wallet_status,omitzero"`
+	WalletType          *TypesWalletType   `json:"wallet_type,omitzero"`
 }
 
 func (d DtoWalletResponse) MarshalJSON() ([]byte, error) {
@@ -94,6 +108,13 @@ func (d *DtoWalletResponse) GetCreatedAt() *string {
 	return d.CreatedAt
 }
 
+func (d *DtoWalletResponse) GetCreatedBy() *string {
+	if d == nil {
+		return nil
+	}
+	return d.CreatedBy
+}
+
 func (d *DtoWalletResponse) GetCreditBalance() *string {
 	if d == nil {
 		return nil
@@ -122,6 +143,13 @@ func (d *DtoWalletResponse) GetDescription() *string {
 	return d.Description
 }
 
+func (d *DtoWalletResponse) GetEnvironmentID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.EnvironmentID
+}
+
 func (d *DtoWalletResponse) GetID() *string {
 	if d == nil {
 		return nil
@@ -143,11 +171,39 @@ func (d *DtoWalletResponse) GetName() *string {
 	return d.Name
 }
 
+func (d *DtoWalletResponse) GetStatus() *TypesStatus {
+	if d == nil {
+		return nil
+	}
+	return d.Status
+}
+
+func (d *DtoWalletResponse) GetTenantID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TenantID
+}
+
+func (d *DtoWalletResponse) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
+}
+
 func (d *DtoWalletResponse) GetUpdatedAt() *string {
 	if d == nil {
 		return nil
 	}
 	return d.UpdatedAt
+}
+
+func (d *DtoWalletResponse) GetUpdatedBy() *string {
+	if d == nil {
+		return nil
+	}
+	return d.UpdatedBy
 }
 
 func (d *DtoWalletResponse) GetWalletStatus() *TypesWalletStatus {

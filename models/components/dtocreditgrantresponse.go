@@ -7,7 +7,12 @@ import (
 )
 
 type DtoCreditGrantResponse struct {
-	Cadence                *TypesCreditGrantCadence            `json:"cadence,omitzero"`
+	Cadence *TypesCreditGrantCadence `json:"cadence,omitzero"`
+	// amount in the currency =  number of credits * conversion_rate
+	// ex if conversion_rate is 1, then 1 USD = 1 credit
+	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
+	ConversionRate         *string                             `json:"conversion_rate,omitzero"`
 	CreatedAt              *string                             `json:"created_at,omitzero"`
 	CreatedBy              *string                             `json:"created_by,omitzero"`
 	CreditGrantAnchor      *string                             `json:"credit_grant_anchor,omitzero"`
@@ -29,8 +34,13 @@ type DtoCreditGrantResponse struct {
 	Status                 *TypesStatus                        `json:"status,omitzero"`
 	SubscriptionID         *string                             `json:"subscription_id,omitzero"`
 	TenantID               *string                             `json:"tenant_id,omitzero"`
-	UpdatedAt              *string                             `json:"updated_at,omitzero"`
-	UpdatedBy              *string                             `json:"updated_by,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
+	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
+	TopupConversionRate *string `json:"topup_conversion_rate,omitzero"`
+	UpdatedAt           *string `json:"updated_at,omitzero"`
+	UpdatedBy           *string `json:"updated_by,omitzero"`
 }
 
 func (d DtoCreditGrantResponse) MarshalJSON() ([]byte, error) {
@@ -49,6 +59,13 @@ func (d *DtoCreditGrantResponse) GetCadence() *TypesCreditGrantCadence {
 		return nil
 	}
 	return d.Cadence
+}
+
+func (d *DtoCreditGrantResponse) GetConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ConversionRate
 }
 
 func (d *DtoCreditGrantResponse) GetCreatedAt() *string {
@@ -196,6 +213,13 @@ func (d *DtoCreditGrantResponse) GetTenantID() *string {
 		return nil
 	}
 	return d.TenantID
+}
+
+func (d *DtoCreditGrantResponse) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
 }
 
 func (d *DtoCreditGrantResponse) GetUpdatedAt() *string {

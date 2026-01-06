@@ -18,27 +18,32 @@ type DtoWalletBalanceResponse struct {
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
 	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
-	ConversionRate        *string            `json:"conversion_rate,omitzero"`
-	CreatedAt             *string            `json:"created_at,omitzero"`
-	CreatedBy             *string            `json:"created_by,omitzero"`
-	CreditBalance         *string            `json:"credit_balance,omitzero"`
-	Currency              *string            `json:"currency,omitzero"`
-	CurrentPeriodUsage    *string            `json:"current_period_usage,omitzero"`
-	CustomerID            *string            `json:"customer_id,omitzero"`
-	Description           *string            `json:"description,omitzero"`
-	EnvironmentID         *string            `json:"environment_id,omitzero"`
-	ID                    *string            `json:"id,omitzero"`
-	Metadata              map[string]string  `json:"metadata,omitzero"`
-	Name                  *string            `json:"name,omitzero"`
-	RealTimeBalance       *string            `json:"real_time_balance,omitzero"`
-	RealTimeCreditBalance *string            `json:"real_time_credit_balance,omitzero"`
-	Status                *TypesStatus       `json:"status,omitzero"`
-	TenantID              *string            `json:"tenant_id,omitzero"`
-	UnpaidInvoicesAmount  *string            `json:"unpaid_invoices_amount,omitzero"`
-	UpdatedAt             *string            `json:"updated_at,omitzero"`
-	UpdatedBy             *string            `json:"updated_by,omitzero"`
-	WalletStatus          *TypesWalletStatus `json:"wallet_status,omitzero"`
-	WalletType            *TypesWalletType   `json:"wallet_type,omitzero"`
+	ConversionRate        *string           `json:"conversion_rate,omitzero"`
+	CreatedAt             *string           `json:"created_at,omitzero"`
+	CreatedBy             *string           `json:"created_by,omitzero"`
+	CreditBalance         *string           `json:"credit_balance,omitzero"`
+	Currency              *string           `json:"currency,omitzero"`
+	CurrentPeriodUsage    *string           `json:"current_period_usage,omitzero"`
+	CustomerID            *string           `json:"customer_id,omitzero"`
+	Description           *string           `json:"description,omitzero"`
+	EnvironmentID         *string           `json:"environment_id,omitzero"`
+	ID                    *string           `json:"id,omitzero"`
+	Metadata              map[string]string `json:"metadata,omitzero"`
+	Name                  *string           `json:"name,omitzero"`
+	RealTimeBalance       *string           `json:"real_time_balance,omitzero"`
+	RealTimeCreditBalance *string           `json:"real_time_credit_balance,omitzero"`
+	Status                *TypesStatus      `json:"status,omitzero"`
+	TenantID              *string           `json:"tenant_id,omitzero"`
+	// topup_conversion_rate is the conversion rate for the topup to the currency
+	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
+	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
+	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
+	TopupConversionRate  *string            `json:"topup_conversion_rate,omitzero"`
+	UnpaidInvoicesAmount *string            `json:"unpaid_invoices_amount,omitzero"`
+	UpdatedAt            *string            `json:"updated_at,omitzero"`
+	UpdatedBy            *string            `json:"updated_by,omitzero"`
+	WalletStatus         *TypesWalletStatus `json:"wallet_status,omitzero"`
+	WalletType           *TypesWalletType   `json:"wallet_type,omitzero"`
 }
 
 func (d DtoWalletBalanceResponse) MarshalJSON() ([]byte, error) {
@@ -211,6 +216,13 @@ func (d *DtoWalletBalanceResponse) GetTenantID() *string {
 		return nil
 	}
 	return d.TenantID
+}
+
+func (d *DtoWalletBalanceResponse) GetTopupConversionRate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TopupConversionRate
 }
 
 func (d *DtoWalletBalanceResponse) GetUnpaidInvoicesAmount() *string {
