@@ -8,3 +8,4 @@
 | `GetTasksEntityTypeEvents`    | EVENTS                        |
 | `GetTasksEntityTypePrices`    | PRICES                        |
 | `GetTasksEntityTypeCustomers` | CUSTOMERS                     |
+| `GetTasksEntityTypeFeatures`  | FEATURES                      |

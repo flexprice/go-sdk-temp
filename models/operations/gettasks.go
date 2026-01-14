@@ -13,6 +13,7 @@ const (
 	GetTasksEntityTypeEvents    GetTasksEntityType = "EVENTS"
 	GetTasksEntityTypePrices    GetTasksEntityType = "PRICES"
 	GetTasksEntityTypeCustomers GetTasksEntityType = "CUSTOMERS"
+	GetTasksEntityTypeFeatures  GetTasksEntityType = "FEATURES"
 )
 
 func (e GetTasksEntityType) ToPointer() *GetTasksEntityType {
@@ -29,6 +30,8 @@ func (e *GetTasksEntityType) UnmarshalJSON(data []byte) error {
 	case "PRICES":
 		fallthrough
 	case "CUSTOMERS":
+		fallthrough
+	case "FEATURES":
 		*e = GetTasksEntityType(v)
 		return nil
 	default:

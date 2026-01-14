@@ -316,6 +316,7 @@ func main() {
 * [GetPrices](docs/sdks/prices/README.md#getprices) - Get prices
 * [PostPrices](docs/sdks/prices/README.md#postprices) - Create a new price
 * [PostPricesBulk](docs/sdks/prices/README.md#postpricesbulk) - Create multiple prices in bulk
+* [GetPricesLookupLookupKey](docs/sdks/prices/README.md#getpriceslookuplookupkey) - Get price by lookup key
 * [GetPricesID](docs/sdks/prices/README.md#getpricesid) - Get a price by ID
 * [PutPricesID](docs/sdks/prices/README.md#putpricesid) - Update a price
 * [DeletePricesID](docs/sdks/prices/README.md#deletepricesid) - Delete a price
@@ -369,6 +370,7 @@ func main() {
 * [PostTasks](docs/sdks/tasks/README.md#posttasks) - Create a new task
 * [GetTasksResult](docs/sdks/tasks/README.md#gettasksresult) - Get task processing result
 * [GetTasksID](docs/sdks/tasks/README.md#gettasksid) - Get a task
+* [GetTasksIDDownload](docs/sdks/tasks/README.md#gettasksiddownload) - Download task export file
 * [PutTasksIDStatus](docs/sdks/tasks/README.md#puttasksidstatus) - Update task status
 
 ### [TaxAssociations](docs/sdks/taxassociations/README.md)

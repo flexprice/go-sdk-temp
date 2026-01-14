@@ -12,6 +12,7 @@ type TypesSyncConfig struct {
 	Payment      *TypesEntitySyncConfig `json:"payment,omitzero"`
 	Plan         *TypesEntitySyncConfig `json:"plan,omitzero"`
 	Quote        *TypesEntitySyncConfig `json:"quote,omitzero"`
+	S3           *TypesS3ExportConfig   `json:"s3,omitzero"`
 	Subscription *TypesEntitySyncConfig `json:"subscription,omitzero"`
 }
 
@@ -59,6 +60,13 @@ func (t *TypesSyncConfig) GetQuote() *TypesEntitySyncConfig {
 		return nil
 	}
 	return t.Quote
+}
+
+func (t *TypesSyncConfig) GetS3() *TypesS3ExportConfig {
+	if t == nil {
+		return nil
+	}
+	return t.S3
 }
 
 func (t *TypesSyncConfig) GetSubscription() *TypesEntitySyncConfig {

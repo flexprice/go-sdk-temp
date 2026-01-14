@@ -8,6 +8,7 @@
 * [PostTasks](#posttasks) - Create a new task
 * [GetTasksResult](#gettasksresult) - Get task processing result
 * [GetTasksID](#gettasksid) - Get a task
+* [GetTasksIDDownload](#gettasksiddownload) - Download task export file
 * [PutTasksIDStatus](#puttasksidstatus) - Update task status
 
 ## GetTasks
@@ -91,7 +92,7 @@ func main() {
     )
 
     res, err := s.Tasks.PostTasks(ctx, components.DtoCreateTaskRequest{
-        EntityType: components.TypesEntityTypeCustomers,
+        EntityType: components.TypesEntityTypeFeatures,
         FileType: components.TypesFileTypeJSON,
         FileURL: "https://juicy-fundraising.biz/",
         TaskType: components.TypesTaskTypeImport,
@@ -224,6 +225,60 @@ func main() {
 ### Response
 
 **[*components.DtoTaskResponse](../../models/components/dtotaskresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
+| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetTasksIDDownload
+
+Generate a presigned URL for downloading an exported file (supports both Flexprice-managed and customer-owned S3)
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/tasks/{id}/download" method="get" path="/tasks/{id}/download" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Tasks.GetTasksIDDownload(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Task ID                                                  |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[map[string]string](../../.md), error**
 
 ### Errors
 

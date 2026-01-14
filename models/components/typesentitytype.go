@@ -8,6 +8,7 @@ const (
 	TypesEntityTypeEvents    TypesEntityType = "EVENTS"
 	TypesEntityTypePrices    TypesEntityType = "PRICES"
 	TypesEntityTypeCustomers TypesEntityType = "CUSTOMERS"
+	TypesEntityTypeFeatures  TypesEntityType = "FEATURES"
 )
 
 func (e TypesEntityType) ToPointer() *TypesEntityType {
@@ -18,7 +19,7 @@ func (e TypesEntityType) ToPointer() *TypesEntityType {
 func (e *TypesEntityType) IsExact() bool {
 	if e != nil {
 		switch *e {
-		case "EVENTS", "PRICES", "CUSTOMERS":
+		case "EVENTS", "PRICES", "CUSTOMERS", "FEATURES":
 			return true
 		}
 	}
