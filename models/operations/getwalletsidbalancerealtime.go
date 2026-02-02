@@ -5,6 +5,8 @@ package operations
 type GetWalletsIDBalanceRealTimeRequest struct {
 	// Wallet ID
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Expand fields (e.g., credits_available_breakdown)
+	Expand *string `queryParam:"style=form,explode=true,name=expand"`
 }
 
 func (g *GetWalletsIDBalanceRealTimeRequest) GetID() string {
@@ -12,4 +14,11 @@ func (g *GetWalletsIDBalanceRealTimeRequest) GetID() string {
 		return ""
 	}
 	return g.ID
+}
+
+func (g *GetWalletsIDBalanceRealTimeRequest) GetExpand() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Expand
 }

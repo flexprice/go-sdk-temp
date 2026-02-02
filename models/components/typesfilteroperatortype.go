@@ -10,14 +10,15 @@ import (
 type TypesFilterOperatorType string
 
 const (
-	TypesFilterOperatorTypeEq       TypesFilterOperatorType = "eq"
-	TypesFilterOperatorTypeContains TypesFilterOperatorType = "contains"
-	TypesFilterOperatorTypeGt       TypesFilterOperatorType = "gt"
-	TypesFilterOperatorTypeLt       TypesFilterOperatorType = "lt"
-	TypesFilterOperatorTypeIn       TypesFilterOperatorType = "in"
-	TypesFilterOperatorTypeNotIn    TypesFilterOperatorType = "not_in"
-	TypesFilterOperatorTypeBefore   TypesFilterOperatorType = "before"
-	TypesFilterOperatorTypeAfter    TypesFilterOperatorType = "after"
+	TypesFilterOperatorTypeEq          TypesFilterOperatorType = "eq"
+	TypesFilterOperatorTypeContains    TypesFilterOperatorType = "contains"
+	TypesFilterOperatorTypeNotContains TypesFilterOperatorType = "not_contains"
+	TypesFilterOperatorTypeGt          TypesFilterOperatorType = "gt"
+	TypesFilterOperatorTypeLt          TypesFilterOperatorType = "lt"
+	TypesFilterOperatorTypeIn          TypesFilterOperatorType = "in"
+	TypesFilterOperatorTypeNotIn       TypesFilterOperatorType = "not_in"
+	TypesFilterOperatorTypeBefore      TypesFilterOperatorType = "before"
+	TypesFilterOperatorTypeAfter       TypesFilterOperatorType = "after"
 )
 
 func (e TypesFilterOperatorType) ToPointer() *TypesFilterOperatorType {
@@ -32,6 +33,8 @@ func (e *TypesFilterOperatorType) UnmarshalJSON(data []byte) error {
 	case "eq":
 		fallthrough
 	case "contains":
+		fallthrough
+	case "not_contains":
 		fallthrough
 	case "gt":
 		fallthrough

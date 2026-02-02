@@ -12,6 +12,7 @@
 * [PostEventsQuery](#posteventsquery) - List raw events
 * [PostEventsUsage](#posteventsusage) - Get usage statistics
 * [PostEventsUsageMeter](#posteventsusagemeter) - Get usage by meter
+* [GetEventsID](#geteventsid) - Get event by ID
 
 ## PostEvents
 
@@ -479,5 +480,59 @@ func main() {
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
 | sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
+| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetEventsID
+
+Retrieve event details and processing status with debug information
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/events/{id}" method="get" path="/events/{id}" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Events.GetEventsID(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Event ID                                                 |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*components.DtoGetEventByIDResponse](../../models/components/dtogeteventbyidresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
 | sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
 | sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |

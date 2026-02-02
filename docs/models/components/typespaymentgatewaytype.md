@@ -8,3 +8,4 @@
 | `TypesPaymentGatewayTypeStripe`   | stripe                            |
 | `TypesPaymentGatewayTypeRazorpay` | razorpay                          |
 | `TypesPaymentGatewayTypeNomod`    | nomod                             |
+| `TypesPaymentGatewayTypeMoyasar`  | moyasar                           |

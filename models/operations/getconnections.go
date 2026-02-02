@@ -45,6 +45,7 @@ const (
 	ProviderTypeChargebee  ProviderType = "chargebee"
 	ProviderTypeQuickbooks ProviderType = "quickbooks"
 	ProviderTypeNomod      ProviderType = "nomod"
+	ProviderTypeMoyasar    ProviderType = "moyasar"
 )
 
 func (e ProviderType) ToPointer() *ProviderType {
@@ -71,6 +72,8 @@ func (e *ProviderType) UnmarshalJSON(data []byte) error {
 	case "quickbooks":
 		fallthrough
 	case "nomod":
+		fallthrough
+	case "moyasar":
 		*e = ProviderType(v)
 		return nil
 	default:

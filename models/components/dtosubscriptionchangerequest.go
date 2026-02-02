@@ -12,7 +12,8 @@ type DtoSubscriptionChangeRequest struct {
 	BillingCycle   TypesBillingCycle   `json:"billing_cycle"`
 	BillingPeriod  TypesBillingPeriod  `json:"billing_period"`
 	// billing_period_count is the billing period count for the new subscription
-	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
+	BillingPeriodCount *int64             `json:"billing_period_count,omitzero"`
+	ChangeAt           *TypesScheduleType `json:"change_at,omitzero"`
 	// metadata contains additional key-value pairs for storing extra information
 	Metadata          map[string]string      `json:"metadata,omitzero"`
 	ProrationBehavior TypesProrationBehavior `json:"proration_behavior"`
@@ -57,6 +58,13 @@ func (d *DtoSubscriptionChangeRequest) GetBillingPeriodCount() *int64 {
 		return nil
 	}
 	return d.BillingPeriodCount
+}
+
+func (d *DtoSubscriptionChangeRequest) GetChangeAt() *TypesScheduleType {
+	if d == nil {
+		return nil
+	}
+	return d.ChangeAt
 }
 
 func (d *DtoSubscriptionChangeRequest) GetMetadata() map[string]string {

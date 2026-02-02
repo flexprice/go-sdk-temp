@@ -195,12 +195,12 @@ func main() {
 ### [Customers](docs/sdks/customers/README.md)
 
 * [GetCustomers](docs/sdks/customers/README.md#getcustomers) - Get customers
+* [PutCustomers](docs/sdks/customers/README.md#putcustomers) - Update a customer
 * [PostCustomers](docs/sdks/customers/README.md#postcustomers) - Create a customer
 * [GetCustomersExternalExternalID](docs/sdks/customers/README.md#getcustomersexternalexternalid) - Get a customer by external id
 * [PostCustomersSearch](docs/sdks/customers/README.md#postcustomerssearch) - List customers by filter
 * [GetCustomersUsage](docs/sdks/customers/README.md#getcustomersusage) - Get customer usage summary
 * [GetCustomersID](docs/sdks/customers/README.md#getcustomersid) - Get a customer
-* [PutCustomersID](docs/sdks/customers/README.md#putcustomersid) - Update a customer
 * [DeleteCustomersID](docs/sdks/customers/README.md#deletecustomersid) - Delete a customer
 * [GetCustomersIDEntitlements](docs/sdks/customers/README.md#getcustomersidentitlements) - Get customer entitlements
 * [GetCustomersIDGrantsUpcoming](docs/sdks/customers/README.md#getcustomersidgrantsupcoming) - Get upcoming credit grant applications
@@ -241,6 +241,7 @@ func main() {
 * [PostEventsQuery](docs/sdks/events/README.md#posteventsquery) - List raw events
 * [PostEventsUsage](docs/sdks/events/README.md#posteventsusage) - Get usage statistics
 * [PostEventsUsageMeter](docs/sdks/events/README.md#posteventsusagemeter) - Get usage by meter
+* [GetEventsID](docs/sdks/events/README.md#geteventsid) - Get event by ID
 
 ### [Features](docs/sdks/features/README.md)
 
@@ -363,6 +364,11 @@ func main() {
 * [PostSubscriptionsIDPause](docs/sdks/subscriptions/README.md#postsubscriptionsidpause) - Pause a subscription
 * [GetSubscriptionsIDPauses](docs/sdks/subscriptions/README.md#getsubscriptionsidpauses) - List all pauses for a subscription
 * [PostSubscriptionsIDResume](docs/sdks/subscriptions/README.md#postsubscriptionsidresume) - Resume a paused subscription
+* [GetSubscriptionsIDV2](docs/sdks/subscriptions/README.md#getsubscriptionsidv2) - Get subscription V2
+* [GetV1SubscriptionSchedules](docs/sdks/subscriptions/README.md#getv1subscriptionschedules) - List all subscription schedules
+* [GetV1SubscriptionSchedulesID](docs/sdks/subscriptions/README.md#getv1subscriptionschedulesid) - Get subscription schedule
+* [PostV1SubscriptionsSchedulesScheduleIDCancel](docs/sdks/subscriptions/README.md#postv1subscriptionsschedulesscheduleidcancel) - Cancel subscription schedule
+* [GetV1SubscriptionsSubscriptionIDSchedules](docs/sdks/subscriptions/README.md#getv1subscriptionssubscriptionidschedules) - List subscription schedules
 
 ### [Tasks](docs/sdks/tasks/README.md)
 
@@ -421,6 +427,7 @@ func main() {
 
 * [PostWebhooksChargebeeTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhookschargebeetenantidenvironmentid) - Handle Chargebee webhook events
 * [PostWebhooksHubspotTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhookshubspottenantidenvironmentid) - Handle HubSpot webhook events
+* [PostWebhooksMoyasarTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhooksmoyasartenantidenvironmentid) - Handle Moyasar webhook events
 * [PostWebhooksNomodTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhooksnomodtenantidenvironmentid) - Handle Nomod webhook events
 * [PostWebhooksQuickbooksTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhooksquickbookstenantidenvironmentid) - Handle QuickBooks webhook events
 * [PostWebhooksRazorpayTenantIDEnvironmentID](docs/sdks/webhooks/README.md#postwebhooksrazorpaytenantidenvironmentid) - Handle Razorpay webhook events

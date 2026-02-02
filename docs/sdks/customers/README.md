@@ -5,12 +5,12 @@
 ### Available Operations
 
 * [GetCustomers](#getcustomers) - Get customers
+* [PutCustomers](#putcustomers) - Update a customer
 * [PostCustomers](#postcustomers) - Create a customer
 * [GetCustomersExternalExternalID](#getcustomersexternalexternalid) - Get a customer by external id
 * [PostCustomersSearch](#postcustomerssearch) - List customers by filter
 * [GetCustomersUsage](#getcustomersusage) - Get customer usage summary
 * [GetCustomersID](#getcustomersid) - Get a customer
-* [PutCustomersID](#putcustomersid) - Update a customer
 * [DeleteCustomersID](#deletecustomersid) - Delete a customer
 * [GetCustomersIDEntitlements](#getcustomersidentitlements) - Get customer entitlements
 * [GetCustomersIDGrantsUpcoming](#getcustomersidgrantsupcoming) - Get upcoming credit grant applications
@@ -61,6 +61,63 @@ func main() {
 ### Response
 
 **[*components.DtoListCustomersResponse](../../models/components/dtolistcustomersresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
+| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
+| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## PutCustomers
+
+Update a customer by id or external_customer_id
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="put_/customers" method="put" path="/customers" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Customers.PutCustomers(ctx, components.DtoUpdateCustomerRequest{}, nil, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                  | Type                                                                                       | Required                                                                                   | Description                                                                                |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `ctx`                                                                                      | [context.Context](https://pkg.go.dev/context#Context)                                      | :heavy_check_mark:                                                                         | The context to use for the request.                                                        |
+| `body`                                                                                     | [components.DtoUpdateCustomerRequest](../../models/components/dtoupdatecustomerrequest.md) | :heavy_check_mark:                                                                         | Customer                                                                                   |
+| `id`                                                                                       | **string*                                                                                  | :heavy_minus_sign:                                                                         | Customer ID                                                                                |
+| `externalCustomerID`                                                                       | **string*                                                                                  | :heavy_minus_sign:                                                                         | Customer External ID                                                                       |
+| `opts`                                                                                     | [][operations.Option](../../models/operations/option.md)                                   | :heavy_minus_sign:                                                                         | The options for this request.                                                              |
+
+### Response
+
+**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
 
 ### Errors
 
@@ -332,62 +389,6 @@ func main() {
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
 | `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PutCustomersID
-
-Update a customer
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="put_/customers/{id}" method="put" path="/customers/{id}" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Customers.PutCustomersID(ctx, "<id>", components.DtoUpdateCustomerRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                                  | Type                                                                                       | Required                                                                                   | Description                                                                                |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                      | [context.Context](https://pkg.go.dev/context#Context)                                      | :heavy_check_mark:                                                                         | The context to use for the request.                                                        |
-| `id`                                                                                       | *string*                                                                                   | :heavy_check_mark:                                                                         | Customer ID                                                                                |
-| `body`                                                                                     | [components.DtoUpdateCustomerRequest](../../models/components/dtoupdatecustomerrequest.md) | :heavy_check_mark:                                                                         | Customer                                                                                   |
-| `opts`                                                                                     | [][operations.Option](../../models/operations/option.md)                                   | :heavy_minus_sign:                                                                         | The options for this request.                                                              |
 
 ### Response
 

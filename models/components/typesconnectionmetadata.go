@@ -10,6 +10,7 @@ type TypesConnectionMetadata struct {
 	Chargebee  *TypesChargebeeConnectionMetadata  `json:"chargebee,omitzero"`
 	Generic    *TypesGenericConnectionMetadata    `json:"generic,omitzero"`
 	Hubspot    *TypesHubSpotConnectionMetadata    `json:"hubspot,omitzero"`
+	Moyasar    *TypesMoyasarConnectionMetadata    `json:"moyasar,omitzero"`
 	Nomod      *TypesNomodConnectionMetadata      `json:"nomod,omitzero"`
 	Quickbooks *TypesQuickBooksConnectionMetadata `json:"quickbooks,omitzero"`
 	Razorpay   *TypesRazorpayConnectionMetadata   `json:"razorpay,omitzero"`
@@ -48,6 +49,13 @@ func (t *TypesConnectionMetadata) GetHubspot() *TypesHubSpotConnectionMetadata {
 		return nil
 	}
 	return t.Hubspot
+}
+
+func (t *TypesConnectionMetadata) GetMoyasar() *TypesMoyasarConnectionMetadata {
+	if t == nil {
+		return nil
+	}
+	return t.Moyasar
 }
 
 func (t *TypesConnectionMetadata) GetNomod() *TypesNomodConnectionMetadata {

@@ -13,3 +13,4 @@
 | `ProviderTypeChargebee`  | chargebee                |
 | `ProviderTypeQuickbooks` | quickbooks               |
 | `ProviderTypeNomod`      | nomod                    |
+| `ProviderTypeMoyasar`    | moyasar                  |

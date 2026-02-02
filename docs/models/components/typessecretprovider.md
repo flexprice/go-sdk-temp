@@ -13,3 +13,4 @@
 | `TypesSecretProviderChargebee`  | chargebee                       |
 | `TypesSecretProviderQuickbooks` | quickbooks                      |
 | `TypesSecretProviderNomod`      | nomod                           |
+| `TypesSecretProviderMoyasar`    | moyasar                         |

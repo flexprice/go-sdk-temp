@@ -30,6 +30,7 @@ package main
 import(
 	"context"
 	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/operations"
 	"log"
 )
 
@@ -41,7 +42,7 @@ func main() {
         gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetCustomersWallets(ctx, nil, gosdktemp.Pointer(false), nil)
+    res, err := s.Wallets.GetCustomersWallets(ctx, operations.GetCustomersWalletsRequest{})
     if err != nil {
         log.Fatal(err)
     }
@@ -53,13 +54,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
-| `includeRealTimeBalance`                                 | **bool*                                                  | :heavy_minus_sign:                                       | N/A                                                      |
-| `lookupKey`                                              | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                          | [context.Context](https://pkg.go.dev/context#Context)                                          | :heavy_check_mark:                                                                             | The context to use for the request.                                                            |
+| `request`                                                                                      | [operations.GetCustomersWalletsRequest](../../models/operations/getcustomerswalletsrequest.md) | :heavy_check_mark:                                                                             | The request object to use for the request.                                                     |
+| `opts`                                                                                         | [][operations.Option](../../models/operations/option.md)                                       | :heavy_minus_sign:                                                                             | The options for this request.                                                                  |
 
 ### Response
 
@@ -482,7 +481,7 @@ func main() {
         gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetWalletsIDBalanceRealTime(ctx, "<id>")
+    res, err := s.Wallets.GetWalletsIDBalanceRealTime(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -498,6 +497,7 @@ func main() {
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
 | `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Wallet ID                                                |
+| `expand`                                                 | **string*                                                | :heavy_minus_sign:                                       | Expand fields (e.g., credits_available_breakdown)        |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 ### Response

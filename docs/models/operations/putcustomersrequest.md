@@ -1,9 +1,10 @@
-# PutCustomersIDRequest
+# PutCustomersRequest
 
 
 ## Fields
 
 | Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `ID`                                                                                       | *string*                                                                                   | :heavy_check_mark:                                                                         | Customer ID                                                                                |
+| `ID`                                                                                       | **string*                                                                                  | :heavy_minus_sign:                                                                         | Customer ID                                                                                |
+| `ExternalCustomerID`                                                                       | **string*                                                                                  | :heavy_minus_sign:                                                                         | Customer External ID                                                                       |
 | `Body`                                                                                     | [components.DtoUpdateCustomerRequest](../../models/components/dtoupdatecustomerrequest.md) | :heavy_check_mark:                                                                         | Customer                                                                                   |

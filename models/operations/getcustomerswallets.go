@@ -7,6 +7,8 @@ import (
 )
 
 type GetCustomersWalletsRequest struct {
+	Expand                 *string `queryParam:"style=form,explode=true,name=expand"`
+	FromCache              *bool   `default:"false" queryParam:"style=form,explode=true,name=from_cache"`
 	ID                     *string `queryParam:"style=form,explode=true,name=id"`
 	IncludeRealTimeBalance *bool   `default:"false" queryParam:"style=form,explode=true,name=include_real_time_balance"`
 	LookupKey              *string `queryParam:"style=form,explode=true,name=lookup_key"`
@@ -21,6 +23,20 @@ func (g *GetCustomersWalletsRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (g *GetCustomersWalletsRequest) GetExpand() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Expand
+}
+
+func (g *GetCustomersWalletsRequest) GetFromCache() *bool {
+	if g == nil {
+		return nil
+	}
+	return g.FromCache
 }
 
 func (g *GetCustomersWalletsRequest) GetID() *string {

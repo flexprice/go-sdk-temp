@@ -14,11 +14,17 @@ type DtoSubscriptionChangeExecuteResponse struct {
 	// effective_date is when the change took effect
 	EffectiveDate *string             `json:"effective_date,omitzero"`
 	Invoice       *DtoInvoiceResponse `json:"invoice,omitzero"`
+	// is_scheduled indicates if the change was scheduled or executed immediately
+	IsScheduled *bool `json:"is_scheduled,omitzero"`
 	// metadata from the request
 	Metadata         map[string]string       `json:"metadata,omitzero"`
 	NewSubscription  *DtoSubscriptionSummary `json:"new_subscription,omitzero"`
 	OldSubscription  *DtoSubscriptionSummary `json:"old_subscription,omitzero"`
 	ProrationApplied *DtoProrationDetails    `json:"proration_applied,omitzero"`
+	// schedule_id is the ID of the created schedule (only if is_scheduled=true)
+	ScheduleID *string `json:"schedule_id,omitzero"`
+	// scheduled_at is when the change will execute (only if is_scheduled=true)
+	ScheduledAt *string `json:"scheduled_at,omitzero"`
 }
 
 func (d DtoSubscriptionChangeExecuteResponse) MarshalJSON() ([]byte, error) {
@@ -60,6 +66,13 @@ func (d *DtoSubscriptionChangeExecuteResponse) GetInvoice() *DtoInvoiceResponse 
 	return d.Invoice
 }
 
+func (d *DtoSubscriptionChangeExecuteResponse) GetIsScheduled() *bool {
+	if d == nil {
+		return nil
+	}
+	return d.IsScheduled
+}
+
 func (d *DtoSubscriptionChangeExecuteResponse) GetMetadata() map[string]string {
 	if d == nil {
 		return nil
@@ -86,4 +99,18 @@ func (d *DtoSubscriptionChangeExecuteResponse) GetProrationApplied() *DtoProrati
 		return nil
 	}
 	return d.ProrationApplied
+}
+
+func (d *DtoSubscriptionChangeExecuteResponse) GetScheduleID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ScheduleID
+}
+
+func (d *DtoSubscriptionChangeExecuteResponse) GetScheduledAt() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ScheduledAt
 }

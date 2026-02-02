@@ -6,6 +6,7 @@
 
 * [PostWebhooksChargebeeTenantIDEnvironmentID](#postwebhookschargebeetenantidenvironmentid) - Handle Chargebee webhook events
 * [PostWebhooksHubspotTenantIDEnvironmentID](#postwebhookshubspottenantidenvironmentid) - Handle HubSpot webhook events
+* [PostWebhooksMoyasarTenantIDEnvironmentID](#postwebhooksmoyasartenantidenvironmentid) - Handle Moyasar webhook events
 * [PostWebhooksNomodTenantIDEnvironmentID](#postwebhooksnomodtenantidenvironmentid) - Handle Nomod webhook events
 * [PostWebhooksQuickbooksTenantIDEnvironmentID](#postwebhooksquickbookstenantidenvironmentid) - Handle QuickBooks webhook events
 * [PostWebhooksRazorpayTenantIDEnvironmentID](#postwebhooksrazorpaytenantidenvironmentid) - Handle Razorpay webhook events
@@ -106,6 +107,60 @@ func main() {
 | `tenantID`                                               | *string*                                                 | :heavy_check_mark:                                       | Tenant ID                                                |
 | `environmentID`                                          | *string*                                                 | :heavy_check_mark:                                       | Environment ID                                           |
 | `xHubSpotSignatureV3`                                    | *string*                                                 | :heavy_check_mark:                                       | HubSpot webhook signature                                |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[map[string]any](../../.md), error**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+
+## PostWebhooksMoyasarTenantIDEnvironmentID
+
+Process incoming Moyasar webhook events for payment status updates
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="post_/webhooks/moyasar/{tenant_id}/{environment_id}" method="post" path="/webhooks/moyasar/{tenant_id}/{environment_id}" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Webhooks.PostWebhooksMoyasarTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `tenantID`                                               | *string*                                                 | :heavy_check_mark:                                       | Tenant ID                                                |
+| `environmentID`                                          | *string*                                                 | :heavy_check_mark:                                       | Environment ID                                           |
+| `xMoyasarSignature`                                      | **string*                                                | :heavy_minus_sign:                                       | Moyasar webhook signature                                |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 ### Response

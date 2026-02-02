@@ -7,10 +7,12 @@ import (
 )
 
 type DtoAddAddonRequest struct {
-	AddonID        string         `json:"addon_id"`
-	Metadata       map[string]any `json:"metadata,omitzero"`
-	StartDate      *string        `json:"start_date,omitzero"`
-	SubscriptionID string         `json:"subscription_id"`
+	AddonID string `json:"addon_id"`
+	// LineItemCommitments allows setting commitment configuration per addon line item (keyed by price_id)
+	LineItemCommitments map[string]DtoLineItemCommitmentConfig `json:"line_item_commitments,omitzero"`
+	Metadata            map[string]any                         `json:"metadata,omitzero"`
+	StartDate           *string                                `json:"start_date,omitzero"`
+	SubscriptionID      string                                 `json:"subscription_id"`
 }
 
 func (d DtoAddAddonRequest) MarshalJSON() ([]byte, error) {
@@ -29,6 +31,13 @@ func (d *DtoAddAddonRequest) GetAddonID() string {
 		return ""
 	}
 	return d.AddonID
+}
+
+func (d *DtoAddAddonRequest) GetLineItemCommitments() map[string]DtoLineItemCommitmentConfig {
+	if d == nil {
+		return nil
+	}
+	return d.LineItemCommitments
 }
 
 func (d *DtoAddAddonRequest) GetMetadata() map[string]any {

@@ -17,19 +17,20 @@ type DtoWalletResponse struct {
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
 	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
-	ConversionRate *string           `json:"conversion_rate,omitzero"`
-	CreatedAt      *string           `json:"created_at,omitzero"`
-	CreatedBy      *string           `json:"created_by,omitzero"`
-	CreditBalance  *string           `json:"credit_balance,omitzero"`
-	Currency       *string           `json:"currency,omitzero"`
-	CustomerID     *string           `json:"customer_id,omitzero"`
-	Description    *string           `json:"description,omitzero"`
-	EnvironmentID  *string           `json:"environment_id,omitzero"`
-	ID             *string           `json:"id,omitzero"`
-	Metadata       map[string]string `json:"metadata,omitzero"`
-	Name           *string           `json:"name,omitzero"`
-	Status         *TypesStatus      `json:"status,omitzero"`
-	TenantID       *string           `json:"tenant_id,omitzero"`
+	ConversionRate            *string               `json:"conversion_rate,omitzero"`
+	CreatedAt                 *string               `json:"created_at,omitzero"`
+	CreatedBy                 *string               `json:"created_by,omitzero"`
+	CreditBalance             *string               `json:"credit_balance,omitzero"`
+	CreditsAvailableBreakdown *TypesCreditBreakdown `json:"credits_available_breakdown,omitzero"`
+	Currency                  *string               `json:"currency,omitzero"`
+	CustomerID                *string               `json:"customer_id,omitzero"`
+	Description               *string               `json:"description,omitzero"`
+	EnvironmentID             *string               `json:"environment_id,omitzero"`
+	ID                        *string               `json:"id,omitzero"`
+	Metadata                  map[string]string     `json:"metadata,omitzero"`
+	Name                      *string               `json:"name,omitzero"`
+	Status                    *TypesStatus          `json:"status,omitzero"`
+	TenantID                  *string               `json:"tenant_id,omitzero"`
 	// topup_conversion_rate is the conversion rate for the topup to the currency
 	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
 	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
@@ -120,6 +121,13 @@ func (d *DtoWalletResponse) GetCreditBalance() *string {
 		return nil
 	}
 	return d.CreditBalance
+}
+
+func (d *DtoWalletResponse) GetCreditsAvailableBreakdown() *TypesCreditBreakdown {
+	if d == nil {
+		return nil
+	}
+	return d.CreditsAvailableBreakdown
 }
 
 func (d *DtoWalletResponse) GetCurrency() *string {

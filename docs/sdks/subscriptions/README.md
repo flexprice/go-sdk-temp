@@ -23,6 +23,11 @@
 * [PostSubscriptionsIDPause](#postsubscriptionsidpause) - Pause a subscription
 * [GetSubscriptionsIDPauses](#getsubscriptionsidpauses) - List all pauses for a subscription
 * [PostSubscriptionsIDResume](#postsubscriptionsidresume) - Resume a paused subscription
+* [GetSubscriptionsIDV2](#getsubscriptionsidv2) - Get subscription V2
+* [GetV1SubscriptionSchedules](#getv1subscriptionschedules) - List all subscription schedules
+* [GetV1SubscriptionSchedulesID](#getv1subscriptionschedulesid) - Get subscription schedule
+* [PostV1SubscriptionsSchedulesScheduleIDCancel](#postv1subscriptionsschedulesscheduleidcancel) - Cancel subscription schedule
+* [GetV1SubscriptionsSubscriptionIDSchedules](#getv1subscriptionssubscriptionidschedules) - List subscription schedules
 
 ## GetSubscriptions
 
@@ -1107,3 +1112,270 @@ func main() {
 | sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
 | sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
 | sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetSubscriptionsIDV2
+
+Get a subscription by ID with optional expand parameters
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/subscriptions/{id}/v2" method="get" path="/subscriptions/{id}/v2" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Subscriptions.GetSubscriptionsIDV2(ctx, "<id>", nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `ctx`                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                  | :heavy_check_mark:                                                                     | The context to use for the request.                                                    |
+| `id`                                                                                   | *string*                                                                               | :heavy_check_mark:                                                                     | Subscription ID                                                                        |
+| `expand`                                                                               | **string*                                                                              | :heavy_minus_sign:                                                                     | Comma-separated list of fields to expand (e.g., 'subscription_line_items,prices,plan') |
+| `opts`                                                                                 | [][operations.Option](../../models/operations/option.md)                               | :heavy_minus_sign:                                                                     | The options for this request.                                                          |
+
+### Response
+
+**[*components.DtoSubscriptionResponseV2](../../models/components/dtosubscriptionresponsev2.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
+| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
+| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetV1SubscriptionSchedules
+
+Retrieves subscription schedules with optional filtering
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/v1/subscription-schedules" method="get" path="/v1/subscription-schedules" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Subscriptions.GetV1SubscriptionSchedules(ctx, nil, nil, nil, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `pendingOnly`                                            | **bool*                                                  | :heavy_minus_sign:                                       | Filter to pending schedules only                         |
+| `subscriptionID`                                         | **string*                                                | :heavy_minus_sign:                                       | Filter by subscription ID                                |
+| `limit`                                                  | **int64*                                                 | :heavy_minus_sign:                                       | Limit results                                            |
+| `offset`                                                 | **int64*                                                 | :heavy_minus_sign:                                       | Offset for pagination                                    |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*components.DtoGetPendingSchedulesResponse](../../models/components/dtogetpendingschedulesresponse.md), error**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+
+## GetV1SubscriptionSchedulesID
+
+Retrieves details of a specific subscription schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/v1/subscription-schedules/{id}" method="get" path="/v1/subscription-schedules/{id}" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Subscriptions.GetV1SubscriptionSchedulesID(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Schedule ID                                              |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*components.DtoSubscriptionScheduleResponse](../../models/components/dtosubscriptionscheduleresponse.md), error**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+
+## PostV1SubscriptionsSchedulesScheduleIDCancel
+
+Cancels a pending subscription schedule. Supports two modes: 1) By schedule ID in path, or 2) By subscription ID + schedule type in request body
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="post_/v1/subscriptions/schedules/{schedule_id}/cancel" method="post" path="/v1/subscriptions/schedules/{schedule_id}/cancel" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Subscriptions.PostV1SubscriptionsSchedulesScheduleIDCancel(ctx, "<id>", nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                   | Type                                                                                        | Required                                                                                    | Description                                                                                 |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                       | [context.Context](https://pkg.go.dev/context#Context)                                       | :heavy_check_mark:                                                                          | The context to use for the request.                                                         |
+| `scheduleID`                                                                                | *string*                                                                                    | :heavy_check_mark:                                                                          | Schedule ID (optional if using request body)                                                |
+| `body`                                                                                      | [*components.DtoCancelScheduleRequest](../../models/components/dtocancelschedulerequest.md) | :heavy_minus_sign:                                                                          | Cancel request (optional if using path parameter)                                           |
+| `opts`                                                                                      | [][operations.Option](../../models/operations/option.md)                                    | :heavy_minus_sign:                                                                          | The options for this request.                                                               |
+
+### Response
+
+**[*components.DtoCancelScheduleResponse](../../models/components/dtocancelscheduleresponse.md), error**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+
+## GetV1SubscriptionsSubscriptionIDSchedules
+
+Retrieves all schedules for a specific subscription
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="get_/v1/subscriptions/{subscription_id}/schedules" method="get" path="/v1/subscriptions/{subscription_id}/schedules" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Subscriptions.GetV1SubscriptionsSubscriptionIDSchedules(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `subscriptionID`                                         | *string*                                                 | :heavy_check_mark:                                       | Subscription ID                                          |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*components.DtoGetPendingSchedulesResponse](../../models/components/dtogetpendingschedulesresponse.md), error**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |

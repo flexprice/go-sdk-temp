@@ -33,13 +33,7 @@ func newWallets(rootSDK *FlexPrice, sdkConfig config.SDKConfiguration, hooks *ho
 
 // GetCustomersWallets - Get Customer Wallets
 // Get all wallets for a customer by lookup key or id
-func (s *Wallets) GetCustomersWallets(ctx context.Context, id *string, includeRealTimeBalance *bool, lookupKey *string, opts ...operations.Option) ([]components.DtoWalletResponse, error) {
-	request := operations.GetCustomersWalletsRequest{
-		ID:                     id,
-		IncludeRealTimeBalance: includeRealTimeBalance,
-		LookupKey:              lookupKey,
-	}
-
+func (s *Wallets) GetCustomersWallets(ctx context.Context, request operations.GetCustomersWalletsRequest, opts ...operations.Option) ([]components.DtoWalletResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -2087,9 +2081,10 @@ func (s *Wallets) PutWalletsID(ctx context.Context, id string, body components.D
 
 // GetWalletsIDBalanceRealTime - Get wallet balance
 // Get real-time balance of a wallet
-func (s *Wallets) GetWalletsIDBalanceRealTime(ctx context.Context, id string, opts ...operations.Option) (*components.DtoWalletBalanceResponse, error) {
+func (s *Wallets) GetWalletsIDBalanceRealTime(ctx context.Context, id string, expand *string, opts ...operations.Option) (*components.DtoWalletBalanceResponse, error) {
 	request := operations.GetWalletsIDBalanceRealTimeRequest{
-		ID: id,
+		ID:     id,
+		Expand: expand,
 	}
 
 	o := operations.Options{}
@@ -2142,6 +2137,10 @@ func (s *Wallets) GetWalletsIDBalanceRealTime(ctx context.Context, id string, op
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
+
+	if err := utils.PopulateQueryParams(ctx, req, request, nil, nil); err != nil {
+		return nil, fmt.Errorf("error populating query params: %w", err)
+	}
 
 	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
 		return nil, err
