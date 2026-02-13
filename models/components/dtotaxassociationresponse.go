@@ -7,24 +7,30 @@ import (
 )
 
 type DtoTaxAssociationResponse struct {
-	AutoApply     *bool                   `json:"auto_apply,omitzero"`
-	CreatedAt     *string                 `json:"created_at,omitzero"`
-	CreatedBy     *string                 `json:"created_by,omitzero"`
-	Currency      *string                 `json:"currency,omitzero"`
-	EntityID      *string                 `json:"entity_id,omitzero"`
-	EntityType    *TypesTaxRateEntityType `json:"entity_type,omitzero"`
-	EnvironmentID *string                 `json:"environment_id,omitzero"`
-	ID            *string                 `json:"id,omitzero"`
-	Metadata      map[string]string       `json:"metadata,omitzero"`
-	Priority      *int64                  `json:"priority,omitzero"`
-	Status        *string                 `json:"status,omitzero"`
-	TaxRate       *DtoTaxRateResponse     `json:"tax_rate,omitzero"`
-	TaxRateID     *string                 `json:"tax_rate_id,omitzero"`
-	TenantID      *string                 `json:"tenant_id,omitzero"`
-	UpdatedAt     *string                 `json:"updated_at,omitzero"`
-	UpdatedBy     *string                 `json:"updated_by,omitzero"`
-	ValidFrom     *string                 `json:"valid_from,omitzero"`
-	ValidTo       *string                 `json:"valid_to,omitzero"`
+	// Whether this tax should be automatically applied
+	AutoApply *bool   `json:"auto_apply,omitzero"`
+	CreatedAt *string `json:"created_at,omitzero"`
+	CreatedBy *string `json:"created_by,omitzero"`
+	// Currency
+	Currency *string `json:"currency,omitzero"`
+	// ID of the entity this tax rate applies to
+	EntityID   *string                 `json:"entity_id,omitzero"`
+	EntityType *TypesTaxRateEntityType `json:"entity_type,omitzero"`
+	// EnvironmentID is the ID of the environment this tax rate config belongs to
+	EnvironmentID *string `json:"environment_id,omitzero"`
+	// ID of the ent.
+	ID *string `json:"id,omitzero"`
+	// Metadata holds the value of the "metadata" field.
+	Metadata map[string]string `json:"metadata,omitzero"`
+	// Priority for tax resolution (lower number = higher priority)
+	Priority *int64              `json:"priority,omitzero"`
+	Status   *TypesStatus        `json:"status,omitzero"`
+	TaxRate  *DtoTaxRateResponse `json:"tax_rate,omitzero"`
+	// Reference to the TaxRate entity
+	TaxRateID *string `json:"tax_rate_id,omitzero"`
+	TenantID  *string `json:"tenant_id,omitzero"`
+	UpdatedAt *string `json:"updated_at,omitzero"`
+	UpdatedBy *string `json:"updated_by,omitzero"`
 }
 
 func (d DtoTaxAssociationResponse) MarshalJSON() ([]byte, error) {
@@ -108,7 +114,7 @@ func (d *DtoTaxAssociationResponse) GetPriority() *int64 {
 	return d.Priority
 }
 
-func (d *DtoTaxAssociationResponse) GetStatus() *string {
+func (d *DtoTaxAssociationResponse) GetStatus() *TypesStatus {
 	if d == nil {
 		return nil
 	}
@@ -148,18 +154,4 @@ func (d *DtoTaxAssociationResponse) GetUpdatedBy() *string {
 		return nil
 	}
 	return d.UpdatedBy
-}
-
-func (d *DtoTaxAssociationResponse) GetValidFrom() *string {
-	if d == nil {
-		return nil
-	}
-	return d.ValidFrom
-}
-
-func (d *DtoTaxAssociationResponse) GetValidTo() *string {
-	if d == nil {
-		return nil
-	}
-	return d.ValidTo
 }

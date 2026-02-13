@@ -8,6 +8,7 @@
 * [PostPrices](#postprices) - Create a new price
 * [PostPricesBulk](#postpricesbulk) - Create multiple prices in bulk
 * [GetPricesLookupLookupKey](#getpriceslookuplookupkey) - Get price by lookup key
+* [PostPricesSearch](#postpricessearch) - List prices by filter
 * [GetPricesID](#getpricesid) - Get a price by ID
 * [PutPricesID](#putpricesid) - Update a price
 * [DeletePricesID](#deletepricesid) - Delete a price
@@ -234,6 +235,61 @@ func main() {
 ### Response
 
 **[*components.DtoPriceResponse](../../models/components/dtopriceresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
+| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
+| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## PostPricesSearch
+
+List prices with filter
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="post_/prices/search" method="post" path="/prices/search" -->
+```go
+package main
+
+import(
+	"context"
+	gosdktemp "github.com/flexprice/go-sdk-temp"
+	"github.com/flexprice/go-sdk-temp/models/components"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := gosdktemp.New(
+        "https://api.example.com",
+        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Prices.PostPricesSearch(ctx, components.TypesPriceFilter{})
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
+| `request`                                                                  | [components.TypesPriceFilter](../../models/components/typespricefilter.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
+| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
+
+### Response
+
+**[*components.DtoListPricesResponse](../../models/components/dtolistpricesresponse.md), error**
 
 ### Errors
 

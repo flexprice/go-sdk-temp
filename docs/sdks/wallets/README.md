@@ -592,7 +592,7 @@ func main() {
     )
 
     res, err := s.Wallets.PostWalletsIDTopUp(ctx, "<id>", components.DtoTopUpWalletRequest{
-        TransactionReason: components.TypesTransactionReasonFreeCreditGrant,
+        TransactionReason: components.TypesTransactionReasonSubscriptionCreditGrant,
     })
     if err != nil {
         log.Fatal(err)

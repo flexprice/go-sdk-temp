@@ -5,8 +5,8 @@ package components
 type TypesWalletType string
 
 const (
-	TypesWalletTypePromotional TypesWalletType = "PROMOTIONAL"
-	TypesWalletTypePrePaid     TypesWalletType = "PRE_PAID"
+	TypesWalletTypePrePaid  TypesWalletType = "PRE_PAID"
+	TypesWalletTypePostPaid TypesWalletType = "POST_PAID"
 )
 
 func (e TypesWalletType) ToPointer() *TypesWalletType {
@@ -17,7 +17,7 @@ func (e TypesWalletType) ToPointer() *TypesWalletType {
 func (e *TypesWalletType) IsExact() bool {
 	if e != nil {
 		switch *e {
-		case "PROMOTIONAL", "PRE_PAID":
+		case "PRE_PAID", "POST_PAID":
 			return true
 		}
 	}

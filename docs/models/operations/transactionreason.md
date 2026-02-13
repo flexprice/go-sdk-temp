@@ -14,3 +14,4 @@
 | `TransactionReasonCreditExpired`           | CREDIT_EXPIRED                             |
 | `TransactionReasonWalletTermination`       | WALLET_TERMINATION                         |
 | `TransactionReasonManualBalanceDebit`      | MANUAL_BALANCE_DEBIT                       |
+| `TransactionReasonCreditAdjustment`        | CREDIT_ADJUSTMENT                          |

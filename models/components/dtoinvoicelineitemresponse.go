@@ -7,62 +7,41 @@ import (
 )
 
 type DtoInvoiceLineItemResponse struct {
-	// amount is the monetary amount for this line item
-	Amount         *string              `json:"amount,omitzero"`
+	Amount         *float64             `json:"amount,omitzero"`
 	CommitmentInfo *TypesCommitmentInfo `json:"commitment_info,omitzero"`
-	// created_at is the timestamp when this line item was created
-	CreatedAt *string `json:"created_at,omitzero"`
-	// created_by is the identifier of the user who created this line item
-	CreatedBy *string `json:"created_by,omitzero"`
-	// currency is the three-letter ISO currency code for this line item
-	Currency *string `json:"currency,omitzero"`
-	// customer_id is the unique identifier of the customer associated with this line item
-	CustomerID *string `json:"customer_id,omitzero"`
-	// display_name is the optional human-readable name for this line item
-	DisplayName *string `json:"display_name,omitzero"`
-	// entity_id is the optional unique identifier of the entity associated with this line item
-	EntityID *string `json:"entity_id,omitzero"`
-	// entity_type is the optional type of the entity associated with this line item
-	EntityType *string `json:"entity_type,omitzero"`
-	// id is the unique identifier for this line item
-	ID *string `json:"id,omitzero"`
-	// invoice_id is the unique identifier of the invoice this line item belongs to
-	InvoiceID *string           `json:"invoice_id,omitzero"`
-	Metadata  map[string]string `json:"metadata,omitzero"`
-	// meter_display_name is the optional human-readable name of the meter
-	MeterDisplayName *string `json:"meter_display_name,omitzero"`
-	// meter_id is the optional unique identifier of the meter used for usage tracking
-	MeterID *string `json:"meter_id,omitzero"`
-	// period_end is the optional end date of the period this line item covers
-	PeriodEnd *string `json:"period_end,omitzero"`
-	// period_start is the optional start date of the period this line item covers
-	PeriodStart *string `json:"period_start,omitzero"`
-	// plan_display_name is the optional human-readable name of the plan
-	PlanDisplayName *string `json:"plan_display_name,omitzero"`
-	// plan_id is the optional unique identifier of the plan associated with this line item
-	PlanID *string `json:"plan_id,omitzero"`
-	// price_id is the optional unique identifier of the price associated with this line item
-	PriceID *string `json:"price_id,omitzero"`
-	// price_type indicates the type of pricing (fixed, usage, tiered, etc.)
-	PriceType *string `json:"price_type,omitzero"`
-	// price_unit is the optional 3-digit ISO code of the price unit associated with this line item
-	PriceUnit *string `json:"price_unit,omitzero"`
-	// price_unit_amount is the optional amount converted to the price unit currency
-	PriceUnitAmount *string `json:"price_unit_amount,omitzero"`
-	// price_unit_id is the optional unique identifier of the price unit associated with this line item
-	PriceUnitID *string `json:"price_unit_id,omitzero"`
-	// quantity is the quantity of units for this line item
-	Quantity *string `json:"quantity,omitzero"`
-	// status represents the current status of this line item
-	Status *string `json:"status,omitzero"`
-	// subscription_id is the optional unique identifier of the subscription associated with this line item
-	SubscriptionID *string `json:"subscription_id,omitzero"`
-	// tenant_id is the unique identifier of the tenant this line item belongs to
-	TenantID *string `json:"tenant_id,omitzero"`
-	// updated_at is the timestamp when this line item was last updated
-	UpdatedAt *string `json:"updated_at,omitzero"`
-	// updated_by is the identifier of the user who last updated this line item
-	UpdatedBy *string `json:"updated_by,omitzero"`
+	CreatedAt      *string              `json:"created_at,omitzero"`
+	CreatedBy      *string              `json:"created_by,omitzero"`
+	Currency       *string              `json:"currency,omitzero"`
+	CustomerID     *string              `json:"customer_id,omitzero"`
+	DisplayName    *string              `json:"display_name,omitzero"`
+	EntityID       *string              `json:"entity_id,omitzero"`
+	EntityType     *string              `json:"entity_type,omitzero"`
+	EnvironmentID  *string              `json:"environment_id,omitzero"`
+	ID             *string              `json:"id,omitzero"`
+	InvoiceID      *string              `json:"invoice_id,omitzero"`
+	// invoice_level_discount is the discount amount in invoice currency applied to all line items on the invoice.
+	InvoiceLevelDiscount *float64 `json:"invoice_level_discount,omitzero"`
+	// line_item_discount is the discount amount in invoice currency applied directly to this line item.
+	LineItemDiscount *float64          `json:"line_item_discount,omitzero"`
+	Metadata         map[string]string `json:"metadata,omitzero"`
+	MeterDisplayName *string           `json:"meter_display_name,omitzero"`
+	MeterID          *string           `json:"meter_id,omitzero"`
+	PeriodEnd        *string           `json:"period_end,omitzero"`
+	PeriodStart      *string           `json:"period_start,omitzero"`
+	PlanDisplayName  *string           `json:"plan_display_name,omitzero"`
+	// prepaid_credits_applied is the amount in invoice currency reduced from this line item due to prepaid credits application.
+	PrepaidCreditsApplied *float64     `json:"prepaid_credits_applied,omitzero"`
+	PriceID               *string      `json:"price_id,omitzero"`
+	PriceType             *string      `json:"price_type,omitzero"`
+	PriceUnit             *string      `json:"price_unit,omitzero"`
+	PriceUnitAmount       *float64     `json:"price_unit_amount,omitzero"`
+	PriceUnitID           *string      `json:"price_unit_id,omitzero"`
+	Quantity              *float64     `json:"quantity,omitzero"`
+	Status                *TypesStatus `json:"status,omitzero"`
+	SubscriptionID        *string      `json:"subscription_id,omitzero"`
+	TenantID              *string      `json:"tenant_id,omitzero"`
+	UpdatedAt             *string      `json:"updated_at,omitzero"`
+	UpdatedBy             *string      `json:"updated_by,omitzero"`
 	// usage_analytics contains usage analytics for this line item (legacy - grouped by source)
 	UsageAnalytics []DtoSourceUsageItem `json:"usage_analytics,omitzero"`
 	// usage_breakdown contains flexible usage breakdown for this line item (supports any grouping)
@@ -80,7 +59,7 @@ func (d *DtoInvoiceLineItemResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoInvoiceLineItemResponse) GetAmount() *string {
+func (d *DtoInvoiceLineItemResponse) GetAmount() *float64 {
 	if d == nil {
 		return nil
 	}
@@ -143,6 +122,13 @@ func (d *DtoInvoiceLineItemResponse) GetEntityType() *string {
 	return d.EntityType
 }
 
+func (d *DtoInvoiceLineItemResponse) GetEnvironmentID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.EnvironmentID
+}
+
 func (d *DtoInvoiceLineItemResponse) GetID() *string {
 	if d == nil {
 		return nil
@@ -155,6 +141,20 @@ func (d *DtoInvoiceLineItemResponse) GetInvoiceID() *string {
 		return nil
 	}
 	return d.InvoiceID
+}
+
+func (d *DtoInvoiceLineItemResponse) GetInvoiceLevelDiscount() *float64 {
+	if d == nil {
+		return nil
+	}
+	return d.InvoiceLevelDiscount
+}
+
+func (d *DtoInvoiceLineItemResponse) GetLineItemDiscount() *float64 {
+	if d == nil {
+		return nil
+	}
+	return d.LineItemDiscount
 }
 
 func (d *DtoInvoiceLineItemResponse) GetMetadata() map[string]string {
@@ -199,11 +199,11 @@ func (d *DtoInvoiceLineItemResponse) GetPlanDisplayName() *string {
 	return d.PlanDisplayName
 }
 
-func (d *DtoInvoiceLineItemResponse) GetPlanID() *string {
+func (d *DtoInvoiceLineItemResponse) GetPrepaidCreditsApplied() *float64 {
 	if d == nil {
 		return nil
 	}
-	return d.PlanID
+	return d.PrepaidCreditsApplied
 }
 
 func (d *DtoInvoiceLineItemResponse) GetPriceID() *string {
@@ -227,7 +227,7 @@ func (d *DtoInvoiceLineItemResponse) GetPriceUnit() *string {
 	return d.PriceUnit
 }
 
-func (d *DtoInvoiceLineItemResponse) GetPriceUnitAmount() *string {
+func (d *DtoInvoiceLineItemResponse) GetPriceUnitAmount() *float64 {
 	if d == nil {
 		return nil
 	}
@@ -241,14 +241,14 @@ func (d *DtoInvoiceLineItemResponse) GetPriceUnitID() *string {
 	return d.PriceUnitID
 }
 
-func (d *DtoInvoiceLineItemResponse) GetQuantity() *string {
+func (d *DtoInvoiceLineItemResponse) GetQuantity() *float64 {
 	if d == nil {
 		return nil
 	}
 	return d.Quantity
 }
 
-func (d *DtoInvoiceLineItemResponse) GetStatus() *string {
+func (d *DtoInvoiceLineItemResponse) GetStatus() *TypesStatus {
 	if d == nil {
 		return nil
 	}

@@ -10,9 +10,8 @@ type DtoCreateWalletRequest struct {
 	AlertConfig *DtoAlertConfig `json:"alert_config,omitzero"`
 	// alert_enabled is the flag to enable alerts for the wallet
 	// defaults to true, can be explicitly set to false to disable alerts
-	AlertEnabled *bool              `json:"alert_enabled,omitzero"`
-	AutoTopup    *TypesAutoTopup    `json:"auto_topup,omitzero"`
-	Config       *TypesWalletConfig `json:"config,omitzero"`
+	AlertEnabled *bool           `json:"alert_enabled,omitzero"`
+	AutoTopup    *TypesAutoTopup `json:"auto_topup,omitzero"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
@@ -35,7 +34,6 @@ type DtoCreateWalletRequest struct {
 	// hence they will be available for use until 2024-12-31 23:59:59 UTC
 	InitialCreditsToLoadExpiryDate *int64            `json:"initial_credits_to_load_expiry_date,omitzero"`
 	Metadata                       map[string]string `json:"metadata,omitzero"`
-	Name                           *string           `json:"name,omitzero"`
 	// price_unit is the code of the price unit to use for wallet creation
 	// If provided, the price unit will be used to set the currency and conversion rate of the wallet:
 	// - currency: set to price unit's base_currency
@@ -79,13 +77,6 @@ func (d *DtoCreateWalletRequest) GetAutoTopup() *TypesAutoTopup {
 		return nil
 	}
 	return d.AutoTopup
-}
-
-func (d *DtoCreateWalletRequest) GetConfig() *TypesWalletConfig {
-	if d == nil {
-		return nil
-	}
-	return d.Config
 }
 
 func (d *DtoCreateWalletRequest) GetConversionRate() *string {
@@ -149,13 +140,6 @@ func (d *DtoCreateWalletRequest) GetMetadata() map[string]string {
 		return nil
 	}
 	return d.Metadata
-}
-
-func (d *DtoCreateWalletRequest) GetName() *string {
-	if d == nil {
-		return nil
-	}
-	return d.Name
 }
 
 func (d *DtoCreateWalletRequest) GetPriceUnit() *string {

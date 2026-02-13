@@ -318,6 +318,7 @@ func main() {
 * [PostPrices](docs/sdks/prices/README.md#postprices) - Create a new price
 * [PostPricesBulk](docs/sdks/prices/README.md#postpricesbulk) - Create multiple prices in bulk
 * [GetPricesLookupLookupKey](docs/sdks/prices/README.md#getpriceslookuplookupkey) - Get price by lookup key
+* [PostPricesSearch](docs/sdks/prices/README.md#postpricessearch) - List prices by filter
 * [GetPricesID](docs/sdks/prices/README.md#getpricesid) - Get a price by ID
 * [PutPricesID](docs/sdks/prices/README.md#putpricesid) - Update a price
 * [DeletePricesID](docs/sdks/prices/README.md#deletepricesid) - Delete a price

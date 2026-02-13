@@ -13,7 +13,6 @@ type DtoUpdateWalletRequest struct {
 	Config       *TypesWalletConfig `json:"config,omitzero"`
 	Description  *string            `json:"description,omitzero"`
 	Metadata     map[string]string  `json:"metadata,omitzero"`
-	Name         *string            `json:"name,omitzero"`
 }
 
 func (d DtoUpdateWalletRequest) MarshalJSON() ([]byte, error) {
@@ -67,11 +66,4 @@ func (d *DtoUpdateWalletRequest) GetMetadata() map[string]string {
 		return nil
 	}
 	return d.Metadata
-}
-
-func (d *DtoUpdateWalletRequest) GetName() *string {
-	if d == nil {
-		return nil
-	}
-	return d.Name
 }

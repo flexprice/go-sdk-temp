@@ -24,11 +24,9 @@ type DtoCreateInvoiceRequest struct {
 	Description *string `json:"description,omitzero"`
 	// due_date is the date by which payment is expected
 	DueDate *string `json:"due_date,omitzero"`
-	// environment_id is the unique identifier of the environment this invoice belongs to
-	EnvironmentID *string `json:"environment_id,omitzero"`
 	// idempotency_key is an optional key used to prevent duplicate invoice creation
 	IdempotencyKey *string `json:"idempotency_key,omitzero"`
-	// Invoice Coupns
+	// Invoice Coupons
 	InvoiceCoupons []DtoInvoiceCoupon `json:"invoice_coupons,omitzero"`
 	// invoice_number is an optional human-readable identifier for the invoice
 	InvoiceNumber *string `json:"invoice_number,omitzero"`
@@ -47,7 +45,6 @@ type DtoCreateInvoiceRequest struct {
 	// period_start is the start date of the billing period
 	PeriodStart *string `json:"period_start,omitzero"`
 	// prepared_tax_rates contains the tax rates pre-resolved by the caller (e.g., billing service)
-	// These are applied at invoice level by the invoice service without further resolution
 	PreparedTaxRates []DtoTaxRateResponse `json:"prepared_tax_rates,omitzero"`
 	// subscription_id is the optional unique identifier of the subscription associated with this invoice
 	SubscriptionID *string `json:"subscription_id,omitzero"`
@@ -59,6 +56,8 @@ type DtoCreateInvoiceRequest struct {
 	TaxRates []string `json:"tax_rates,omitzero"`
 	// total is the total amount of the invoice including taxes and discounts
 	Total string `json:"total"`
+	// total_prepaid_applied is the total amount of prepaid applied to this invoice.
+	TotalPrepaidApplied *string `json:"total_prepaid_applied,omitzero"`
 }
 
 func (d DtoCreateInvoiceRequest) MarshalJSON() ([]byte, error) {
@@ -133,13 +132,6 @@ func (d *DtoCreateInvoiceRequest) GetDueDate() *string {
 		return nil
 	}
 	return d.DueDate
-}
-
-func (d *DtoCreateInvoiceRequest) GetEnvironmentID() *string {
-	if d == nil {
-		return nil
-	}
-	return d.EnvironmentID
 }
 
 func (d *DtoCreateInvoiceRequest) GetIdempotencyKey() *string {
@@ -266,4 +258,11 @@ func (d *DtoCreateInvoiceRequest) GetTotal() string {
 		return ""
 	}
 	return d.Total
+}
+
+func (d *DtoCreateInvoiceRequest) GetTotalPrepaidApplied() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TotalPrepaidApplied
 }

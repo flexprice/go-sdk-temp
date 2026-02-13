@@ -7,6 +7,7 @@ import (
 )
 
 type TypesAlertConfig struct {
+	Enabled   *bool                      `json:"enabled,omitzero"`
 	Threshold *TypesWalletAlertThreshold `json:"threshold,omitzero"`
 }
 
@@ -19,6 +20,13 @@ func (t *TypesAlertConfig) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (t *TypesAlertConfig) GetEnabled() *bool {
+	if t == nil {
+		return nil
+	}
+	return t.Enabled
 }
 
 func (t *TypesAlertConfig) GetThreshold() *TypesWalletAlertThreshold {

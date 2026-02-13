@@ -14,6 +14,7 @@ const (
 	TypesTransactionReasonCreditExpired           TypesTransactionReason = "CREDIT_EXPIRED"
 	TypesTransactionReasonWalletTermination       TypesTransactionReason = "WALLET_TERMINATION"
 	TypesTransactionReasonManualBalanceDebit      TypesTransactionReason = "MANUAL_BALANCE_DEBIT"
+	TypesTransactionReasonCreditAdjustment        TypesTransactionReason = "CREDIT_ADJUSTMENT"
 )
 
 func (e TypesTransactionReason) ToPointer() *TypesTransactionReason {
@@ -24,7 +25,7 @@ func (e TypesTransactionReason) ToPointer() *TypesTransactionReason {
 func (e *TypesTransactionReason) IsExact() bool {
 	if e != nil {
 		switch *e {
-		case "INVOICE_PAYMENT", "FREE_CREDIT_GRANT", "SUBSCRIPTION_CREDIT_GRANT", "PURCHASED_CREDIT_INVOICED", "PURCHASED_CREDIT_DIRECT", "CREDIT_NOTE", "CREDIT_EXPIRED", "WALLET_TERMINATION", "MANUAL_BALANCE_DEBIT":
+		case "INVOICE_PAYMENT", "FREE_CREDIT_GRANT", "SUBSCRIPTION_CREDIT_GRANT", "PURCHASED_CREDIT_INVOICED", "PURCHASED_CREDIT_DIRECT", "CREDIT_NOTE", "CREDIT_EXPIRED", "WALLET_TERMINATION", "MANUAL_BALANCE_DEBIT", "CREDIT_ADJUSTMENT":
 			return true
 		}
 	}

@@ -7,82 +7,86 @@ import (
 )
 
 type DtoInvoiceResponse struct {
+	// adjustment_amount is the total sum of credit notes of type "adjustment".
+	// These are non-cash reductions applied to the invoice (e.g. goodwill credit, billing correction).
+	AdjustmentAmount *float64 `json:"adjustment_amount,omitzero"`
 	// amount_due is the total amount that needs to be paid for this invoice
-	AmountDue *string `json:"amount_due,omitzero"`
-	// amount_paid is the amount that has been paid towards this invoice
-	AmountPaid *string `json:"amount_paid,omitzero"`
-	// amount_remaining is the amount still outstanding on this invoice
-	AmountRemaining *string `json:"amount_remaining,omitzero"`
-	// billing_period is the period this invoice covers (e.g., "monthly", "yearly")
+	AmountDue *float64 `json:"amount_due,omitzero"`
+	// amount_paid is the amount that has already been paid towards this invoice
+	AmountPaid *float64 `json:"amount_paid,omitzero"`
+	// amount_remaining is the outstanding amount still owed on this invoice (calculated as amount_due minus amount_paid)
+	AmountRemaining *float64 `json:"amount_remaining,omitzero"`
+	// billing_period describes the billing period this invoice covers (e.g., "January 2024", "Q1 2024")
 	BillingPeriod *string `json:"billing_period,omitzero"`
-	// billing_reason indicates why this invoice was created (subscription_cycle, manual, etc.)
+	// billing_reason indicates why this invoice was generated (e.g., "subscription_billing", "manual_charge")
 	BillingReason *string `json:"billing_reason,omitzero"`
-	// billing_sequence is the optional sequence number for billing cycles
+	// billing_sequence is the sequential number indicating the billing cycle for subscription invoices
 	BillingSequence *int64 `json:"billing_sequence,omitzero"`
-	// coupon_applications contains the coupon applications associated with this invoice
+	// coupon_applications contains the coupon applications associated with this invoice (overrides embedded field)
 	CouponApplications []DtoCouponApplicationResponse `json:"coupon_applications,omitzero"`
-	// created_at is the timestamp when this invoice was created
-	CreatedAt *string `json:"created_at,omitzero"`
-	// created_by is the identifier of the user who created this invoice
-	CreatedBy *string `json:"created_by,omitzero"`
-	// currency is the three-letter ISO currency code (e.g., USD, EUR) for the invoice
+	CreatedAt          *string                        `json:"created_at,omitzero"`
+	CreatedBy          *string                        `json:"created_by,omitzero"`
+	// currency is the three-letter ISO currency code (e.g., USD, EUR, GBP) that applies to all monetary amounts on this invoice
 	Currency *string `json:"currency,omitzero"`
 	// Customer response object containing all customer information
 	Customer *DtoCustomerResponse `json:"customer,omitzero"`
-	// customer_id is the unique identifier of the customer this invoice belongs to
+	// customer_id is the ID of the customer who will receive this invoice
 	CustomerID *string `json:"customer_id,omitzero"`
-	// description is the optional text description of the invoice
+	// description is an optional description or notes about this invoice
 	Description *string `json:"description,omitzero"`
-	// due_date is the date by which payment is expected
+	// due_date is the date when payment for this invoice is due
 	DueDate *string `json:"due_date,omitzero"`
-	// finalized_at is the timestamp when this invoice was finalized
+	// environment_id is the ID of the environment this invoice belongs to (for multi-environment setups)
+	EnvironmentID *string `json:"environment_id,omitzero"`
+	// finalized_at is the timestamp when this invoice was finalized and made ready for payment
 	FinalizedAt *string `json:"finalized_at,omitzero"`
 	// id is the unique identifier for this invoice
 	ID *string `json:"id,omitzero"`
-	// idempotency_key is the optional key used to prevent duplicate invoice creation
+	// idempotency_key is a unique key used to prevent duplicate invoice creation when retrying API calls
 	IdempotencyKey *string `json:"idempotency_key,omitzero"`
-	// invoice_number is the optional human-readable identifier for the invoice
+	// invoice_number is the human-readable invoice number displayed to customers (e.g., INV-2024-001)
 	InvoiceNumber *string `json:"invoice_number,omitzero"`
-	// invoice_pdf_url is the optional URL to the PDF version of this invoice
+	// invoice_pdf_url is the URL where customers can download the PDF version of this invoice
 	InvoicePdfURL *string             `json:"invoice_pdf_url,omitzero"`
 	InvoiceStatus *TypesInvoiceStatus `json:"invoice_status,omitzero"`
 	InvoiceType   *TypesInvoiceType   `json:"invoice_type,omitzero"`
-	// line_items contains the individual items that make up this invoice
+	// line_items contains the individual items that make up this invoice (overrides embedded field)
 	LineItems []DtoInvoiceLineItemResponse `json:"line_items,omitzero"`
 	Metadata  map[string]string            `json:"metadata,omitzero"`
 	// overpaid_amount is the amount overpaid if payment_status is OVERPAID (amount_paid - total)
 	OverpaidAmount *string `json:"overpaid_amount,omitzero"`
-	// paid_at is the timestamp when this invoice was paid
+	// paid_at is the timestamp when this invoice was fully paid
 	PaidAt        *string             `json:"paid_at,omitzero"`
 	PaymentStatus *TypesPaymentStatus `json:"payment_status,omitzero"`
-	// period_end is the end date of the billing period
+	// period_end is the end date of the billing period covered by this invoice
 	PeriodEnd *string `json:"period_end,omitzero"`
-	// period_start is the start date of the billing period
+	// period_start is the start date of the billing period covered by this invoice
 	PeriodStart *string `json:"period_start,omitzero"`
-	// status represents the current status of this invoice
-	Status       *string                  `json:"status,omitzero"`
-	Subscription *DtoSubscriptionResponse `json:"subscription,omitzero"`
-	// subscription_id is the optional unique identifier of the subscription associated with this invoice
+	// refunded_amount is the total sum of credit notes of type "refund".
+	// These are actual refunds issued to the customer.
+	RefundedAmount *float64                 `json:"refunded_amount,omitzero"`
+	Status         *TypesStatus             `json:"status,omitzero"`
+	Subscription   *DtoSubscriptionResponse `json:"subscription,omitzero"`
+	// subscription_id is the ID of the subscription this invoice is associated with (only present for subscription-based invoices)
 	SubscriptionID *string `json:"subscription_id,omitzero"`
-	// subtotal is the amount before taxes and discounts are applied
-	Subtotal *string `json:"subtotal,omitzero"`
+	// subtotal is the sum of all line items before any taxes, discounts, or additional fees
+	Subtotal *float64 `json:"subtotal,omitzero"`
 	// tax_applied_records contains the tax applied records associated with this invoice
-	Taxes []DtoTaxAppliedResponse `json:"taxes,omitzero"`
-	// tenant_id is the unique identifier of the tenant this invoice belongs to
-	TenantID *string `json:"tenant_id,omitzero"`
-	// total is the total amount of the invoice including taxes and discounts
-	Total *string `json:"total,omitzero"`
-	// total_discount is the total discount amount from coupon applications
-	TotalDiscount *string `json:"total_discount,omitzero"`
-	// total_tax is the total tax amount for this invoice
-	TotalTax *string `json:"total_tax,omitzero"`
-	// updated_at is the timestamp when this invoice was last updated
-	UpdatedAt *string `json:"updated_at,omitzero"`
-	// updated_by is the identifier of the user who last updated this invoice
-	UpdatedBy *string `json:"updated_by,omitzero"`
-	// version is the version number of this invoice
+	Taxes    []DtoTaxAppliedResponse `json:"taxes,omitzero"`
+	TenantID *string                 `json:"tenant_id,omitzero"`
+	// total is the final amount including taxes, fees, and discounts
+	Total *float64 `json:"total,omitzero"`
+	// total_discount is the sum of all coupon discounts applied to the invoice
+	TotalDiscount *float64 `json:"total_discount,omitzero"`
+	// total_prepaid_credits_applied is the total amount of prepaid credits applied to this invoice.
+	TotalPrepaidCreditsApplied *float64 `json:"total_prepaid_credits_applied,omitzero"`
+	// total_tax is the sum of all taxes combined at the invoice level.
+	TotalTax  *float64 `json:"total_tax,omitzero"`
+	UpdatedAt *string  `json:"updated_at,omitzero"`
+	UpdatedBy *string  `json:"updated_by,omitzero"`
+	// version is the version number for tracking changes to this invoice
 	Version *int64 `json:"version,omitzero"`
-	// voided_at is the timestamp when this invoice was voided
+	// voided_at is the timestamp when this invoice was voided or cancelled
 	VoidedAt *string `json:"voided_at,omitzero"`
 }
 
@@ -97,21 +101,28 @@ func (d *DtoInvoiceResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoInvoiceResponse) GetAmountDue() *string {
+func (d *DtoInvoiceResponse) GetAdjustmentAmount() *float64 {
+	if d == nil {
+		return nil
+	}
+	return d.AdjustmentAmount
+}
+
+func (d *DtoInvoiceResponse) GetAmountDue() *float64 {
 	if d == nil {
 		return nil
 	}
 	return d.AmountDue
 }
 
-func (d *DtoInvoiceResponse) GetAmountPaid() *string {
+func (d *DtoInvoiceResponse) GetAmountPaid() *float64 {
 	if d == nil {
 		return nil
 	}
 	return d.AmountPaid
 }
 
-func (d *DtoInvoiceResponse) GetAmountRemaining() *string {
+func (d *DtoInvoiceResponse) GetAmountRemaining() *float64 {
 	if d == nil {
 		return nil
 	}
@@ -193,6 +204,13 @@ func (d *DtoInvoiceResponse) GetDueDate() *string {
 		return nil
 	}
 	return d.DueDate
+}
+
+func (d *DtoInvoiceResponse) GetEnvironmentID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.EnvironmentID
 }
 
 func (d *DtoInvoiceResponse) GetFinalizedAt() *string {
@@ -293,7 +311,14 @@ func (d *DtoInvoiceResponse) GetPeriodStart() *string {
 	return d.PeriodStart
 }
 
-func (d *DtoInvoiceResponse) GetStatus() *string {
+func (d *DtoInvoiceResponse) GetRefundedAmount() *float64 {
+	if d == nil {
+		return nil
+	}
+	return d.RefundedAmount
+}
+
+func (d *DtoInvoiceResponse) GetStatus() *TypesStatus {
 	if d == nil {
 		return nil
 	}
@@ -314,7 +339,7 @@ func (d *DtoInvoiceResponse) GetSubscriptionID() *string {
 	return d.SubscriptionID
 }
 
-func (d *DtoInvoiceResponse) GetSubtotal() *string {
+func (d *DtoInvoiceResponse) GetSubtotal() *float64 {
 	if d == nil {
 		return nil
 	}
@@ -335,21 +360,28 @@ func (d *DtoInvoiceResponse) GetTenantID() *string {
 	return d.TenantID
 }
 
-func (d *DtoInvoiceResponse) GetTotal() *string {
+func (d *DtoInvoiceResponse) GetTotal() *float64 {
 	if d == nil {
 		return nil
 	}
 	return d.Total
 }
 
-func (d *DtoInvoiceResponse) GetTotalDiscount() *string {
+func (d *DtoInvoiceResponse) GetTotalDiscount() *float64 {
 	if d == nil {
 		return nil
 	}
 	return d.TotalDiscount
 }
 
-func (d *DtoInvoiceResponse) GetTotalTax() *string {
+func (d *DtoInvoiceResponse) GetTotalPrepaidCreditsApplied() *float64 {
+	if d == nil {
+		return nil
+	}
+	return d.TotalPrepaidCreditsApplied
+}
+
+func (d *DtoInvoiceResponse) GetTotalTax() *float64 {
 	if d == nil {
 		return nil
 	}

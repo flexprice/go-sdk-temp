@@ -3,7 +3,7 @@
 
 ## Values
 
-| Name                         | Value                        |
-| ---------------------------- | ---------------------------- |
-| `TypesWalletTypePromotional` | PROMOTIONAL                  |
-| `TypesWalletTypePrePaid`     | PRE_PAID                     |
+| Name                      | Value                     |
+| ------------------------- | ------------------------- |
+| `TypesWalletTypePrePaid`  | PRE_PAID                  |
+| `TypesWalletTypePostPaid` | POST_PAID                 |

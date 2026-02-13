@@ -3,10 +3,18 @@
 package components
 
 type DtoCancelSubscriptionRequest struct {
-	CancellationType  TypesCancellationType   `json:"cancellation_type"`
-	ProrationBehavior *TypesProrationBehavior `json:"proration_behavior,omitzero"`
+	CancelImmediatelyInovicePolicy *TypesCancelImmediatelyInvoicePolicy `json:"cancel_immediately_inovice_policy,omitzero"`
+	CancellationType               TypesCancellationType                `json:"cancellation_type"`
+	ProrationBehavior              *TypesProrationBehavior              `json:"proration_behavior,omitzero"`
 	// Reason for cancellation (for audit and business intelligence)
 	Reason *string `json:"reason,omitzero"`
+}
+
+func (d *DtoCancelSubscriptionRequest) GetCancelImmediatelyInovicePolicy() *TypesCancelImmediatelyInvoicePolicy {
+	if d == nil {
+		return nil
+	}
+	return d.CancelImmediatelyInovicePolicy
 }
 
 func (d *DtoCancelSubscriptionRequest) GetCancellationType() TypesCancellationType {

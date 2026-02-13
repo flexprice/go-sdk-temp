@@ -1051,10 +1051,11 @@ func (s *CreditGrants) PutCreditgrantsID(ctx context.Context, id string, body co
 }
 
 // DeleteCreditgrantsID - Delete a credit grant
-// Delete a credit grant
-func (s *CreditGrants) DeleteCreditgrantsID(ctx context.Context, id string, opts ...operations.Option) (*components.DtoSuccessResponse, error) {
+// Delete a credit grant. Plan-scoped grants are archived; subscription-scoped grants have their end date set (optional body with effective_date). Request body is optional.
+func (s *CreditGrants) DeleteCreditgrantsID(ctx context.Context, id string, body *components.DtoDeleteCreditGrantRequest, opts ...operations.Option) (*components.DtoSuccessResponse, error) {
 	request := operations.DeleteCreditgrantsIDRequest{
-		ID: id,
+		ID:   id,
+		Body: body,
 	}
 
 	o := operations.Options{}
@@ -1089,6 +1090,10 @@ func (s *CreditGrants) DeleteCreditgrantsID(ctx context.Context, id string, opts
 		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "Body", "json", `request:"mediaType=application/json"`)
+	if err != nil {
+		return nil, err
+	}
 
 	timeout := o.Timeout
 	if timeout == nil {
@@ -1101,12 +1106,15 @@ func (s *CreditGrants) DeleteCreditgrantsID(ctx context.Context, id string, opts
 		defer cancel()
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, nil)
+	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
+	if reqContentType != "" {
+		req.Header.Set("Content-Type", reqContentType)
+	}
 
 	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
 		return nil, err

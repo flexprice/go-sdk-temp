@@ -15,8 +15,12 @@ type DtoCreateInvoiceLineItemRequest struct {
 	// entity_id is the optional unique identifier of the entity associated with this line item
 	EntityID *string `json:"entity_id,omitzero"`
 	// entity_type is the optional type of the entity associated with this line item
-	EntityType *string           `json:"entity_type,omitzero"`
-	Metadata   map[string]string `json:"metadata,omitzero"`
+	EntityType *string `json:"entity_type,omitzero"`
+	// invoice_level_discount is the discount amount in invoice currency applied to all line items on the invoice.
+	InvoiceLevelDiscount *string `json:"invoice_level_discount,omitzero"`
+	// line_item_discount is the discount amount in invoice currency applied directly to this line item.
+	LineItemDiscount *string           `json:"line_item_discount,omitzero"`
+	Metadata         map[string]string `json:"metadata,omitzero"`
 	// meter_display_name is the optional human-readable name of the meter
 	MeterDisplayName *string `json:"meter_display_name,omitzero"`
 	// meter_id is the optional unique identifier of the meter used for usage tracking
@@ -30,6 +34,8 @@ type DtoCreateInvoiceLineItemRequest struct {
 	// TODO: !REMOVE after migration
 	// plan_id is the optional unique identifier of the plan associated with this line item
 	PlanID *string `json:"plan_id,omitzero"`
+	// prepaid_credits_applied is the amount in invoice currency reduced from this line item due to prepaid credits application.
+	PrepaidCreditsApplied *string `json:"prepaid_credits_applied,omitzero"`
 	// price_id is the optional unique identifier of the price associated with this line item
 	PriceID *string `json:"price_id,omitzero"`
 	// price_type indicates the type of pricing (fixed, usage, tiered, etc.)
@@ -88,6 +94,20 @@ func (d *DtoCreateInvoiceLineItemRequest) GetEntityType() *string {
 	return d.EntityType
 }
 
+func (d *DtoCreateInvoiceLineItemRequest) GetInvoiceLevelDiscount() *string {
+	if d == nil {
+		return nil
+	}
+	return d.InvoiceLevelDiscount
+}
+
+func (d *DtoCreateInvoiceLineItemRequest) GetLineItemDiscount() *string {
+	if d == nil {
+		return nil
+	}
+	return d.LineItemDiscount
+}
+
 func (d *DtoCreateInvoiceLineItemRequest) GetMetadata() map[string]string {
 	if d == nil {
 		return nil
@@ -135,6 +155,13 @@ func (d *DtoCreateInvoiceLineItemRequest) GetPlanID() *string {
 		return nil
 	}
 	return d.PlanID
+}
+
+func (d *DtoCreateInvoiceLineItemRequest) GetPrepaidCreditsApplied() *string {
+	if d == nil {
+		return nil
+	}
+	return d.PrepaidCreditsApplied
 }
 
 func (d *DtoCreateInvoiceLineItemRequest) GetPriceID() *string {

@@ -8,6 +8,7 @@ const (
 	TypesWalletTxReferenceTypePayment  TypesWalletTxReferenceType = "PAYMENT"
 	TypesWalletTxReferenceTypeExternal TypesWalletTxReferenceType = "EXTERNAL"
 	TypesWalletTxReferenceTypeRequest  TypesWalletTxReferenceType = "REQUEST"
+	TypesWalletTxReferenceTypeInvoice  TypesWalletTxReferenceType = "INVOICE"
 )
 
 func (e TypesWalletTxReferenceType) ToPointer() *TypesWalletTxReferenceType {
@@ -18,7 +19,7 @@ func (e TypesWalletTxReferenceType) ToPointer() *TypesWalletTxReferenceType {
 func (e *TypesWalletTxReferenceType) IsExact() bool {
 	if e != nil {
 		switch *e {
-		case "PAYMENT", "EXTERNAL", "REQUEST":
+		case "PAYMENT", "EXTERNAL", "REQUEST", "INVOICE":
 			return true
 		}
 	}

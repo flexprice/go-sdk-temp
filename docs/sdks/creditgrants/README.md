@@ -238,7 +238,7 @@ func main() {
 
 ## DeleteCreditgrantsID
 
-Delete a credit grant
+Delete a credit grant. Plan-scoped grants are archived; subscription-scoped grants have their end date set (optional body with effective_date). Request body is optional.
 
 ### Example Usage
 
@@ -260,7 +260,7 @@ func main() {
         gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.DeleteCreditgrantsID(ctx, "<id>")
+    res, err := s.CreditGrants.DeleteCreditgrantsID(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -272,11 +272,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Credit Grant ID                                          |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                                         | Type                                                                                              | Required                                                                                          | Description                                                                                       |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                             | [context.Context](https://pkg.go.dev/context#Context)                                             | :heavy_check_mark:                                                                                | The context to use for the request.                                                               |
+| `id`                                                                                              | *string*                                                                                          | :heavy_check_mark:                                                                                | Credit Grant ID                                                                                   |
+| `body`                                                                                            | [*components.DtoDeleteCreditGrantRequest](../../models/components/dtodeletecreditgrantrequest.md) | :heavy_minus_sign:                                                                                | Optional: effective_date for subscription-scoped grants                                           |
+| `opts`                                                                                            | [][operations.Option](../../models/operations/option.md)                                          | :heavy_minus_sign:                                                                                | The options for this request.                                                                     |
 
 ### Response
 

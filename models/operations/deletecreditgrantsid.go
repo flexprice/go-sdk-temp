@@ -2,9 +2,27 @@
 
 package operations
 
+import (
+	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/go-sdk-temp/models/components"
+)
+
 type DeleteCreditgrantsIDRequest struct {
 	// Credit Grant ID
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Optional: effective_date for subscription-scoped grants
+	Body *components.DtoDeleteCreditGrantRequest `request:"mediaType=application/json"`
+}
+
+func (d DeleteCreditgrantsIDRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(d, "", false)
+}
+
+func (d *DeleteCreditgrantsIDRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &d, "", false, nil); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (d *DeleteCreditgrantsIDRequest) GetID() string {
@@ -12,4 +30,11 @@ func (d *DeleteCreditgrantsIDRequest) GetID() string {
 		return ""
 	}
 	return d.ID
+}
+
+func (d *DeleteCreditgrantsIDRequest) GetBody() *components.DtoDeleteCreditGrantRequest {
+	if d == nil {
+		return nil
+	}
+	return d.Body
 }

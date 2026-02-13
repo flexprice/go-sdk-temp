@@ -14,6 +14,7 @@ type DtoCreateCreditGrantRequest struct {
 	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
 	ConversionRate         *string                             `json:"conversion_rate,omitzero"`
 	Credits                string                              `json:"credits"`
+	EndDate                *string                             `json:"end_date,omitzero"`
 	ExpirationDuration     *int64                              `json:"expiration_duration,omitzero"`
 	ExpirationDurationUnit *TypesCreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
 	ExpirationType         *TypesCreditGrantExpiryType         `json:"expiration_type,omitzero"`
@@ -24,6 +25,7 @@ type DtoCreateCreditGrantRequest struct {
 	PlanID                 *string                             `json:"plan_id,omitzero"`
 	Priority               *int64                              `json:"priority,omitzero"`
 	Scope                  TypesCreditGrantScope               `json:"scope"`
+	StartDate              *string                             `json:"start_date,omitzero"`
 	SubscriptionID         *string                             `json:"subscription_id,omitzero"`
 	// topup_conversion_rate is the conversion rate for the topup to the currency
 	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
@@ -62,6 +64,13 @@ func (d *DtoCreateCreditGrantRequest) GetCredits() string {
 		return ""
 	}
 	return d.Credits
+}
+
+func (d *DtoCreateCreditGrantRequest) GetEndDate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.EndDate
 }
 
 func (d *DtoCreateCreditGrantRequest) GetExpirationDuration() *int64 {
@@ -132,6 +141,13 @@ func (d *DtoCreateCreditGrantRequest) GetScope() TypesCreditGrantScope {
 		return TypesCreditGrantScope("")
 	}
 	return d.Scope
+}
+
+func (d *DtoCreateCreditGrantRequest) GetStartDate() *string {
+	if d == nil {
+		return nil
+	}
+	return d.StartDate
 }
 
 func (d *DtoCreateCreditGrantRequest) GetSubscriptionID() *string {

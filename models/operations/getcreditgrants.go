@@ -90,11 +90,12 @@ func (e *GetCreditgrantsStatus) UnmarshalJSON(data []byte) error {
 }
 
 type GetCreditgrantsRequest struct {
-	EndTime *string               `queryParam:"style=form,explode=true,name=end_time"`
-	Expand  *string               `queryParam:"style=form,explode=true,name=expand"`
-	Limit   *int64                `queryParam:"style=form,explode=true,name=limit"`
-	Offset  *int64                `queryParam:"style=form,explode=true,name=offset"`
-	Order   *GetCreditgrantsOrder `queryParam:"style=form,explode=true,name=order"`
+	CreditGrantIds []string              `queryParam:"style=form,explode=false,name=credit_grant_ids"`
+	EndTime        *string               `queryParam:"style=form,explode=true,name=end_time"`
+	Expand         *string               `queryParam:"style=form,explode=true,name=expand"`
+	Limit          *int64                `queryParam:"style=form,explode=true,name=limit"`
+	Offset         *int64                `queryParam:"style=form,explode=true,name=offset"`
+	Order          *GetCreditgrantsOrder `queryParam:"style=form,explode=true,name=order"`
 	// Specific filters for credit grants
 	PlanIds         []string               `queryParam:"style=form,explode=false,name=plan_ids"`
 	Scope           *GetCreditgrantsScope  `queryParam:"style=form,explode=true,name=scope"`
@@ -113,6 +114,13 @@ func (g *GetCreditgrantsRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (g *GetCreditgrantsRequest) GetCreditGrantIds() []string {
+	if g == nil {
+		return nil
+	}
+	return g.CreditGrantIds
 }
 
 func (g *GetCreditgrantsRequest) GetEndTime() *string {
