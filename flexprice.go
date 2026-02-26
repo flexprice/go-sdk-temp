@@ -2,7 +2,7 @@
 
 package flexprice
 
-// Generated from OpenAPI doc version 1.0 and generator version 2.844.3
+// Generated from OpenAPI doc version 1.0 and generator version 2.845.1
 
 import (
 	"context"
@@ -124,7 +124,7 @@ func New(serverURL string, opts ...SDKOption) *Flexprice {
 	sdk := &Flexprice{
 		SDKVersion: "0.0.35",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent: "speakeasy-sdk/go 0.0.35 2.844.3 1.0 github.com/flexprice/flexprice-go",
+			UserAgent: "speakeasy-sdk/go 0.0.35 2.845.1 1.0 github.com/flexprice/flexprice-go",
 		},
 		hooks: hooks.New(),
 	}
