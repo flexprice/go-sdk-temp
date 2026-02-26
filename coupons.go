@@ -105,16 +105,6 @@ func (s *Coupons) CreateCoupon(ctx context.Context, request components.DtoCreate
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -123,8 +113,11 @@ func (s *Coupons) CreateCoupon(ctx context.Context, request components.DtoCreate
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -381,16 +374,6 @@ func (s *Coupons) QueryCoupon(ctx context.Context, request components.TypesCoupo
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -399,8 +382,11 @@ func (s *Coupons) QueryCoupon(ctx context.Context, request components.TypesCoupo
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -648,16 +634,6 @@ func (s *Coupons) GetCoupon(ctx context.Context, id string, opts ...operations.O
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -666,8 +642,11 @@ func (s *Coupons) GetCoupon(ctx context.Context, id string, opts ...operations.O
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -925,16 +904,6 @@ func (s *Coupons) UpdateCoupon(ctx context.Context, id string, body components.D
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -943,8 +912,11 @@ func (s *Coupons) UpdateCoupon(ctx context.Context, id string, body components.D
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1198,16 +1170,6 @@ func (s *Coupons) DeleteCoupon(ctx context.Context, id string, opts ...operation
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1216,8 +1178,11 @@ func (s *Coupons) DeleteCoupon(ctx context.Context, id string, opts ...operation
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {

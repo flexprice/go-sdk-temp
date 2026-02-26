@@ -105,16 +105,6 @@ func (s *Workflows) QueryWorkflow(ctx context.Context, request components.TypesW
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -123,8 +113,11 @@ func (s *Workflows) QueryWorkflow(ctx context.Context, request components.TypesW
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {

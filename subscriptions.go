@@ -105,16 +105,6 @@ func (s *Subscriptions) CreateSubscription(ctx context.Context, request componen
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -123,8 +113,11 @@ func (s *Subscriptions) CreateSubscription(ctx context.Context, request componen
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -375,16 +368,6 @@ func (s *Subscriptions) AddSubscriptionAddon(ctx context.Context, request compon
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -393,8 +376,11 @@ func (s *Subscriptions) AddSubscriptionAddon(ctx context.Context, request compon
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -645,16 +631,6 @@ func (s *Subscriptions) RemoveSubscriptionAddon(ctx context.Context, request com
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -663,8 +639,11 @@ func (s *Subscriptions) RemoveSubscriptionAddon(ctx context.Context, request com
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -920,16 +899,6 @@ func (s *Subscriptions) UpdateSubscriptionLineItem(ctx context.Context, id strin
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -938,8 +907,11 @@ func (s *Subscriptions) UpdateSubscriptionLineItem(ctx context.Context, id strin
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1195,16 +1167,6 @@ func (s *Subscriptions) DeleteSubscriptionLineItem(ctx context.Context, id strin
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1213,8 +1175,11 @@ func (s *Subscriptions) DeleteSubscriptionLineItem(ctx context.Context, id strin
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1465,16 +1430,6 @@ func (s *Subscriptions) QuerySubscription(ctx context.Context, request component
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1483,8 +1438,11 @@ func (s *Subscriptions) QuerySubscription(ctx context.Context, request component
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1735,16 +1693,6 @@ func (s *Subscriptions) GetSubscriptionUsage(ctx context.Context, request compon
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1753,8 +1701,11 @@ func (s *Subscriptions) GetSubscriptionUsage(ctx context.Context, request compon
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -2002,16 +1953,6 @@ func (s *Subscriptions) GetSubscription(ctx context.Context, id string, opts ...
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -2020,8 +1961,11 @@ func (s *Subscriptions) GetSubscription(ctx context.Context, id string, opts ...
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -2277,16 +2221,6 @@ func (s *Subscriptions) UpdateSubscription(ctx context.Context, id string, body 
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -2295,8 +2229,11 @@ func (s *Subscriptions) UpdateSubscription(ctx context.Context, id string, body 
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -2552,16 +2489,6 @@ func (s *Subscriptions) ActivateSubscription(ctx context.Context, id string, bod
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -2570,8 +2497,11 @@ func (s *Subscriptions) ActivateSubscription(ctx context.Context, id string, bod
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -2819,16 +2749,6 @@ func (s *Subscriptions) GetSubscriptionAddonAssociations(ctx context.Context, id
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -2837,8 +2757,11 @@ func (s *Subscriptions) GetSubscriptionAddonAssociations(ctx context.Context, id
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -3096,16 +3019,6 @@ func (s *Subscriptions) CancelSubscription(ctx context.Context, id string, body 
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -3114,8 +3027,11 @@ func (s *Subscriptions) CancelSubscription(ctx context.Context, id string, body 
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -3371,16 +3287,6 @@ func (s *Subscriptions) ExecuteSubscriptionChange(ctx context.Context, id string
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -3389,8 +3295,11 @@ func (s *Subscriptions) ExecuteSubscriptionChange(ctx context.Context, id string
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -3648,16 +3557,6 @@ func (s *Subscriptions) PreviewSubscriptionChange(ctx context.Context, id string
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -3666,8 +3565,11 @@ func (s *Subscriptions) PreviewSubscriptionChange(ctx context.Context, id string
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -3922,16 +3824,6 @@ func (s *Subscriptions) GetSubscriptionEntitlements(ctx context.Context, id stri
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -3940,8 +3832,11 @@ func (s *Subscriptions) GetSubscriptionEntitlements(ctx context.Context, id stri
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -4191,16 +4086,6 @@ func (s *Subscriptions) GetSubscriptionUpcomingGrants(ctx context.Context, id st
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -4209,8 +4094,11 @@ func (s *Subscriptions) GetSubscriptionUpcomingGrants(ctx context.Context, id st
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -4468,16 +4356,6 @@ func (s *Subscriptions) CreateSubscriptionLineItem(ctx context.Context, id strin
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -4486,8 +4364,11 @@ func (s *Subscriptions) CreateSubscriptionLineItem(ctx context.Context, id strin
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -4745,16 +4626,6 @@ func (s *Subscriptions) PauseSubscription(ctx context.Context, id string, body c
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -4763,8 +4634,11 @@ func (s *Subscriptions) PauseSubscription(ctx context.Context, id string, body c
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -5014,16 +4888,6 @@ func (s *Subscriptions) ListSubscriptionPauses(ctx context.Context, id string, o
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -5032,8 +4896,11 @@ func (s *Subscriptions) ListSubscriptionPauses(ctx context.Context, id string, o
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -5291,16 +5158,6 @@ func (s *Subscriptions) ResumeSubscription(ctx context.Context, id string, body 
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -5309,8 +5166,11 @@ func (s *Subscriptions) ResumeSubscription(ctx context.Context, id string, body 
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -5565,16 +5425,6 @@ func (s *Subscriptions) GetSubscriptionV2(ctx context.Context, id string, expand
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -5583,8 +5433,11 @@ func (s *Subscriptions) GetSubscriptionV2(ctx context.Context, id string, expand
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -5839,16 +5692,6 @@ func (s *Subscriptions) ListAllSubscriptionSchedules(ctx context.Context, pendin
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -5857,8 +5700,11 @@ func (s *Subscriptions) ListAllSubscriptionSchedules(ctx context.Context, pendin
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -6056,16 +5902,6 @@ func (s *Subscriptions) GetSubscriptionSchedule(ctx context.Context, id string, 
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -6074,8 +5910,11 @@ func (s *Subscriptions) GetSubscriptionSchedule(ctx context.Context, id string, 
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -6281,16 +6120,6 @@ func (s *Subscriptions) CancelSubscriptionSchedule(ctx context.Context, schedule
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -6299,8 +6128,11 @@ func (s *Subscriptions) CancelSubscriptionSchedule(ctx context.Context, schedule
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -6498,16 +6330,6 @@ func (s *Subscriptions) ListSubscriptionSchedules(ctx context.Context, subscript
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -6516,8 +6338,11 @@ func (s *Subscriptions) ListSubscriptionSchedules(ctx context.Context, subscript
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {

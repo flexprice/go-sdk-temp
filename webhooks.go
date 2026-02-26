@@ -102,16 +102,6 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -120,8 +110,11 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -329,16 +322,6 @@ func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, en
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -347,8 +330,11 @@ func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, en
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -550,16 +536,6 @@ func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, en
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -568,8 +544,11 @@ func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, en
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -771,16 +750,6 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -789,8 +758,11 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -994,16 +966,6 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1012,8 +974,11 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1221,16 +1186,6 @@ func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, e
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1239,8 +1194,11 @@ func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, e
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -1442,16 +1400,6 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
-		} else {
-			retryConfig = &retry.Config{
-				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
-					InitialInterval: 500,
-					MaxInterval:     60000,
-					Exponent:        1.5,
-					MaxElapsedTime:  3600000,
-				},
-				RetryConnectionErrors: true,
-			}
 		}
 	}
 
@@ -1460,8 +1408,11 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
-				"5XX",
 				"429",
+				"500",
+				"502",
+				"503",
+				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
