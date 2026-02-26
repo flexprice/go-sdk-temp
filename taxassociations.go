@@ -33,11 +33,12 @@ func newTaxAssociations(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, h
 
 // ListTaxAssociations - List tax associations
 // Use when listing tax associations (e.g. tax config or audit). Returns list with optional filtering.
-func (s *TaxAssociations) ListTaxAssociations(ctx context.Context, entityType *string, entityID *string, taxRateID *string, opts ...operations.Option) (*operations.ListTaxAssociationsResponse, error) {
+func (s *TaxAssociations) ListTaxAssociations(ctx context.Context, entityType *string, entityID *string, externalCustomerID *string, taxRateID *string, opts ...operations.Option) (*operations.ListTaxAssociationsResponse, error) {
 	request := operations.ListTaxAssociationsRequest{
-		EntityType: entityType,
-		EntityID:   entityID,
-		TaxRateID:  taxRateID,
+		EntityType:         entityType,
+		EntityID:           entityID,
+		ExternalCustomerID: externalCustomerID,
+		TaxRateID:          taxRateID,
 	}
 
 	o := operations.Options{}

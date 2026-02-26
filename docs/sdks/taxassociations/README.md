@@ -34,7 +34,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.ListTaxAssociations(ctx, nil, nil, nil)
+    res, err := s.TaxAssociations.ListTaxAssociations(ctx, nil, nil, nil, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -51,6 +51,7 @@ func main() {
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
 | `entityType`                                             | **string*                                                | :heavy_minus_sign:                                       | Entity Type                                              |
 | `entityID`                                               | **string*                                                | :heavy_minus_sign:                                       | Entity ID                                                |
+| `externalCustomerID`                                     | **string*                                                | :heavy_minus_sign:                                       | External Customer ID                                     |
 | `taxRateID`                                              | **string*                                                | :heavy_minus_sign:                                       | Tax Rate ID                                              |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
@@ -92,8 +93,6 @@ func main() {
     )
 
     res, err := s.TaxAssociations.CreateTaxAssociation(ctx, components.DtoCreateTaxAssociationRequest{
-        EntityID: "<id>",
-        EntityType: components.TypesTaxRateEntityTypeCustomer,
         TaxRateCode: "<value>",
     })
     if err != nil {

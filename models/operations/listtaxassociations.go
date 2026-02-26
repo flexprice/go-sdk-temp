@@ -12,6 +12,8 @@ type ListTaxAssociationsRequest struct {
 	EntityType *string `queryParam:"style=form,explode=true,name=entity_type"`
 	// Entity ID
 	EntityID *string `queryParam:"style=form,explode=true,name=entity_id"`
+	// External Customer ID
+	ExternalCustomerID *string `queryParam:"style=form,explode=true,name=external_customer_id"`
 	// Tax Rate ID
 	TaxRateID *string `queryParam:"style=form,explode=true,name=tax_rate_id"`
 }
@@ -28,6 +30,13 @@ func (l *ListTaxAssociationsRequest) GetEntityID() *string {
 		return nil
 	}
 	return l.EntityID
+}
+
+func (l *ListTaxAssociationsRequest) GetExternalCustomerID() *string {
+	if l == nil {
+		return nil
+	}
+	return l.ExternalCustomerID
 }
 
 func (l *ListTaxAssociationsRequest) GetTaxRateID() *string {
