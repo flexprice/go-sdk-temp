@@ -102,6 +102,16 @@ func (s *Integrations) GetIntegration(ctx context.Context, provider string, opts
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
+		} else {
+			retryConfig = &retry.Config{
+				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
+					InitialInterval: 500,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
 		}
 	}
 
@@ -110,11 +120,8 @@ func (s *Integrations) GetIntegration(ctx context.Context, provider string, opts
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
+				"5XX",
 				"429",
-				"500",
-				"502",
-				"503",
-				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -370,6 +377,16 @@ func (s *Integrations) CreateOrUpdateIntegration(ctx context.Context, provider s
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
+		} else {
+			retryConfig = &retry.Config{
+				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
+					InitialInterval: 500,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
 		}
 	}
 
@@ -378,11 +395,8 @@ func (s *Integrations) CreateOrUpdateIntegration(ctx context.Context, provider s
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
+				"5XX",
 				"429",
-				"500",
-				"502",
-				"503",
-				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -626,6 +640,16 @@ func (s *Integrations) ListLinkedIntegrations(ctx context.Context, opts ...opera
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
+		} else {
+			retryConfig = &retry.Config{
+				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
+					InitialInterval: 500,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
 		}
 	}
 
@@ -634,11 +658,8 @@ func (s *Integrations) ListLinkedIntegrations(ctx context.Context, opts ...opera
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
+				"5XX",
 				"429",
-				"500",
-				"502",
-				"503",
-				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
@@ -861,6 +882,16 @@ func (s *Integrations) DeleteIntegration(ctx context.Context, id string, opts ..
 	if retryConfig == nil {
 		if globalRetryConfig != nil {
 			retryConfig = globalRetryConfig
+		} else {
+			retryConfig = &retry.Config{
+				Strategy: "backoff", Backoff: &retry.BackoffStrategy{
+					InitialInterval: 500,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
 		}
 	}
 
@@ -869,11 +900,8 @@ func (s *Integrations) DeleteIntegration(ctx context.Context, id string, opts ..
 		httpRes, err = utils.Retry(ctx, utils.Retries{
 			Config: retryConfig,
 			StatusCodes: []string{
+				"5XX",
 				"429",
-				"500",
-				"502",
-				"503",
-				"504",
 			},
 		}, func() (*http.Response, error) {
 			if req.Body != nil && req.Body != http.NoBody && req.GetBody != nil {
