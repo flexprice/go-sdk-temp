@@ -4,43 +4,43 @@
 
 ### Available Operations
 
-* [GetTasks](#gettasks) - List tasks
-* [PostTasks](#posttasks) - Create a new task
-* [GetTasksResult](#gettasksresult) - Get task processing result
-* [GetTasksID](#gettasksid) - Get a task
-* [GetTasksIDDownload](#gettasksiddownload) - Download task export file
-* [PutTasksIDStatus](#puttasksidstatus) - Update task status
+* [ListTasks](#listtasks) - List tasks
+* [CreateTask](#createtask) - Create a new task
+* [GetTaskResult](#gettaskresult) - Get task processing result
+* [GetTask](#gettask) - Get a task
+* [DownloadTaskExport](#downloadtaskexport) - Download task export file
+* [UpdateTaskStatus](#updatetaskstatus) - Update task status
 
-## GetTasks
+## ListTasks
 
-List tasks with optional filtering
+Use when listing or searching async tasks (e.g. admin queue view). Returns list with optional filtering.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks" method="get" path="/tasks" -->
+<!-- UsageSnippet language="go" operationID="listTasks" method="get" path="/tasks" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.GetTasks(ctx, operations.GetTasksRequest{})
+    res, err := s.Tasks.ListTasks(ctx, operations.ListTasksRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListTasksResponse != nil {
         // handle response
     }
 }
@@ -48,59 +48,59 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `ctx`                                                                    | [context.Context](https://pkg.go.dev/context#Context)                    | :heavy_check_mark:                                                       | The context to use for the request.                                      |
-| `request`                                                                | [operations.GetTasksRequest](../../models/operations/gettasksrequest.md) | :heavy_check_mark:                                                       | The request object to use for the request.                               |
-| `opts`                                                                   | [][operations.Option](../../models/operations/option.md)                 | :heavy_minus_sign:                                                       | The options for this request.                                            |
+| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
+| `request`                                                                  | [operations.ListTasksRequest](../../models/operations/listtasksrequest.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
+| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
 
 ### Response
 
-**[*components.DtoListTasksResponse](../../models/components/dtolisttasksresponse.md), error**
+**[*operations.ListTasksResponse](../../models/operations/listtasksresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTasks
+## CreateTask
 
-Create a new task for processing files asynchronously
+Use when submitting a file or job for async processing (e.g. export or import). Returns task ID to poll for status and result.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/tasks" method="post" path="/tasks" -->
+<!-- UsageSnippet language="go" operationID="createTask" method="post" path="/tasks" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.PostTasks(ctx, components.DtoCreateTaskRequest{
+    res, err := s.Tasks.CreateTask(ctx, components.DtoCreateTaskRequest{
         EntityType: components.TypesEntityTypeFeatures,
         FileType: components.TypesFileTypeJSON,
-        FileURL: "https://juicy-fundraising.biz/",
+        FileURL: "https://rural-typeface.org",
         TaskType: components.TypesTaskTypeImport,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaskResponse != nil {
         // handle response
     }
 }
@@ -116,45 +116,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaskResponse](../../models/components/dtotaskresponse.md), error**
+**[*operations.CreateTaskResponse](../../models/operations/createtaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTasksResult
+## GetTaskResult
 
-Get the result of a task processing workflow
+Use when fetching the outcome of a completed task (e.g. export URL or error message). Call after task status is complete.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks/result" method="get" path="/tasks/result" -->
+<!-- UsageSnippet language="go" operationID="getTaskResult" method="get" path="/tasks/result" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.GetTasksResult(ctx, "<id>")
+    res, err := s.Tasks.GetTaskResult(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.ModelsTemporalWorkflowResult != nil {
         // handle response
     }
 }
@@ -170,45 +170,45 @@ func main() {
 
 ### Response
 
-**[*components.ModelsTemporalWorkflowResult](../../models/components/modelstemporalworkflowresult.md), error**
+**[*operations.GetTaskResultResponse](../../models/operations/gettaskresultresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTasksID
+## GetTask
 
-Get a task by ID
+Use when checking task status or progress (e.g. polling after create). Returns task by ID.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks/{id}" method="get" path="/tasks/{id}" -->
+<!-- UsageSnippet language="go" operationID="getTask" method="get" path="/tasks/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.GetTasksID(ctx, "<id>")
+    res, err := s.Tasks.GetTask(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaskResponse != nil {
         // handle response
     }
 }
@@ -224,45 +224,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaskResponse](../../models/components/dtotaskresponse.md), error**
+**[*operations.GetTaskResponse](../../models/operations/gettaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTasksIDDownload
+## DownloadTaskExport
 
-Generate a presigned URL for downloading an exported file (supports both Flexprice-managed and customer-owned S3)
+Use when letting a user download an exported file (e.g. report or data export). Returns a presigned URL; supports FlexPrice or customer-owned S3.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks/{id}/download" method="get" path="/tasks/{id}/download" -->
+<!-- UsageSnippet language="go" operationID="downloadTaskExport" method="get" path="/tasks/{id}/download" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.GetTasksIDDownload(ctx, "<id>")
+    res, err := s.Tasks.DownloadTaskExport(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -278,48 +278,48 @@ func main() {
 
 ### Response
 
-**[map[string]string](../../.md), error**
+**[*operations.DownloadTaskExportResponse](../../models/operations/downloadtaskexportresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutTasksIDStatus
+## UpdateTaskStatus
 
-Update a task's status
+Use when updating task status (e.g. marking complete or failed from a worker). Typically called by backend processors.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/tasks/{id}/status" method="put" path="/tasks/{id}/status" -->
+<!-- UsageSnippet language="go" operationID="updateTaskStatus" method="put" path="/tasks/{id}/status" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tasks.PutTasksIDStatus(ctx, "<id>", components.DtoUpdateTaskStatusRequest{
-        TaskStatus: components.TypesTaskStatusCompleted,
+    res, err := s.Tasks.UpdateTaskStatus(ctx, "<id>", components.DtoUpdateTaskStatusRequest{
+        TaskStatus: components.TypesTaskStatusProcessing,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -336,12 +336,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.UpdateTaskStatusResponse](../../models/operations/updatetaskstatusresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

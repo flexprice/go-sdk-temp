@@ -4,100 +4,44 @@
 
 ### Available Operations
 
-* [GetCreditnotes](#getcreditnotes) - List credit notes with filtering
-* [PostCreditnotes](#postcreditnotes) - Create a new credit note
-* [GetCreditnotesID](#getcreditnotesid) - Get a credit note by ID
-* [PostCreditnotesIDFinalize](#postcreditnotesidfinalize) - Process a draft credit note
-* [PostCreditnotesIDVoid](#postcreditnotesidvoid) - Void a credit note
+* [CreateCreditNote](#createcreditnote) - Create credit note
+* [GetCreditNote](#getcreditnote) - Get credit note
+* [ProcessCreditNote](#processcreditnote) - Finalize credit note
+* [VoidCreditNote](#voidcreditnote) - Void credit note
 
-## GetCreditnotes
+## CreateCreditNote
 
-Lists credit notes with filtering
+Use when issuing a refund or adjustment (e.g. customer dispute or proration). Links to an invoice; create as draft then finalize.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/creditnotes" method="get" path="/creditnotes" -->
+<!-- UsageSnippet language="go" operationID="createCreditNote" method="post" path="/creditnotes" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditNotes.GetCreditnotes(ctx, operations.GetCreditnotesRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `ctx`                                                                                | [context.Context](https://pkg.go.dev/context#Context)                                | :heavy_check_mark:                                                                   | The context to use for the request.                                                  |
-| `request`                                                                            | [operations.GetCreditnotesRequest](../../models/operations/getcreditnotesrequest.md) | :heavy_check_mark:                                                                   | The request object to use for the request.                                           |
-| `opts`                                                                               | [][operations.Option](../../models/operations/option.md)                             | :heavy_minus_sign:                                                                   | The options for this request.                                                        |
-
-### Response
-
-**[*components.DtoListCreditNotesResponse](../../models/components/dtolistcreditnotesresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostCreditnotes
-
-Creates a new credit note
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/creditnotes" method="post" path="/creditnotes" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.CreditNotes.PostCreditnotes(ctx, components.DtoCreateCreditNoteRequest{
+    res, err := s.CreditNotes.CreateCreditNote(ctx, components.DtoCreateCreditNoteRequest{
         InvoiceID: "<id>",
-        Reason: components.TypesCreditNoteReasonBillingError,
+        Reason: components.TypesCreditNoteReasonFraudulent,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditNoteResponse != nil {
         // handle response
     }
 }
@@ -113,45 +57,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditNoteResponse](../../models/components/dtocreditnoteresponse.md), error**
+**[*operations.CreateCreditNoteResponse](../../models/operations/createcreditnoteresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCreditnotesID
+## GetCreditNote
 
-Retrieves a credit note by ID
+Use when you need to load a single credit note (e.g. for display or reconciliation).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/creditnotes/{id}" method="get" path="/creditnotes/{id}" -->
+<!-- UsageSnippet language="go" operationID="getCreditNote" method="get" path="/creditnotes/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditNotes.GetCreditnotesID(ctx, "<id>")
+    res, err := s.CreditNotes.GetCreditNote(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditNoteResponse != nil {
         // handle response
     }
 }
@@ -167,45 +111,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditNoteResponse](../../models/components/dtocreditnoteresponse.md), error**
+**[*operations.GetCreditNoteResponse](../../models/operations/getcreditnoteresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCreditnotesIDFinalize
+## ProcessCreditNote
 
-Processes a draft credit note
+Use when locking a draft credit note and applying the credit (e.g. after approval). Once finalized, applied per billing provider.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/creditnotes/{id}/finalize" method="post" path="/creditnotes/{id}/finalize" -->
+<!-- UsageSnippet language="go" operationID="processCreditNote" method="post" path="/creditnotes/{id}/finalize" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditNotes.PostCreditnotesIDFinalize(ctx, "<id>")
+    res, err := s.CreditNotes.ProcessCreditNote(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditNoteResponse != nil {
         // handle response
     }
 }
@@ -221,45 +165,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditNoteResponse](../../models/components/dtocreditnoteresponse.md), error**
+**[*operations.ProcessCreditNoteResponse](../../models/operations/processcreditnoteresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCreditnotesIDVoid
+## VoidCreditNote
 
-Voids a credit note
+Use when cancelling a draft credit note (e.g. created by mistake). Only draft credit notes can be voided.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/creditnotes/{id}/void" method="post" path="/creditnotes/{id}/void" -->
+<!-- UsageSnippet language="go" operationID="voidCreditNote" method="post" path="/creditnotes/{id}/void" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditNotes.PostCreditnotesIDVoid(ctx, "<id>")
+    res, err := s.CreditNotes.VoidCreditNote(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditNoteResponse != nil {
         // handle response
     }
 }
@@ -275,12 +219,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditNoteResponse](../../models/components/dtocreditnoteresponse.md), error**
+**[*operations.VoidCreditNoteResponse](../../models/operations/voidcreditnoteresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

@@ -4,40 +4,39 @@
 
 ### Available Operations
 
-* [GetTenantBilling](#gettenantbilling) - Get billing usage for the current tenant
-* [PostTenants](#posttenants) - Create a new tenant
-* [PutTenantsUpdate](#puttenantsupdate) - Update a tenant
-* [GetTenantsID](#gettenantsid) - Get tenant by ID
+* [GetTenantBillingUsage](#gettenantbillingusage) - Get billing usage for the current tenant
+* [UpdateTenant](#updatetenant) - Update a tenant
+* [GetTenantByID](#gettenantbyid) - Get tenant by ID
 
-## GetTenantBilling
+## GetTenantBillingUsage
 
-Get the subscription and usage details for the current tenant
+Use when showing the current tenant's billing usage (e.g. admin billing page or usage caps). Returns subscription and usage for the tenant.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tenant/billing" method="get" path="/tenant/billing" -->
+<!-- UsageSnippet language="go" operationID="getTenantBillingUsage" method="get" path="/tenant/billing" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tenants.GetTenantBilling(ctx)
+    res, err := s.Tenants.GetTenantBillingUsage(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTenantBillingUsage != nil {
         // handle response
     }
 }
@@ -52,103 +51,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoTenantBillingUsage](../../models/components/dtotenantbillingusage.md), error**
+**[*operations.GetTenantBillingUsageResponse](../../models/operations/gettenantbillingusageresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTenants
+## UpdateTenant
 
-Create a new tenant
+Use when changing tenant details (e.g. name or billing info). Request body contains the fields to update.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/tenants" method="post" path="/tenants" -->
+<!-- UsageSnippet language="go" operationID="updateTenant" method="put" path="/tenants/update" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tenants.PostTenants(ctx, components.DtoCreateTenantRequest{
-        Name: "<value>",
-    })
+    res, err := s.Tenants.UpdateTenant(ctx, components.DtoUpdateTenantRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `ctx`                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                  | :heavy_check_mark:                                                                     | The context to use for the request.                                                    |
-| `request`                                                                              | [components.DtoCreateTenantRequest](../../models/components/dtocreatetenantrequest.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
-| `opts`                                                                                 | [][operations.Option](../../models/operations/option.md)                               | :heavy_minus_sign:                                                                     | The options for this request.                                                          |
-
-### Response
-
-**[*components.DtoTenantResponse](../../models/components/dtotenantresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PutTenantsUpdate
-
-Update a tenant's details including name and billing information
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="put_/tenants/update" method="put" path="/tenants/update" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Tenants.PutTenantsUpdate(ctx, components.DtoUpdateTenantRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
+    if res.DtoTenantResponse != nil {
         // handle response
     }
 }
@@ -164,45 +106,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTenantResponse](../../models/components/dtotenantresponse.md), error**
+**[*operations.UpdateTenantResponse](../../models/operations/updatetenantresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTenantsID
+## GetTenantByID
 
 Get tenant by ID
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tenants/{id}" method="get" path="/tenants/{id}" -->
+<!-- UsageSnippet language="go" operationID="getTenantById" method="get" path="/tenants/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Tenants.GetTenantsID(ctx, "<id>")
+    res, err := s.Tenants.GetTenantByID(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTenantResponse != nil {
         // handle response
     }
 }
@@ -218,12 +160,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoTenantResponse](../../models/components/dtotenantresponse.md), error**
+**[*operations.GetTenantByIDResponse](../../models/operations/gettenantbyidresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

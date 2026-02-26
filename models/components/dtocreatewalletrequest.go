@@ -3,15 +3,12 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoCreateWalletRequest struct {
-	AlertConfig *DtoAlertConfig `json:"alert_config,omitzero"`
-	// alert_enabled is the flag to enable alerts for the wallet
-	// defaults to true, can be explicitly set to false to disable alerts
-	AlertEnabled *bool           `json:"alert_enabled,omitzero"`
-	AutoTopup    *TypesAutoTopup `json:"auto_topup,omitzero"`
+	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
+	AutoTopup     *TypesAutoTopup     `json:"auto_topup,omitzero"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
@@ -58,18 +55,11 @@ func (d *DtoCreateWalletRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreateWalletRequest) GetAlertConfig() *DtoAlertConfig {
+func (d *DtoCreateWalletRequest) GetAlertSettings() *TypesAlertSettings {
 	if d == nil {
 		return nil
 	}
-	return d.AlertConfig
-}
-
-func (d *DtoCreateWalletRequest) GetAlertEnabled() *bool {
-	if d == nil {
-		return nil
-	}
-	return d.AlertEnabled
+	return d.AlertSettings
 }
 
 func (d *DtoCreateWalletRequest) GetAutoTopup() *TypesAutoTopup {

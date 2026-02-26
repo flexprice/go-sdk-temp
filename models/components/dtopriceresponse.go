@@ -3,8 +3,8 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
-	"github.com/flexprice/go-sdk-temp/optionalnullable"
+	"github.com/flexprice/flexprice-go/internal/utils"
+	"github.com/flexprice/flexprice-go/optionalnullable"
 )
 
 type DtoPriceResponse struct {

@@ -4,95 +4,39 @@
 
 ### Available Operations
 
-* [GetCreditgrants](#getcreditgrants) - Get credit grants
-* [PostCreditgrants](#postcreditgrants) - Create a new credit grant
-* [GetCreditgrantsID](#getcreditgrantsid) - Get a credit grant by ID
-* [PutCreditgrantsID](#putcreditgrantsid) - Update a credit grant
-* [DeleteCreditgrantsID](#deletecreditgrantsid) - Delete a credit grant
-* [GetPlansIDCreditgrants](#getplansidcreditgrants) - Get plan credit grants
+* [CreateCreditGrant](#createcreditgrant) - Create credit grant
+* [GetCreditGrant](#getcreditgrant) - Get credit grant
+* [UpdateCreditGrant](#updatecreditgrant) - Update credit grant
+* [DeleteCreditGrant](#deletecreditgrant) - Delete credit grant
+* [GetPlanCreditGrants](#getplancreditgrants) - Get plan credit grants
 
-## GetCreditgrants
+## CreateCreditGrant
 
-Get credit grants with the specified filter
+Use when giving a customer or plan credits (e.g. prepaid balance or promotional credits). Scope can be plan or subscription; supports start/end dates.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/creditgrants" method="get" path="/creditgrants" -->
+<!-- UsageSnippet language="go" operationID="createCreditGrant" method="post" path="/creditgrants" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.GetCreditgrants(ctx, operations.GetCreditgrantsRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `ctx`                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                  | :heavy_check_mark:                                                                     | The context to use for the request.                                                    |
-| `request`                                                                              | [operations.GetCreditgrantsRequest](../../models/operations/getcreditgrantsrequest.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
-| `opts`                                                                                 | [][operations.Option](../../models/operations/option.md)                               | :heavy_minus_sign:                                                                     | The options for this request.                                                          |
-
-### Response
-
-**[*components.DtoListCreditGrantsResponse](../../models/components/dtolistcreditgrantsresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostCreditgrants
-
-Create a new credit grant with the specified configuration
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/creditgrants" method="post" path="/creditgrants" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.CreditGrants.PostCreditgrants(ctx, components.DtoCreateCreditGrantRequest{
-        Cadence: components.TypesCreditGrantCadenceRecurring,
+    res, err := s.CreditGrants.CreateCreditGrant(ctx, components.DtoCreateCreditGrantRequest{
+        Cadence: components.TypesCreditGrantCadenceOnetime,
         Credits: "<value>",
         Name: "<value>",
         Scope: components.TypesCreditGrantScopePlan,
@@ -100,7 +44,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditGrantResponse != nil {
         // handle response
     }
 }
@@ -116,45 +60,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditGrantResponse](../../models/components/dtocreditgrantresponse.md), error**
+**[*operations.CreateCreditGrantResponse](../../models/operations/createcreditgrantresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCreditgrantsID
+## GetCreditGrant
 
-Get a credit grant by ID
+Use when you need to load a single credit grant (e.g. for display or to check balance).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/creditgrants/{id}" method="get" path="/creditgrants/{id}" -->
+<!-- UsageSnippet language="go" operationID="getCreditGrant" method="get" path="/creditgrants/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.GetCreditgrantsID(ctx, "<id>")
+    res, err := s.CreditGrants.GetCreditGrant(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditGrantResponse != nil {
         // handle response
     }
 }
@@ -170,46 +114,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditGrantResponse](../../models/components/dtocreditgrantresponse.md), error**
+**[*operations.GetCreditGrantResponse](../../models/operations/getcreditgrantresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutCreditgrantsID
+## UpdateCreditGrant
 
-Update a credit grant with the specified configuration
+Use when changing a credit grant (e.g. amount or end date). Request body contains the fields to update.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/creditgrants/{id}" method="put" path="/creditgrants/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateCreditGrant" method="put" path="/creditgrants/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.PutCreditgrantsID(ctx, "<id>", components.DtoUpdateCreditGrantRequest{})
+    res, err := s.CreditGrants.UpdateCreditGrant(ctx, "<id>", components.DtoUpdateCreditGrantRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreditGrantResponse != nil {
         // handle response
     }
 }
@@ -226,45 +170,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreditGrantResponse](../../models/components/dtocreditgrantresponse.md), error**
+**[*operations.UpdateCreditGrantResponse](../../models/operations/updatecreditgrantresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteCreditgrantsID
+## DeleteCreditGrant
 
-Delete a credit grant. Plan-scoped grants are archived; subscription-scoped grants have their end date set (optional body with effective_date). Request body is optional.
+Use when removing or ending a credit grant (e.g. revoke promo or close prepaid). Plan-scoped grants are archived; subscription-scoped supports optional effective_date in body.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/creditgrants/{id}" method="delete" path="/creditgrants/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteCreditGrant" method="delete" path="/creditgrants/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.DeleteCreditgrantsID(ctx, "<id>", nil)
+    res, err := s.CreditGrants.DeleteCreditGrant(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -281,45 +225,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeleteCreditGrantResponse](../../models/operations/deletecreditgrantresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPlansIDCreditgrants
+## GetPlanCreditGrants
 
-Get all credit grants for a plan
+Use when listing credits attached to a plan (e.g. included prepaid or promo credits).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/plans/{id}/creditgrants" method="get" path="/plans/{id}/creditgrants" -->
+<!-- UsageSnippet language="go" operationID="getPlanCreditGrants" method="get" path="/plans/{id}/creditgrants" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.CreditGrants.GetPlansIDCreditgrants(ctx, "<id>")
+    res, err := s.CreditGrants.GetPlanCreditGrants(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListCreditGrantsResponse != nil {
         // handle response
     }
 }
@@ -335,12 +279,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoListCreditGrantsResponse](../../models/components/dtolistcreditgrantsresponse.md), error**
+**[*operations.GetPlanCreditGrantsResponse](../../models/operations/getplancreditgrantsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

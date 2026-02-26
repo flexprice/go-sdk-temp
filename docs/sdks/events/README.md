@@ -4,57 +4,56 @@
 
 ### Available Operations
 
-* [PostEvents](#postevents) - Ingest event
-* [PostEventsAnalytics](#posteventsanalytics) - Get usage analytics
-* [PostEventsBulk](#posteventsbulk) - Bulk Ingest events
-* [PostEventsHuggingfaceInference](#posteventshuggingfaceinference) - Get hugging face inference data
-* [GetEventsMonitoring](#geteventsmonitoring) - Get monitoring data
-* [PostEventsQuery](#posteventsquery) - List raw events
-* [PostEventsUsage](#posteventsusage) - Get usage statistics
-* [PostEventsUsageMeter](#posteventsusagemeter) - Get usage by meter
-* [GetEventsID](#geteventsid) - Get event by ID
+* [IngestEvent](#ingestevent) - Ingest event
+* [GetUsageAnalytics](#getusageanalytics) - Get usage analytics
+* [IngestEventsBulk](#ingesteventsbulk) - Bulk ingest events
+* [GetHuggingfaceInferenceData](#gethuggingfaceinferencedata) - Get Hugging Face inference data
+* [ListRawEvents](#listrawevents) - List raw events
+* [GetUsageStatistics](#getusagestatistics) - Get usage statistics
+* [GetUsageByMeter](#getusagebymeter) - Get usage by meter
+* [GetEvent](#getevent) - Get event
 
-## PostEvents
+## IngestEvent
 
-Ingest a new event into the system
+Use when sending a single usage event from your app (e.g. one API call or one GB stored). Events are processed asynchronously; returns 202 with event_id.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events" method="post" path="/events" -->
+<!-- UsageSnippet language="go" operationID="ingestEvent" method="post" path="/events" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Events.PostEvents(ctx, components.DtoIngestEventRequest{
-        CustomerID: gosdktemp.Pointer("customer456"),
-        EventID: gosdktemp.Pointer("event123"),
+    res, err := s.Events.IngestEvent(ctx, components.DtoIngestEventRequest{
+        CustomerID: flexprice.Pointer("customer456"),
+        EventID: flexprice.Pointer("event123"),
         EventName: "api_request",
         ExternalCustomerID: "customer456",
         Properties: map[string]string{
             ""response_status"": "200}",
             "{"request_size"": "100",
         },
-        Source: gosdktemp.Pointer("api"),
-        Timestamp: gosdktemp.Pointer("2024-03-20T15:04:05Z"),
+        Source: flexprice.Pointer("api"),
+        Timestamp: flexprice.Pointer("2024-03-20T15:04:05Z"),
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -70,51 +69,48 @@ func main() {
 
 ### Response
 
-**[map[string]string](../../.md), error**
+**[*operations.IngestEventResponse](../../models/operations/ingesteventresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsAnalytics
+## GetUsageAnalytics
 
-Retrieve comprehensive usage analytics with filtering, grouping, and time-series data
+Use when building analytics views (e.g. usage by feature or customer over time). Supports filtering, grouping, and time-series breakdown.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/analytics" method="post" path="/events/analytics" -->
+<!-- UsageSnippet language="go" operationID="getUsageAnalytics" method="post" path="/events/analytics" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"os"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    example, fileErr := os.Open("example.file")
-    if fileErr != nil {
-        panic(fileErr)
-    }
-
-    res, err := s.Events.PostEventsAnalytics(ctx, example)
+    res, err := s.Events.GetUsageAnalytics(ctx, components.DtoGetUsageAnalyticsRequest{
+        ExternalCustomerID: "<id>",
+    })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetUsageAnalyticsResponse != nil {
         // handle response
     }
 }
@@ -122,56 +118,56 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `request`                                                | [any](../../dtogetusageanalyticsrequest.md)              | :heavy_check_mark:                                       | The request object to use for the request.               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `ctx`                                                                                            | [context.Context](https://pkg.go.dev/context#Context)                                            | :heavy_check_mark:                                                                               | The context to use for the request.                                                              |
+| `request`                                                                                        | [components.DtoGetUsageAnalyticsRequest](../../models/components/dtogetusageanalyticsrequest.md) | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
+| `opts`                                                                                           | [][operations.Option](../../models/operations/option.md)                                         | :heavy_minus_sign:                                                                               | The options for this request.                                                                    |
 
 ### Response
 
-**[*components.DtoGetUsageAnalyticsResponse](../../models/components/dtogetusageanalyticsresponse.md), error**
+**[*operations.GetUsageAnalyticsResponse](../../models/operations/getusageanalyticsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsBulk
+## IngestEventsBulk
 
-Ingest bulk events into the system
+Use when batching usage events (e.g. backfill or high-volume ingestion). More efficient than single event calls; returns 202 when accepted.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/bulk" method="post" path="/events/bulk" -->
+<!-- UsageSnippet language="go" operationID="ingestEventsBulk" method="post" path="/events/bulk" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Events.PostEventsBulk(ctx, components.DtoBulkIngestEventRequest{
+    res, err := s.Events.IngestEventsBulk(ctx, components.DtoBulkIngestEventRequest{
         Events: []components.DtoIngestEventRequest{},
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -187,45 +183,45 @@ func main() {
 
 ### Response
 
-**[map[string]string](../../.md), error**
+**[*operations.IngestEventsBulkResponse](../../models/operations/ingesteventsbulkresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsHuggingfaceInference
+## GetHuggingfaceInferenceData
 
-Retrieve hugging face inference data for events
+Use when fetching Hugging Face inference usage or billing data (e.g. for HF-specific reporting or reconciliation).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/huggingface-inference" method="post" path="/events/huggingface-inference" -->
+<!-- UsageSnippet language="go" operationID="getHuggingfaceInferenceData" method="post" path="/events/huggingface-inference" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Events.PostEventsHuggingfaceInference(ctx)
+    res, err := s.Events.GetHuggingfaceInferenceData(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetHuggingFaceBillingDataResponse != nil {
         // handle response
     }
 }
@@ -240,44 +236,50 @@ func main() {
 
 ### Response
 
-**[*components.DtoGetHuggingFaceBillingDataResponse](../../models/components/dtogethuggingfacebillingdataresponse.md), error**
+**[*operations.GetHuggingfaceInferenceDataResponse](../../models/operations/gethuggingfaceinferencedataresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetEventsMonitoring
+## ListRawEvents
 
-Retrieve monitoring data for events including consumer lag and event metrics (last 24 hours by default)
+Use when debugging ingestion or exporting raw event data (e.g. support or audit). Returns a paginated list; supports time range and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/events/monitoring" method="get" path="/events/monitoring" -->
+<!-- UsageSnippet language="go" operationID="listRawEvents" method="post" path="/events/query" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Events.GetEventsMonitoring(ctx, nil)
+    res, err := s.Events.ListRawEvents(ctx, components.DtoGetEventsRequest{
+        EndTime: flexprice.Pointer("2024-12-09T00:00:00Z"),
+        Order: flexprice.Pointer("desc"),
+        Sort: flexprice.Pointer("timestamp"),
+        StartTime: flexprice.Pointer("2024-11-09T00:00:00Z"),
+    })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetEventsResponse != nil {
         // handle response
     }
 }
@@ -285,59 +287,63 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `ctx`                                                             | [context.Context](https://pkg.go.dev/context#Context)             | :heavy_check_mark:                                                | The context to use for the request.                               |
-| `windowSize`                                                      | **string*                                                         | :heavy_minus_sign:                                                | Window size for time series data (e.g., 'HOUR', 'DAY') - optional |
-| `opts`                                                            | [][operations.Option](../../models/operations/option.md)          | :heavy_minus_sign:                                                | The options for this request.                                     |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `ctx`                                                                            | [context.Context](https://pkg.go.dev/context#Context)                            | :heavy_check_mark:                                                               | The context to use for the request.                                              |
+| `request`                                                                        | [components.DtoGetEventsRequest](../../models/components/dtogeteventsrequest.md) | :heavy_check_mark:                                                               | The request object to use for the request.                                       |
+| `opts`                                                                           | [][operations.Option](../../models/operations/option.md)                         | :heavy_minus_sign:                                                               | The options for this request.                                                    |
 
 ### Response
 
-**[*components.DtoGetMonitoringDataResponse](../../models/components/dtogetmonitoringdataresponse.md), error**
+**[*operations.ListRawEventsResponse](../../models/operations/listraweventsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsQuery
+## GetUsageStatistics
 
-Retrieve raw events with pagination and filtering
+Use when building usage reports or dashboards across events. Supports filters and grouping; defaults to last 7 days if no range provided.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/query" method="post" path="/events/query" -->
+<!-- UsageSnippet language="go" operationID="getUsageStatistics" method="post" path="/events/usage" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"os"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    example, fileErr := os.Open("example.file")
-    if fileErr != nil {
-        panic(fileErr)
-    }
-
-    res, err := s.Events.PostEventsQuery(ctx, example)
+    res, err := s.Events.GetUsageStatistics(ctx, components.DtoGetUsageRequest{
+        AggregationType: components.TypesAggregationTypeCountUnique,
+        BillingAnchor: flexprice.Pointer("2024-03-05T14:30:45.123456789Z"),
+        CustomerID: flexprice.Pointer("customer456"),
+        EndTime: flexprice.Pointer("2024-03-20T00:00:00Z"),
+        EventName: "api_request",
+        ExternalCustomerID: flexprice.Pointer("customer456"),
+        PropertyName: flexprice.Pointer("request_size"),
+        StartTime: flexprice.Pointer("2024-03-13T00:00:00Z"),
+    })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetUsageResponse != nil {
         // handle response
     }
 }
@@ -345,59 +351,61 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `request`                                                | [any](../../dtogeteventsrequest.md)                      | :heavy_check_mark:                                       | The request object to use for the request.               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
+| `request`                                                                      | [components.DtoGetUsageRequest](../../models/components/dtogetusagerequest.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
+| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
 
 ### Response
 
-**[*components.DtoGetEventsResponse](../../models/components/dtogeteventsresponse.md), error**
+**[*operations.GetUsageStatisticsResponse](../../models/operations/getusagestatisticsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsUsage
+## GetUsageByMeter
 
-Retrieve aggregated usage statistics for events
+Use when showing usage for a specific meter (e.g. dashboard or overage check). Supports time range, filters, and grouping by customer or subscription.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/usage" method="post" path="/events/usage" -->
+<!-- UsageSnippet language="go" operationID="getUsageByMeter" method="post" path="/events/usage/meter" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"os"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    example, fileErr := os.Open("example.file")
-    if fileErr != nil {
-        panic(fileErr)
-    }
-
-    res, err := s.Events.PostEventsUsage(ctx, example)
+    res, err := s.Events.GetUsageByMeter(ctx, components.DtoGetUsageByMeterRequest{
+        BillingAnchor: flexprice.Pointer("2024-03-05T14:30:45Z"),
+        CustomerID: flexprice.Pointer("customer456"),
+        EndTime: flexprice.Pointer("2024-12-09T00:00:00Z"),
+        ExternalCustomerID: flexprice.Pointer("user_5"),
+        MeterID: "123",
+        StartTime: flexprice.Pointer("2024-11-09T00:00:00Z"),
+    })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetUsageResponse != nil {
         // handle response
     }
 }
@@ -405,113 +413,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `request`                                                | [any](../../dtogetusagerequest.md)                       | :heavy_check_mark:                                       | The request object to use for the request.               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                        | [context.Context](https://pkg.go.dev/context#Context)                                        | :heavy_check_mark:                                                                           | The context to use for the request.                                                          |
+| `request`                                                                                    | [components.DtoGetUsageByMeterRequest](../../models/components/dtogetusagebymeterrequest.md) | :heavy_check_mark:                                                                           | The request object to use for the request.                                                   |
+| `opts`                                                                                       | [][operations.Option](../../models/operations/option.md)                                     | :heavy_minus_sign:                                                                           | The options for this request.                                                                |
 
 ### Response
 
-**[*components.DtoGetUsageResponse](../../models/components/dtogetusageresponse.md), error**
+**[*operations.GetUsageByMeterResponse](../../models/operations/getusagebymeterresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostEventsUsageMeter
+## GetEvent
 
-Retrieve aggregated usage statistics using meter configuration
+Use when debugging a specific event (e.g. why it failed or how it was aggregated). Includes processing status and debug info.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/events/usage/meter" method="post" path="/events/usage/meter" -->
+<!-- UsageSnippet language="go" operationID="getEvent" method="get" path="/events/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"os"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    example, fileErr := os.Open("example.file")
-    if fileErr != nil {
-        panic(fileErr)
-    }
-
-    res, err := s.Events.PostEventsUsageMeter(ctx, example)
+    res, err := s.Events.GetEvent(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `request`                                                | [any](../../dtogetusagebymeterrequest.md)                | :heavy_check_mark:                                       | The request object to use for the request.               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**[*components.DtoGetUsageResponse](../../models/components/dtogetusageresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## GetEventsID
-
-Retrieve event details and processing status with debug information
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="get_/events/{id}" method="get" path="/events/{id}" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Events.GetEventsID(ctx, "<id>")
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
+    if res.DtoGetEventByIDResponse != nil {
         // handle response
     }
 }
@@ -527,12 +475,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoGetEventByIDResponse](../../models/components/dtogeteventbyidresponse.md), error**
+**[*operations.GetEventResponse](../../models/operations/geteventresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

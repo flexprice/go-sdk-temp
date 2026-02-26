@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoSubscriptionResponseV2 struct {
@@ -28,7 +28,8 @@ type DtoSubscriptionResponseV2 struct {
 	// CollectionMethod determines how invoices are collected
 	CollectionMethod *string `json:"collection_method,omitzero"`
 	// CommitmentAmount is the minimum amount a customer commits to paying for a billing period
-	CommitmentAmount *string `json:"commitment_amount,omitzero"`
+	CommitmentAmount   *string             `json:"commitment_amount,omitzero"`
+	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
 	// CouponAssociations are included when "coupon_associations" is in expand parameter
 	CouponAssociations []DtoCouponAssociationResponse `json:"coupon_associations,omitzero"`
 	CreatedAt          *string                        `json:"created_at,omitzero"`
@@ -67,12 +68,15 @@ type DtoSubscriptionResponseV2 struct {
 	LookupKey *string           `json:"lookup_key,omitzero"`
 	Metadata  map[string]string `json:"metadata,omitzero"`
 	// OverageFactor is a multiplier applied to usage beyond the commitment amount
-	OverageFactor *string           `json:"overage_factor,omitzero"`
-	PauseStatus   *TypesPauseStatus `json:"pause_status,omitzero"`
+	OverageFactor *string `json:"overage_factor,omitzero"`
+	// ParentSubscriptionID is the parent subscription ID for hierarchy (e.g. child subscription under a parent)
+	ParentSubscriptionID *string           `json:"parent_subscription_id,omitzero"`
+	PauseStatus          *TypesPauseStatus `json:"pause_status,omitzero"`
 	// Pauses are included when subscription has pause status
 	Pauses []SubscriptionSubscriptionPause `json:"pauses,omitzero"`
 	// PaymentBehavior determines how subscription payments are handled
-	PaymentBehavior *string `json:"payment_behavior,omitzero"`
+	PaymentBehavior *string            `json:"payment_behavior,omitzero"`
+	PaymentTerms    *TypesPaymentTerms `json:"payment_terms,omitzero"`
 	// Phases are included when "phases" is in expand parameter
 	Phases []DtoSubscriptionPhaseResponse `json:"phases,omitzero"`
 	Plan   *DtoPlanResponse               `json:"plan,omitzero"`
@@ -180,6 +184,13 @@ func (d *DtoSubscriptionResponseV2) GetCommitmentAmount() *string {
 		return nil
 	}
 	return d.CommitmentAmount
+}
+
+func (d *DtoSubscriptionResponseV2) GetCommitmentDuration() *TypesBillingPeriod {
+	if d == nil {
+		return nil
+	}
+	return d.CommitmentDuration
 }
 
 func (d *DtoSubscriptionResponseV2) GetCouponAssociations() []DtoCouponAssociationResponse {
@@ -322,6 +333,13 @@ func (d *DtoSubscriptionResponseV2) GetOverageFactor() *string {
 	return d.OverageFactor
 }
 
+func (d *DtoSubscriptionResponseV2) GetParentSubscriptionID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ParentSubscriptionID
+}
+
 func (d *DtoSubscriptionResponseV2) GetPauseStatus() *TypesPauseStatus {
 	if d == nil {
 		return nil
@@ -341,6 +359,13 @@ func (d *DtoSubscriptionResponseV2) GetPaymentBehavior() *string {
 		return nil
 	}
 	return d.PaymentBehavior
+}
+
+func (d *DtoSubscriptionResponseV2) GetPaymentTerms() *TypesPaymentTerms {
+	if d == nil {
+		return nil
+	}
+	return d.PaymentTerms
 }
 
 func (d *DtoSubscriptionResponseV2) GetPhases() []DtoSubscriptionPhaseResponse {

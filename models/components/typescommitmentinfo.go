@@ -7,9 +7,10 @@ type TypesCommitmentInfo struct {
 	ComputedCommitmentUtilizedAmount *string `json:"computed_commitment_utilized_amount,omitzero"`
 	ComputedOverageAmount            *string `json:"computed_overage_amount,omitzero"`
 	// total_cost = computed_commitment_utilized_amount + computed_overage_amount + computed_true_up_amount
-	ComputedTrueUpAmount *string `json:"computed_true_up_amount,omitzero"`
-	IsWindowed           *bool   `json:"is_windowed,omitzero"`
-	OverageFactor        *string `json:"overage_factor,omitzero"`
+	ComputedTrueUpAmount *string             `json:"computed_true_up_amount,omitzero"`
+	Duration             *TypesBillingPeriod `json:"duration,omitzero"`
+	IsWindowed           *bool               `json:"is_windowed,omitzero"`
+	OverageFactor        *string             `json:"overage_factor,omitzero"`
 	// Only used for quantity-based commitments
 	Quantity      *string              `json:"quantity,omitzero"`
 	TrueUpEnabled *bool                `json:"true_up_enabled,omitzero"`
@@ -42,6 +43,13 @@ func (t *TypesCommitmentInfo) GetComputedTrueUpAmount() *string {
 		return nil
 	}
 	return t.ComputedTrueUpAmount
+}
+
+func (t *TypesCommitmentInfo) GetDuration() *TypesBillingPeriod {
+	if t == nil {
+		return nil
+	}
+	return t.Duration
 }
 
 func (t *TypesCommitmentInfo) GetIsWindowed() *bool {

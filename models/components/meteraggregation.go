@@ -7,6 +7,11 @@ type MeterAggregation struct {
 	// Field is the key in $event.properties on which the aggregation is to be applied
 	// For ex if the aggregation type is sum for API usage, the field could be "duration_ms"
 	Field *string `json:"field,omitzero"`
+	// GroupBy is the property name in event.properties to group by before aggregating.
+	// Currently only supported for MAX aggregation with bucket_size.
+	// When set, aggregation is applied per unique value of this property within each bucket,
+	// then the per-group results are summed to produce the bucket total.
+	GroupBy *string `json:"group_by,omitzero"`
 	// Multiplier is the multiplier for the aggregation
 	// For ex if the aggregation type is sum_with_multiplier for API usage, the multiplier could be 1000
 	// to scale up by a factor of 1000. If not provided, it will be null.
@@ -26,6 +31,13 @@ func (m *MeterAggregation) GetField() *string {
 		return nil
 	}
 	return m.Field
+}
+
+func (m *MeterAggregation) GetGroupBy() *string {
+	if m == nil {
+		return nil
+	}
+	return m.GroupBy
 }
 
 func (m *MeterAggregation) GetMultiplier() *string {

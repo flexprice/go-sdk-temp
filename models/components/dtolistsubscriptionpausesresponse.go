@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 // DtoListSubscriptionPausesResponse - Response object for listing subscription pauses with total count

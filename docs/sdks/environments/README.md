@@ -4,99 +4,42 @@
 
 ### Available Operations
 
-* [GetEnvironments](#getenvironments) - Get environments
-* [PostEnvironments](#postenvironments) - Create an environment
-* [GetEnvironmentsID](#getenvironmentsid) - Get an environment
-* [PutEnvironmentsID](#putenvironmentsid) - Update an environment
+* [CreateEnvironment](#createenvironment) - Create environment
+* [UpdateEnvironment](#updateenvironment) - Update environment
 
-## GetEnvironments
+## CreateEnvironment
 
-Get environments
+Use when setting up a new environment (e.g. production, staging) for the tenant. Ideal for separating billing or config per environment.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/environments" method="get" path="/environments" -->
+<!-- UsageSnippet language="go" operationID="createEnvironment" method="post" path="/environments" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Environments.GetEnvironments(ctx, operations.GetEnvironmentsRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `ctx`                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                  | :heavy_check_mark:                                                                     | The context to use for the request.                                                    |
-| `request`                                                                              | [operations.GetEnvironmentsRequest](../../models/operations/getenvironmentsrequest.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
-| `opts`                                                                                 | [][operations.Option](../../models/operations/option.md)                               | :heavy_minus_sign:                                                                     | The options for this request.                                                          |
-
-### Response
-
-**[*components.DtoListEnvironmentsResponse](../../models/components/dtolistenvironmentsresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostEnvironments
-
-Create an environment
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/environments" method="post" path="/environments" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Environments.PostEnvironments(ctx, components.DtoCreateEnvironmentRequest{
+    res, err := s.Environments.CreateEnvironment(ctx, components.DtoCreateEnvironmentRequest{
         Name: "<value>",
         Type: "<value>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoEnvironmentResponse != nil {
         // handle response
     }
 }
@@ -112,100 +55,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoEnvironmentResponse](../../models/components/dtoenvironmentresponse.md), error**
+**[*operations.CreateEnvironmentResponse](../../models/operations/createenvironmentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetEnvironmentsID
+## UpdateEnvironment
 
-Get an environment
+Use when changing environment name or settings (e.g. renaming or updating metadata).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/environments/{id}" method="get" path="/environments/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateEnvironment" method="put" path="/environments/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Environments.GetEnvironmentsID(ctx, "<id>")
+    res, err := s.Environments.UpdateEnvironment(ctx, "<id>", components.DtoUpdateEnvironmentRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Environment ID                                           |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**[*components.DtoEnvironmentResponse](../../models/components/dtoenvironmentresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PutEnvironmentsID
-
-Update an environment
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="put_/environments/{id}" method="put" path="/environments/{id}" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Environments.PutEnvironmentsID(ctx, "<id>", components.DtoUpdateEnvironmentRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
+    if res.DtoEnvironmentResponse != nil {
         // handle response
     }
 }
@@ -222,12 +111,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoEnvironmentResponse](../../models/components/dtoenvironmentresponse.md), error**
+**[*operations.UpdateEnvironmentResponse](../../models/operations/updateenvironmentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

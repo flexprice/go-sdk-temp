@@ -3,16 +3,16 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoUpdateWalletRequest struct {
-	AlertConfig  *DtoAlertConfig    `json:"alert_config,omitzero"`
-	AlertEnabled *bool              `json:"alert_enabled,omitzero"`
-	AutoTopup    *TypesAutoTopup    `json:"auto_topup,omitzero"`
-	Config       *TypesWalletConfig `json:"config,omitzero"`
-	Description  *string            `json:"description,omitzero"`
-	Metadata     map[string]string  `json:"metadata,omitzero"`
+	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
+	AutoTopup     *TypesAutoTopup     `json:"auto_topup,omitzero"`
+	Config        *TypesWalletConfig  `json:"config,omitzero"`
+	Description   *string             `json:"description,omitzero"`
+	Metadata      map[string]string   `json:"metadata,omitzero"`
+	Name          *string             `json:"name,omitzero"`
 }
 
 func (d DtoUpdateWalletRequest) MarshalJSON() ([]byte, error) {
@@ -26,18 +26,11 @@ func (d *DtoUpdateWalletRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoUpdateWalletRequest) GetAlertConfig() *DtoAlertConfig {
+func (d *DtoUpdateWalletRequest) GetAlertSettings() *TypesAlertSettings {
 	if d == nil {
 		return nil
 	}
-	return d.AlertConfig
-}
-
-func (d *DtoUpdateWalletRequest) GetAlertEnabled() *bool {
-	if d == nil {
-		return nil
-	}
-	return d.AlertEnabled
+	return d.AlertSettings
 }
 
 func (d *DtoUpdateWalletRequest) GetAutoTopup() *TypesAutoTopup {
@@ -66,4 +59,11 @@ func (d *DtoUpdateWalletRequest) GetMetadata() map[string]string {
 		return nil
 	}
 	return d.Metadata
+}
+
+func (d *DtoUpdateWalletRequest) GetName() *string {
+	if d == nil {
+		return nil
+	}
+	return d.Name
 }

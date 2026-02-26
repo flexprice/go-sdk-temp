@@ -4,40 +4,40 @@
 
 ### Available Operations
 
-* [GetSecretsIntegrationsByProviderProvider](#getsecretsintegrationsbyproviderprovider) - Get integration details
-* [PostSecretsIntegrationsCreateProvider](#postsecretsintegrationscreateprovider) - Create or update an integration
-* [GetSecretsIntegrationsLinked](#getsecretsintegrationslinked) - List linked integrations
-* [DeleteSecretsIntegrationsID](#deletesecretsintegrationsid) - Delete an integration
+* [GetIntegration](#getintegration) - Get integration details
+* [CreateOrUpdateIntegration](#createorupdateintegration) - Create or update an integration
+* [ListLinkedIntegrations](#listlinkedintegrations) - List linked integrations
+* [DeleteIntegration](#deleteintegration) - Delete an integration
 
-## GetSecretsIntegrationsByProviderProvider
+## GetIntegration
 
-Get details of a specific integration
+Use when you need to check or display integration config (e.g. which provider is linked). Sensitive values may be redacted.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/secrets/integrations/by-provider/{provider}" method="get" path="/secrets/integrations/by-provider/{provider}" -->
+<!-- UsageSnippet language="go" operationID="getIntegration" method="get" path="/secrets/integrations/by-provider/{provider}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Integrations.GetSecretsIntegrationsByProviderProvider(ctx, "<value>")
+    res, err := s.Integrations.GetIntegration(ctx, "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSecretResponse != nil {
         // handle response
     }
 }
@@ -53,42 +53,42 @@ func main() {
 
 ### Response
 
-**[*components.DtoSecretResponse](../../models/components/dtosecretresponse.md), error**
+**[*operations.GetIntegrationResponse](../../models/operations/getintegrationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostSecretsIntegrationsCreateProvider
+## CreateOrUpdateIntegration
 
-Create or update integration credentials
+Use when storing or updating credentials for an external integration (e.g. Stripe, HubSpot). Secrets are encrypted at rest.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/secrets/integrations/create/{provider}" method="post" path="/secrets/integrations/create/{provider}" -->
+<!-- UsageSnippet language="go" operationID="createOrUpdateIntegration" method="post" path="/secrets/integrations/create/{provider}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Integrations.PostSecretsIntegrationsCreateProvider(ctx, "<value>", components.DtoCreateIntegrationRequest{
+    res, err := s.Integrations.CreateOrUpdateIntegration(ctx, "<value>", components.DtoCreateIntegrationRequest{
         Credentials: map[string]string{
             "key": "<value>",
         },
@@ -98,7 +98,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSecretResponse != nil {
         // handle response
     }
 }
@@ -115,45 +115,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoSecretResponse](../../models/components/dtosecretresponse.md), error**
+**[*operations.CreateOrUpdateIntegrationResponse](../../models/operations/createorupdateintegrationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetSecretsIntegrationsLinked
+## ListLinkedIntegrations
 
-Get a list of unique providers which have a valid linked integration secret
+Use when showing which integrations are connected (e.g. settings page). Returns providers that have valid linked credentials.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/secrets/integrations/linked" method="get" path="/secrets/integrations/linked" -->
+<!-- UsageSnippet language="go" operationID="listLinkedIntegrations" method="get" path="/secrets/integrations/linked" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Integrations.GetSecretsIntegrationsLinked(ctx)
+    res, err := s.Integrations.ListLinkedIntegrations(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoLinkedIntegrationsResponse != nil {
         // handle response
     }
 }
@@ -168,42 +168,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoLinkedIntegrationsResponse](../../models/components/dtolinkedintegrationsresponse.md), error**
+**[*operations.ListLinkedIntegrationsResponse](../../models/operations/listlinkedintegrationsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteSecretsIntegrationsID
+## DeleteIntegration
 
-Delete integration credentials
+Use when disconnecting an integration (e.g. switching provider or removing OAuth). Deletes stored credentials.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/secrets/integrations/{id}" method="delete" path="/secrets/integrations/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteIntegration" method="delete" path="/secrets/integrations/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    err := s.Integrations.DeleteSecretsIntegrationsID(ctx, "<id>")
+    res, err := s.Integrations.DeleteIntegration(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
     }
 }
 ```
@@ -218,12 +221,12 @@ func main() {
 
 ### Response
 
-**error**
+**[*operations.DeleteIntegrationResponse](../../models/operations/deleteintegrationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

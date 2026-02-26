@@ -3,15 +3,18 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type SubscriptionSubscriptionLineItem struct {
 	BillingPeriod *TypesBillingPeriod `json:"billing_period,omitzero"`
+	// from price at create; default 1
+	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// Commitment fields
-	CommitmentAmount        *float64                             `json:"commitment_amount,omitzero"`
-	CommitmentOverageFactor *float64                             `json:"commitment_overage_factor,omitzero"`
-	CommitmentQuantity      *float64                             `json:"commitment_quantity,omitzero"`
+	CommitmentAmount        *string                              `json:"commitment_amount,omitzero"`
+	CommitmentDuration      *TypesBillingPeriod                  `json:"commitment_duration,omitzero"`
+	CommitmentOverageFactor *string                              `json:"commitment_overage_factor,omitzero"`
+	CommitmentQuantity      *string                              `json:"commitment_quantity,omitzero"`
 	CommitmentTrueUpEnabled *bool                                `json:"commitment_true_up_enabled,omitzero"`
 	CommitmentType          *TypesCommitmentType                 `json:"commitment_type,omitzero"`
 	CommitmentWindowed      *bool                                `json:"commitment_windowed,omitzero"`
@@ -64,21 +67,35 @@ func (s *SubscriptionSubscriptionLineItem) GetBillingPeriod() *TypesBillingPerio
 	return s.BillingPeriod
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetCommitmentAmount() *float64 {
+func (s *SubscriptionSubscriptionLineItem) GetBillingPeriodCount() *int64 {
+	if s == nil {
+		return nil
+	}
+	return s.BillingPeriodCount
+}
+
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentAmount() *string {
 	if s == nil {
 		return nil
 	}
 	return s.CommitmentAmount
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetCommitmentOverageFactor() *float64 {
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentDuration() *TypesBillingPeriod {
+	if s == nil {
+		return nil
+	}
+	return s.CommitmentDuration
+}
+
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentOverageFactor() *string {
 	if s == nil {
 		return nil
 	}
 	return s.CommitmentOverageFactor
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetCommitmentQuantity() *float64 {
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentQuantity() *string {
 	if s == nil {
 		return nil
 	}

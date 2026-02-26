@@ -3,17 +3,16 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoWalletBalanceResponse struct {
-	AlertConfig      *TypesAlertConfig  `json:"alert_config,omitzero"`
-	AlertEnabled     *bool              `json:"alert_enabled,omitzero"`
-	AlertState       *string            `json:"alert_state,omitzero"`
-	AutoTopup        *TypesAutoTopup    `json:"auto_topup,omitzero"`
-	Balance          *string            `json:"balance,omitzero"`
-	BalanceUpdatedAt *string            `json:"balance_updated_at,omitzero"`
-	Config           *TypesWalletConfig `json:"config,omitzero"`
+	AlertSettings    *TypesAlertSettings `json:"alert_settings,omitzero"`
+	AlertState       *TypesAlertState    `json:"alert_state,omitzero"`
+	AutoTopup        *TypesAutoTopup     `json:"auto_topup,omitzero"`
+	Balance          *string             `json:"balance,omitzero"`
+	BalanceUpdatedAt *string             `json:"balance_updated_at,omitzero"`
+	Config           *TypesWalletConfig  `json:"config,omitzero"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
@@ -58,21 +57,14 @@ func (d *DtoWalletBalanceResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoWalletBalanceResponse) GetAlertConfig() *TypesAlertConfig {
+func (d *DtoWalletBalanceResponse) GetAlertSettings() *TypesAlertSettings {
 	if d == nil {
 		return nil
 	}
-	return d.AlertConfig
+	return d.AlertSettings
 }
 
-func (d *DtoWalletBalanceResponse) GetAlertEnabled() *bool {
-	if d == nil {
-		return nil
-	}
-	return d.AlertEnabled
-}
-
-func (d *DtoWalletBalanceResponse) GetAlertState() *string {
+func (d *DtoWalletBalanceResponse) GetAlertState() *TypesAlertState {
 	if d == nil {
 		return nil
 	}

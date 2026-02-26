@@ -4,94 +4,37 @@
 
 ### Available Operations
 
-* [GetFeatures](#getfeatures) - List features
-* [PostFeatures](#postfeatures) - Create a new feature
-* [PostFeaturesSearch](#postfeaturessearch) - List features by filter
-* [GetFeaturesID](#getfeaturesid) - Get a feature by ID
-* [PutFeaturesID](#putfeaturesid) - Update a feature
-* [DeleteFeaturesID](#deletefeaturesid) - Delete a feature
+* [CreateFeature](#createfeature) - Create feature
+* [QueryFeature](#queryfeature) - Query features
+* [UpdateFeature](#updatefeature) - Update feature
+* [DeleteFeature](#deletefeature) - Delete feature
 
-## GetFeatures
+## CreateFeature
 
-List features with optional filtering
+Use when defining a new feature or capability to gate or meter (e.g. feature flags or usage-based limits). Ideal for boolean or usage features.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/features" method="get" path="/features" -->
+<!-- UsageSnippet language="go" operationID="createFeature" method="post" path="/features" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Features.GetFeatures(ctx, operations.GetFeaturesRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
-| `request`                                                                      | [operations.GetFeaturesRequest](../../models/operations/getfeaturesrequest.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
-| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
-
-### Response
-
-**[*components.DtoListFeaturesResponse](../../models/components/dtolistfeaturesresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostFeatures
-
-Create a new feature
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/features" method="post" path="/features" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Features.PostFeatures(ctx, components.DtoCreateFeatureRequest{
+    res, err := s.Features.CreateFeature(ctx, components.DtoCreateFeatureRequest{
         Meter: &components.DtoCreateMeterRequest{
             Aggregation: components.MeterAggregation{},
             EventName: "api_request",
@@ -104,7 +47,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoFeatureResponse != nil {
         // handle response
     }
 }
@@ -120,46 +63,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoFeatureResponse](../../models/components/dtofeatureresponse.md), error**
+**[*operations.CreateFeatureResponse](../../models/operations/createfeatureresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostFeaturesSearch
+## QueryFeature
 
-List features by filter
+Use when listing or searching features (e.g. catalog or entitlement setup). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/features/search" method="post" path="/features/search" -->
+<!-- UsageSnippet language="go" operationID="queryFeature" method="post" path="/features/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Features.PostFeaturesSearch(ctx, components.TypesFeatureFilter{})
+    res, err := s.Features.QueryFeature(ctx, components.TypesFeatureFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListFeaturesResponse != nil {
         // handle response
     }
 }
@@ -175,100 +118,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoListFeaturesResponse](../../models/components/dtolistfeaturesresponse.md), error**
+**[*operations.QueryFeatureResponse](../../models/operations/queryfeatureresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetFeaturesID
+## UpdateFeature
 
-Get a feature by ID
+Use when changing feature definition (e.g. name, type, or meter). Request body contains the fields to update.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/features/{id}" method="get" path="/features/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateFeature" method="put" path="/features/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Features.GetFeaturesID(ctx, "<id>")
+    res, err := s.Features.UpdateFeature(ctx, "<id>", components.DtoUpdateFeatureRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Feature ID                                               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**[*components.DtoFeatureResponse](../../models/components/dtofeatureresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PutFeaturesID
-
-Update a feature by ID
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="put_/features/{id}" method="put" path="/features/{id}" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Features.PutFeaturesID(ctx, "<id>", components.DtoUpdateFeatureRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
+    if res.DtoFeatureResponse != nil {
         // handle response
     }
 }
@@ -285,45 +174,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoFeatureResponse](../../models/components/dtofeatureresponse.md), error**
+**[*operations.UpdateFeatureResponse](../../models/operations/updatefeatureresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteFeaturesID
+## DeleteFeature
 
-Delete a feature by ID
+Use when retiring a feature (e.g. deprecated capability). Returns 200 with success message.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/features/{id}" method="delete" path="/features/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteFeature" method="delete" path="/features/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Features.DeleteFeaturesID(ctx, "<id>")
+    res, err := s.Features.DeleteFeature(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -339,12 +228,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeleteFeatureResponse](../../models/operations/deletefeatureresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

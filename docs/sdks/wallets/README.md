@@ -4,49 +4,48 @@
 
 ### Available Operations
 
-* [GetCustomersWallets](#getcustomerswallets) - Get Customer Wallets
-* [GetCustomersIDWallets](#getcustomersidwallets) - Get wallets by customer ID
-* [GetWallets](#getwallets) - List wallets
-* [PostWallets](#postwallets) - Create a new wallet
-* [PostWalletsSearch](#postwalletssearch) - List wallets by filter
-* [PostWalletsTransactionsSearch](#postwalletstransactionssearch) - List wallet transactions by filter
-* [GetWalletsID](#getwalletsid) - Get wallet by ID
-* [PutWalletsID](#putwalletsid) - Update a wallet
-* [GetWalletsIDBalanceRealTime](#getwalletsidbalancerealtime) - Get wallet balance
-* [PostWalletsIDTerminate](#postwalletsidterminate) - Terminate a wallet
-* [PostWalletsIDTopUp](#postwalletsidtopup) - Top up wallet
-* [GetWalletsIDTransactions](#getwalletsidtransactions) - Get wallet transactions
+* [GetCustomerWallets](#getcustomerwallets) - Get Customer Wallets
+* [GetWalletsByCustomerID](#getwalletsbycustomerid) - Get wallets by customer ID
+* [CreateWallet](#createwallet) - Create a new wallet
+* [QueryWallet](#querywallet) - Query wallets
+* [QueryWalletTransaction](#querywallettransaction) - Query wallet transactions
+* [GetWallet](#getwallet) - Get wallet
+* [UpdateWallet](#updatewallet) - Update a wallet
+* [GetWalletBalance](#getwalletbalance) - Get wallet balance
+* [TerminateWallet](#terminatewallet) - Terminate a wallet
+* [TopUpWallet](#topupwallet) - Top up wallet
+* [GetWalletTransactions](#getwallettransactions) - Get wallet transactions
 
-## GetCustomersWallets
+## GetCustomerWallets
 
-Get all wallets for a customer by lookup key or id
+Use when resolving wallets by external customer id or lookup key (e.g. from your app's user id). Supports optional real-time balance and expand.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/wallets" method="get" path="/customers/wallets" -->
+<!-- UsageSnippet language="go" operationID="getCustomerWallets" method="get" path="/customers/wallets" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetCustomersWallets(ctx, operations.GetCustomersWalletsRequest{})
+    res, err := s.Wallets.GetCustomerWallets(ctx, operations.GetCustomerWalletsRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponses != nil {
         // handle response
     }
 }
@@ -54,53 +53,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
-| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                          | [context.Context](https://pkg.go.dev/context#Context)                                          | :heavy_check_mark:                                                                             | The context to use for the request.                                                            |
-| `request`                                                                                      | [operations.GetCustomersWalletsRequest](../../models/operations/getcustomerswalletsrequest.md) | :heavy_check_mark:                                                                             | The request object to use for the request.                                                     |
-| `opts`                                                                                         | [][operations.Option](../../models/operations/option.md)                                       | :heavy_minus_sign:                                                                             | The options for this request.                                                                  |
+| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                        | [context.Context](https://pkg.go.dev/context#Context)                                        | :heavy_check_mark:                                                                           | The context to use for the request.                                                          |
+| `request`                                                                                    | [operations.GetCustomerWalletsRequest](../../models/operations/getcustomerwalletsrequest.md) | :heavy_check_mark:                                                                           | The request object to use for the request.                                                   |
+| `opts`                                                                                       | [][operations.Option](../../models/operations/option.md)                                     | :heavy_minus_sign:                                                                           | The options for this request.                                                                |
 
 ### Response
 
-**[[]components.DtoWalletResponse](../../.md), error**
+**[*operations.GetCustomerWalletsResponse](../../models/operations/getcustomerwalletsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCustomersIDWallets
+## GetWalletsByCustomerID
 
-Get all wallets for a customer
+Use when showing a customer's wallets (e.g. balance overview by currency or in a billing portal). Supports optional expand for balance breakdown.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/{id}/wallets" method="get" path="/customers/{id}/wallets" -->
+<!-- UsageSnippet language="go" operationID="getWalletsByCustomerId" method="get" path="/customers/{id}/wallets" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetCustomersIDWallets(ctx, "<id>")
+    res, err := s.Wallets.GetWalletsByCustomerID(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponses != nil {
         // handle response
     }
 }
@@ -116,103 +115,48 @@ func main() {
 
 ### Response
 
-**[[]components.DtoWalletResponse](../../.md), error**
+**[*operations.GetWalletsByCustomerIDResponse](../../models/operations/getwalletsbycustomeridresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetWallets
+## CreateWallet
 
-List wallets with optional filtering
+Use when giving a customer a prepaid or credit balance (e.g. prepaid plans or promotional credits).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/wallets" method="get" path="/wallets" -->
+<!-- UsageSnippet language="go" operationID="createWallet" method="post" path="/wallets" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetWallets(ctx, operations.GetWalletsRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
-| `request`                                                                    | [operations.GetWalletsRequest](../../models/operations/getwalletsrequest.md) | :heavy_check_mark:                                                           | The request object to use for the request.                                   |
-| `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
-
-### Response
-
-**[*components.TypesListResponseDtoWalletResponse](../../models/components/typeslistresponsedtowalletresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostWallets
-
-Create a new wallet for a customer
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/wallets" method="post" path="/wallets" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Wallets.PostWallets(ctx, components.DtoCreateWalletRequest{
-        Currency: "Belize Dollar",
+    res, err := s.Wallets.CreateWallet(ctx, components.DtoCreateWalletRequest{
+        Currency: "Seychelles Rupee",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponse != nil {
         // handle response
     }
 }
@@ -228,45 +172,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoWalletResponse](../../models/components/dtowalletresponse.md), error**
+**[*operations.CreateWalletResponse](../../models/operations/createwalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostWalletsSearch
+## QueryWallet
 
-List wallets by filter
+Use when listing or searching wallets (e.g. admin view or reporting). Returns a paginated list; supports filtering by customer and status.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/wallets/search" method="post" path="/wallets/search" -->
+<!-- UsageSnippet language="go" operationID="queryWallet" method="post" path="/wallets/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.PostWalletsSearch(ctx, nil)
+    res, err := s.Wallets.QueryWallet(ctx, components.TypesWalletFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.TypesListResponseDtoWalletResponse != nil {
         // handle response
     }
 }
@@ -282,45 +227,46 @@ func main() {
 
 ### Response
 
-**[*components.TypesListResponseDtoWalletResponse](../../models/components/typeslistresponsedtowalletresponse.md), error**
+**[*operations.QueryWalletResponse](../../models/operations/querywalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostWalletsTransactionsSearch
+## QueryWalletTransaction
 
-List wallet transactions by filter
+Use when searching or reporting on wallet transactions (e.g. cross-wallet history or reconciliation). Returns a paginated list; supports filtering by wallet, customer, type, date range.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/wallets/transactions/search" method="post" path="/wallets/transactions/search" -->
+<!-- UsageSnippet language="go" operationID="queryWalletTransaction" method="post" path="/wallets/transactions/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.PostWalletsTransactionsSearch(ctx, nil, nil)
+    res, err := s.Wallets.QueryWalletTransaction(ctx, components.TypesWalletTransactionFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListWalletTransactionsResponse != nil {
         // handle response
     }
 }
@@ -328,54 +274,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                           | Type                                                                                                | Required                                                                                            | Description                                                                                         |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                               | [context.Context](https://pkg.go.dev/context#Context)                                               | :heavy_check_mark:                                                                                  | The context to use for the request.                                                                 |
-| `expand`                                                                                            | **string*                                                                                           | :heavy_minus_sign:                                                                                  | Expand fields (e.g., customer,created_by_user,wallet)                                               |
-| `body`                                                                                              | [*components.TypesWalletTransactionFilter](../../models/components/typeswallettransactionfilter.md) | :heavy_minus_sign:                                                                                  | Filter                                                                                              |
-| `opts`                                                                                              | [][operations.Option](../../models/operations/option.md)                                            | :heavy_minus_sign:                                                                                  | The options for this request.                                                                       |
+| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                              | [context.Context](https://pkg.go.dev/context#Context)                                              | :heavy_check_mark:                                                                                 | The context to use for the request.                                                                |
+| `request`                                                                                          | [components.TypesWalletTransactionFilter](../../models/components/typeswallettransactionfilter.md) | :heavy_check_mark:                                                                                 | The request object to use for the request.                                                         |
+| `opts`                                                                                             | [][operations.Option](../../models/operations/option.md)                                           | :heavy_minus_sign:                                                                                 | The options for this request.                                                                      |
 
 ### Response
 
-**[*components.DtoListWalletTransactionsResponse](../../models/components/dtolistwallettransactionsresponse.md), error**
+**[*operations.QueryWalletTransactionResponse](../../models/operations/querywallettransactionresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetWalletsID
+## GetWallet
 
-Get a wallet by its ID
+Use when you need to load a single wallet (e.g. for a balance or settings view).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/wallets/{id}" method="get" path="/wallets/{id}" -->
+<!-- UsageSnippet language="go" operationID="getWallet" method="get" path="/wallets/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetWalletsID(ctx, "<id>")
+    res, err := s.Wallets.GetWallet(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponse != nil {
         // handle response
     }
 }
@@ -391,46 +336,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoWalletResponse](../../models/components/dtowalletresponse.md), error**
+**[*operations.GetWalletResponse](../../models/operations/getwalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutWalletsID
+## UpdateWallet
 
-Update a wallet's details including auto top-up configuration
+Use when changing wallet settings (e.g. enabling or updating auto top-up thresholds).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/wallets/{id}" method="put" path="/wallets/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateWallet" method="put" path="/wallets/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.PutWalletsID(ctx, "<id>", components.DtoUpdateWalletRequest{})
+    res, err := s.Wallets.UpdateWallet(ctx, "<id>", components.DtoUpdateWalletRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponse != nil {
         // handle response
     }
 }
@@ -447,45 +392,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoWalletResponse](../../models/components/dtowalletresponse.md), error**
+**[*operations.UpdateWalletResponse](../../models/operations/updatewalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetWalletsIDBalanceRealTime
+## GetWalletBalance
 
-Get real-time balance of a wallet
+Use when displaying or checking current wallet balance (e.g. before charging or in a portal). Supports optional expand for credits breakdown and from_cache.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/wallets/{id}/balance/real-time" method="get" path="/wallets/{id}/balance/real-time" -->
+<!-- UsageSnippet language="go" operationID="getWalletBalance" method="get" path="/wallets/{id}/balance/real-time" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetWalletsIDBalanceRealTime(ctx, "<id>", nil)
+    res, err := s.Wallets.GetWalletBalance(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletBalanceResponse != nil {
         // handle response
     }
 }
@@ -502,45 +447,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoWalletBalanceResponse](../../models/components/dtowalletbalanceresponse.md), error**
+**[*operations.GetWalletBalanceResponse](../../models/operations/getwalletbalanceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostWalletsIDTerminate
+## TerminateWallet
 
-Terminates a wallet by closing it and debiting remaining balance
+Use when closing a customer wallet (e.g. churn or migration). Closes the wallet and applies remaining balance per policy (refund or forfeit).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/wallets/{id}/terminate" method="post" path="/wallets/{id}/terminate" -->
+<!-- UsageSnippet language="go" operationID="terminateWallet" method="post" path="/wallets/{id}/terminate" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.PostWalletsIDTerminate(ctx, "<id>")
+    res, err := s.Wallets.TerminateWallet(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoWalletResponse != nil {
         // handle response
     }
 }
@@ -556,48 +501,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoWalletResponse](../../models/components/dtowalletresponse.md), error**
+**[*operations.TerminateWalletResponse](../../models/operations/terminatewalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostWalletsIDTopUp
+## TopUpWallet
 
-Add credits to a wallet
+Use when adding funds to a wallet (e.g. top-up, refund, or manual credit). Supports optional idempotency via reference.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/wallets/{id}/top-up" method="post" path="/wallets/{id}/top-up" -->
+<!-- UsageSnippet language="go" operationID="topUpWallet" method="post" path="/wallets/{id}/top-up" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.PostWalletsIDTopUp(ctx, "<id>", components.DtoTopUpWalletRequest{
-        TransactionReason: components.TypesTransactionReasonSubscriptionCreditGrant,
+    res, err := s.Wallets.TopUpWallet(ctx, "<id>", components.DtoTopUpWalletRequest{
+        TransactionReason: components.TypesTransactionReasonManualBalanceDebit,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTopUpWalletResponse != nil {
         // handle response
     }
 }
@@ -614,48 +559,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoTopUpWalletResponse](../../models/components/dtotopupwalletresponse.md), error**
+**[*operations.TopUpWalletResponse](../../models/operations/topupwalletresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetWalletsIDTransactions
+## GetWalletTransactions
 
-Get transactions for a wallet with pagination
+Use when showing transaction history for a wallet (e.g. credit/debit log or audit). Returns a paginated list; supports limit, offset, and filters.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/wallets/{id}/transactions" method="get" path="/wallets/{id}/transactions" -->
+<!-- UsageSnippet language="go" operationID="getWalletTransactions" method="get" path="/wallets/{id}/transactions" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Wallets.GetWalletsIDTransactions(ctx, operations.GetWalletsIDTransactionsRequest{
+    res, err := s.Wallets.GetWalletTransactions(ctx, operations.GetWalletTransactionsRequest{
         IDPathParameter: "<value>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListWalletTransactionsResponse != nil {
         // handle response
     }
 }
@@ -663,20 +608,20 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                                | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
-| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                    | [context.Context](https://pkg.go.dev/context#Context)                                                    | :heavy_check_mark:                                                                                       | The context to use for the request.                                                                      |
-| `request`                                                                                                | [operations.GetWalletsIDTransactionsRequest](../../models/operations/getwalletsidtransactionsrequest.md) | :heavy_check_mark:                                                                                       | The request object to use for the request.                                                               |
-| `opts`                                                                                                   | [][operations.Option](../../models/operations/option.md)                                                 | :heavy_minus_sign:                                                                                       | The options for this request.                                                                            |
+| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                              | [context.Context](https://pkg.go.dev/context#Context)                                              | :heavy_check_mark:                                                                                 | The context to use for the request.                                                                |
+| `request`                                                                                          | [operations.GetWalletTransactionsRequest](../../models/operations/getwallettransactionsrequest.md) | :heavy_check_mark:                                                                                 | The request object to use for the request.                                                         |
+| `opts`                                                                                             | [][operations.Option](../../models/operations/option.md)                                           | :heavy_minus_sign:                                                                                 | The options for this request.                                                                      |
 
 ### Response
 
-**[*components.DtoListWalletTransactionsResponse](../../models/components/dtolistwallettransactionsresponse.md), error**
+**[*operations.GetWalletTransactionsResponse](../../models/operations/getwallettransactionsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

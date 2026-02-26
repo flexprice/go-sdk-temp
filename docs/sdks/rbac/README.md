@@ -4,38 +4,38 @@
 
 ### Available Operations
 
-* [GetRbacRoles](#getrbacroles) - List all RBAC roles
-* [GetRbacRolesID](#getrbacrolesid) - Get a specific RBAC role
+* [ListRbacRoles](#listrbacroles) - List all RBAC roles
+* [GetRbacRole](#getrbacrole) - Get a specific RBAC role
 
-## GetRbacRoles
+## ListRbacRoles
 
-Returns all available roles with their permissions, names, and descriptions
+Use when building role pickers or permission UIs. Returns all roles with permissions and descriptions.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/rbac/roles" method="get" path="/rbac/roles" -->
+<!-- UsageSnippet language="go" operationID="listRbacRoles" method="get" path="/rbac/roles" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Rbac.GetRbacRoles(ctx)
+    res, err := s.Rbac.ListRbacRoles(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -50,43 +50,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.ListRbacRolesResponse](../../models/operations/listrbacrolesresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## GetRbacRolesID
+## GetRbacRole
 
-Returns details of a specific role including permissions, name, and description
+Use when you need to show or edit a single role (e.g. role detail page). Includes permissions, name, and description.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/rbac/roles/{id}" method="get" path="/rbac/roles/{id}" -->
+<!-- UsageSnippet language="go" operationID="getRbacRole" method="get" path="/rbac/roles/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Rbac.GetRbacRolesID(ctx, "<id>")
+    res, err := s.Rbac.GetRbacRole(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -102,10 +102,10 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.GetRbacRoleResponse](../../models/operations/getrbacroleresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |

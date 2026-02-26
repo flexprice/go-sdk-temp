@@ -5,7 +5,7 @@ package components
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type TypesSubscriptionFilterOrder string
@@ -53,6 +53,8 @@ type TypesSubscriptionFilter struct {
 	Limit                *int64                        `json:"limit,omitzero"`
 	Offset               *int64                        `json:"offset,omitzero"`
 	Order                *TypesSubscriptionFilterOrder `json:"order,omitzero"`
+	// ParentSubscriptionIDs filters by parent subscription IDs
+	ParentSubscriptionIds []string `json:"parent_subscription_ids,omitzero"`
 	// PlanID filters by plan ID
 	PlanID          *string              `json:"plan_id,omitzero"`
 	Sort            []TypesSortCondition `json:"sort,omitzero"`
@@ -158,6 +160,13 @@ func (t *TypesSubscriptionFilter) GetOrder() *TypesSubscriptionFilterOrder {
 		return nil
 	}
 	return t.Order
+}
+
+func (t *TypesSubscriptionFilter) GetParentSubscriptionIds() []string {
+	if t == nil {
+		return nil
+	}
+	return t.ParentSubscriptionIds
 }
 
 func (t *TypesSubscriptionFilter) GetPlanID() *string {

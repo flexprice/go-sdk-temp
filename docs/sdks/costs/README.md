@@ -4,47 +4,47 @@
 
 ### Available Operations
 
-* [PostCosts](#postcosts) - Create a new costsheet
-* [GetCostsActive](#getcostsactive) - Get active costsheet for tenant
-* [PostCostsAnalytics](#postcostsanalytics) - Get combined revenue and cost analytics
-* [PostCostsAnalyticsV2](#postcostsanalyticsv2) - Get combined revenue and cost analytics
-* [PostCostsSearch](#postcostssearch) - List costsheets by filter
-* [GetCostsID](#getcostsid) - Get a costsheet by ID
-* [PutCostsID](#putcostsid) - Update a costsheet
-* [DeleteCostsID](#deletecostsid) - Delete a costsheet
+* [CreateCostsheet](#createcostsheet) - Create costsheet
+* [GetActiveCostsheet](#getactivecostsheet) - Get active costsheet
+* [GetDetailedCostAnalytics](#getdetailedcostanalytics) - Get combined revenue and cost analytics
+* [GetDetailedCostAnalyticsV2](#getdetailedcostanalyticsv2) - Get combined revenue and cost analytics (V2)
+* [QueryCostsheet](#querycostsheet) - Query costsheets
+* [GetCostsheet](#getcostsheet) - Get costsheet
+* [UpdateCostsheet](#updatecostsheet) - Update costsheet
+* [DeleteCostsheet](#deletecostsheet) - Delete costsheet
 
-## PostCosts
+## CreateCostsheet
 
-Create a new costsheet with the specified name
+Use when setting up a new pricing configuration (e.g. a new product or region). Costsheets group prices and define the default for the environment.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/costs" method="post" path="/costs" -->
+<!-- UsageSnippet language="go" operationID="createCostsheet" method="post" path="/costs" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.PostCosts(ctx, components.DtoCreateCostsheetRequest{
+    res, err := s.Costs.CreateCostsheet(ctx, components.DtoCreateCostsheetRequest{
         Name: "<value>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreateCostsheetResponse != nil {
         // handle response
     }
 }
@@ -60,45 +60,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreateCostsheetResponse](../../models/components/dtocreatecostsheetresponse.md), error**
+**[*operations.CreateCostsheetResponse](../../models/operations/createcostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 409                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 409                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCostsActive
+## GetActiveCostsheet
 
-Get the active costsheet for the current tenant
+Use when you need the tenant's default pricing configuration (e.g. for checkout or plan display). Returns the active costsheet for the environment.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/costs/active" method="get" path="/costs/active" -->
+<!-- UsageSnippet language="go" operationID="getActiveCostsheet" method="get" path="/costs/active" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.GetCostsActive(ctx)
+    res, err := s.Costs.GetActiveCostsheet(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCostsheetResponse != nil {
         // handle response
     }
 }
@@ -113,46 +113,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoCostsheetResponse](../../models/components/dtocostsheetresponse.md), error**
+**[*operations.GetActiveCostsheetResponse](../../models/operations/getactivecostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCostsAnalytics
+## GetDetailedCostAnalytics
 
-Retrieve combined analytics with ROI, margin, and detailed breakdowns. If start_time and end_time are not provided, defaults to last 7 days.
+Use when building dashboards or reports that need revenue vs cost, ROI, and margin over a time period (e.g. finance views or executive summaries).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/costs/analytics" method="post" path="/costs/analytics" -->
+<!-- UsageSnippet language="go" operationID="getDetailedCostAnalytics" method="post" path="/costs/analytics" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.PostCostsAnalytics(ctx, components.DtoGetCostAnalyticsRequest{})
+    res, err := s.Costs.GetDetailedCostAnalytics(ctx, components.DtoGetCostAnalyticsRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetDetailedCostAnalyticsResponse != nil {
         // handle response
     }
 }
@@ -168,46 +168,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoGetDetailedCostAnalyticsResponse](../../models/components/dtogetdetailedcostanalyticsresponse.md), error**
+**[*operations.GetDetailedCostAnalyticsResponse](../../models/operations/getdetailedcostanalyticsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCostsAnalyticsV2
+## GetDetailedCostAnalyticsV2
 
-Retrieve combined analytics with ROI, margin, and detailed breakdowns. If start_time and end_time are not provided, defaults to last 7 days.
+Use when you need the same revenue/cost/ROI analytics but computed from the costsheet usage-tracking pipeline (e.g. for consistency with usage-based cost data).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/costs/analytics-v2" method="post" path="/costs/analytics-v2" -->
+<!-- UsageSnippet language="go" operationID="getDetailedCostAnalyticsV2" method="post" path="/costs/analytics-v2" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.PostCostsAnalyticsV2(ctx, components.DtoGetCostAnalyticsRequest{})
+    res, err := s.Costs.GetDetailedCostAnalyticsV2(ctx, components.DtoGetCostAnalyticsRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetDetailedCostAnalyticsResponse != nil {
         // handle response
     }
 }
@@ -223,46 +223,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoGetDetailedCostAnalyticsResponse](../../models/components/dtogetdetailedcostanalyticsresponse.md), error**
+**[*operations.GetDetailedCostAnalyticsV2Response](../../models/operations/getdetailedcostanalyticsv2response.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCostsSearch
+## QueryCostsheet
 
-List costsheet records by filter with POST body
+Use when listing or searching costsheets (e.g. admin catalog). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/costs/search" method="post" path="/costs/search" -->
+<!-- UsageSnippet language="go" operationID="queryCostsheet" method="post" path="/costs/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.PostCostsSearch(ctx, components.CostsheetFilter{})
+    res, err := s.Costs.QueryCostsheet(ctx, components.CostsheetFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListCostsheetResponse != nil {
         // handle response
     }
 }
@@ -278,45 +278,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoListCostsheetResponse](../../models/components/dtolistcostsheetresponse.md), error**
+**[*operations.QueryCostsheetResponse](../../models/operations/querycostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCostsID
+## GetCostsheet
 
-Get a costsheet by ID with optional price expansion
+Use when you need to load a single costsheet (e.g. for editing or display). Supports optional expand for related prices.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/costs/{id}" method="get" path="/costs/{id}" -->
+<!-- UsageSnippet language="go" operationID="getCostsheet" method="get" path="/costs/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.GetCostsID(ctx, "<id>", nil)
+    res, err := s.Costs.GetCostsheet(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGetCostsheetResponse != nil {
         // handle response
     }
 }
@@ -333,46 +333,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoGetCostsheetResponse](../../models/components/dtogetcostsheetresponse.md), error**
+**[*operations.GetCostsheetResponse](../../models/operations/getcostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutCostsID
+## UpdateCostsheet
 
-Update a costsheet with the specified configuration
+Use when changing costsheet name or metadata.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/costs/{id}" method="put" path="/costs/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateCostsheet" method="put" path="/costs/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.PutCostsID(ctx, "<id>", components.DtoUpdateCostsheetRequest{})
+    res, err := s.Costs.UpdateCostsheet(ctx, "<id>", components.DtoUpdateCostsheetRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoUpdateCostsheetResponse != nil {
         // handle response
     }
 }
@@ -389,45 +389,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoUpdateCostsheetResponse](../../models/components/dtoupdatecostsheetresponse.md), error**
+**[*operations.UpdateCostsheetResponse](../../models/operations/updatecostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404, 409                 | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404, 409                 | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteCostsID
+## DeleteCostsheet
 
-Soft delete a costsheet by setting its status to deleted
+Use when retiring a costsheet (e.g. end-of-life product). Soft-deletes; status set to deleted.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/costs/{id}" method="delete" path="/costs/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteCostsheet" method="delete" path="/costs/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Costs.DeleteCostsID(ctx, "<id>")
+    res, err := s.Costs.DeleteCostsheet(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoDeleteCostsheetResponse != nil {
         // handle response
     }
 }
@@ -443,12 +443,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoDeleteCostsheetResponse](../../models/components/dtodeletecostsheetresponse.md), error**
+**[*operations.DeleteCostsheetResponse](../../models/operations/deletecostsheetresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

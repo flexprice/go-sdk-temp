@@ -4,43 +4,43 @@
 
 ### Available Operations
 
-* [PostUsers](#postusers) - Create service account
-* [GetUsersMe](#getusersme) - Get user info
-* [PostUsersSearch](#postuserssearch) - List users with filters
+* [CreateUser](#createuser) - Create service account
+* [GetUserInfo](#getuserinfo) - Get current user
+* [QueryUser](#queryuser) - Query users
 
-## PostUsers
+## CreateUser
 
-Create a new service account with required roles. Only service accounts can be created via this endpoint.
+Use when provisioning API access for automation, CI/CD pipelines, or headless integrations that need scoped API keys.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/users" method="post" path="/users" -->
+<!-- UsageSnippet language="go" operationID="createUser" method="post" path="/users" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Users.PostUsers(ctx, components.DtoCreateUserRequest{
+    res, err := s.Users.CreateUser(ctx, components.DtoCreateUserRequest{
         Roles: []string{},
-        Type: components.TypesUserTypeServiceAccount,
+        Type: components.TypesUserTypeUser,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoUserResponse != nil {
         // handle response
     }
 }
@@ -56,45 +56,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoUserResponse](../../models/components/dtouserresponse.md), error**
+**[*operations.CreateUserResponse](../../models/operations/createuserresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetUsersMe
+## GetUserInfo
 
-Get the current user's information
+Use to show the logged-in user's profile in the UI or to check permissions and roles for the current session.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/users/me" method="get" path="/users/me" -->
+<!-- UsageSnippet language="go" operationID="getUserInfo" method="get" path="/users/me" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Users.GetUsersMe(ctx)
+    res, err := s.Users.GetUserInfo(ctx)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoUserResponse != nil {
         // handle response
     }
 }
@@ -109,46 +109,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoUserResponse](../../models/components/dtouserresponse.md), error**
+**[*operations.GetUserInfoResponse](../../models/operations/getuserinforesponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 401                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 401                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostUsersSearch
+## QueryUser
 
-Search and filter users by type (user/service_account), roles, etc.
+Use when listing or searching service accounts in an admin UI, or when auditing who has API access and which roles they have.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/users/search" method="post" path="/users/search" -->
+<!-- UsageSnippet language="go" operationID="queryUser" method="post" path="/users/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Users.PostUsersSearch(ctx, components.TypesUserFilter{})
+    res, err := s.Users.QueryUser(ctx, components.TypesUserFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListUsersResponse != nil {
         // handle response
     }
 }
@@ -164,12 +164,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoListUsersResponse](../../models/components/dtolistusersresponse.md), error**
+**[*operations.QueryUserResponse](../../models/operations/queryuserresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

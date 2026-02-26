@@ -4,50 +4,49 @@
 
 ### Available Operations
 
-* [GetCustomersIDInvoicesSummary](#getcustomersidinvoicessummary) - Get a customer invoice summary
-* [GetInvoices](#getinvoices) - List invoices
-* [PostInvoices](#postinvoices) - Create a new one off invoice
-* [PostInvoicesPreview](#postinvoicespreview) - Get a preview invoice
-* [PostInvoicesSearch](#postinvoicessearch) - List invoices by filter
-* [GetInvoicesID](#getinvoicesid) - Get an invoice by ID
-* [PutInvoicesID](#putinvoicesid) - Update an invoice
-* [PostInvoicesIDCommsTrigger](#postinvoicesidcommstrigger) - Trigger communication webhook for an invoice
-* [PostInvoicesIDFinalize](#postinvoicesidfinalize) - Finalize an invoice
-* [PutInvoicesIDPayment](#putinvoicesidpayment) - Update invoice payment status
-* [PostInvoicesIDPaymentAttempt](#postinvoicesidpaymentattempt) - Attempt payment for an invoice
-* [GetInvoicesIDPdf](#getinvoicesidpdf) - Get PDF for an invoice
-* [PostInvoicesIDRecalculate](#postinvoicesidrecalculate) - Recalculate invoice totals and line items
-* [PostInvoicesIDVoid](#postinvoicesidvoid) - Void an invoice
+* [GetCustomerInvoiceSummary](#getcustomerinvoicesummary) - Get customer invoice summary
+* [CreateInvoice](#createinvoice) - Create one-off invoice
+* [GetInvoicePreview](#getinvoicepreview) - Get invoice preview
+* [QueryInvoice](#queryinvoice) - Query invoices
+* [GetInvoice](#getinvoice) - Get invoice
+* [UpdateInvoice](#updateinvoice) - Update invoice
+* [TriggerInvoiceCommsWebhook](#triggerinvoicecommswebhook) - Trigger invoice communication webhook
+* [FinalizeInvoice](#finalizeinvoice) - Finalize invoice
+* [UpdateInvoicePaymentStatus](#updateinvoicepaymentstatus) - Update invoice payment status
+* [AttemptInvoicePayment](#attemptinvoicepayment) - Attempt invoice payment
+* [GetInvoicePdf](#getinvoicepdf) - Get invoice PDF
+* [RecalculateInvoice](#recalculateinvoice) - Recalculate invoice
+* [VoidInvoice](#voidinvoice) - Void invoice
 
-## GetCustomersIDInvoicesSummary
+## GetCustomerInvoiceSummary
 
-Get a customer invoice summary
+Use when showing a customer's invoice overview (e.g. billing portal or balance summary). Includes totals and multi-currency breakdown.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/{id}/invoices/summary" method="get" path="/customers/{id}/invoices/summary" -->
+<!-- UsageSnippet language="go" operationID="getCustomerInvoiceSummary" method="get" path="/customers/{id}/invoices/summary" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.GetCustomersIDInvoicesSummary(ctx, "<id>")
+    res, err := s.Invoices.GetCustomerInvoiceSummary(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCustomerMultiCurrencyInvoiceSummary != nil {
         // handle response
     }
 }
@@ -63,99 +62,44 @@ func main() {
 
 ### Response
 
-**[*components.DtoCustomerMultiCurrencyInvoiceSummary](../../models/components/dtocustomermulticurrencyinvoicesummary.md), error**
+**[*operations.GetCustomerInvoiceSummaryResponse](../../models/operations/getcustomerinvoicesummaryresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetInvoices
+## CreateInvoice
 
-List invoices with optional filtering
+Use when creating a manual or one-off invoice (e.g. custom charge or non-recurring billing). Invoice is created in draft; finalize when ready.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/invoices" method="get" path="/invoices" -->
+<!-- UsageSnippet language="go" operationID="createInvoice" method="post" path="/invoices" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.GetInvoices(ctx, operations.GetInvoicesRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
-| `request`                                                                      | [operations.GetInvoicesRequest](../../models/operations/getinvoicesrequest.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
-| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
-
-### Response
-
-**[*components.DtoListInvoicesResponse](../../models/components/dtolistinvoicesresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostInvoices
-
-Create a new one off invoice with the provided details
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/invoices" method="post" path="/invoices" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Invoices.PostInvoices(ctx, components.DtoCreateInvoiceRequest{
+    res, err := s.Invoices.CreateInvoice(ctx, components.DtoCreateInvoiceRequest{
         AmountDue: "<value>",
-        Currency: "Lilangeni",
+        Currency: "Surinam Dollar",
         CustomerID: "<id>",
         Subtotal: "<value>",
         Total: "<value>",
@@ -163,7 +107,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -179,48 +123,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.CreateInvoiceResponse](../../models/operations/createinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesPreview
+## GetInvoicePreview
 
-Get a preview invoice
+Use when showing a customer what they will be charged (e.g. preview before checkout or plan change). No invoice is created.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/preview" method="post" path="/invoices/preview" -->
+<!-- UsageSnippet language="go" operationID="getInvoicePreview" method="post" path="/invoices/preview" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesPreview(ctx, components.DtoGetPreviewInvoiceRequest{
+    res, err := s.Invoices.GetInvoicePreview(ctx, components.DtoGetPreviewInvoiceRequest{
         SubscriptionID: "<id>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -236,46 +180,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.GetInvoicePreviewResponse](../../models/operations/getinvoicepreviewresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesSearch
+## QueryInvoice
 
-List invoices by filter
+Use when listing or searching invoices (e.g. admin view or customer history). Returns a paginated list; supports filtering by customer, status, date range.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/search" method="post" path="/invoices/search" -->
+<!-- UsageSnippet language="go" operationID="queryInvoice" method="post" path="/invoices/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesSearch(ctx, components.TypesInvoiceFilter{})
+    res, err := s.Invoices.QueryInvoice(ctx, components.TypesInvoiceFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListInvoicesResponse != nil {
         // handle response
     }
 }
@@ -291,45 +235,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoListInvoicesResponse](../../models/components/dtolistinvoicesresponse.md), error**
+**[*operations.QueryInvoiceResponse](../../models/operations/queryinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetInvoicesID
+## GetInvoice
 
-Get detailed information about an invoice
+Use when loading an invoice for display or editing (e.g. portal or reconciliation). Supports group_by for usage breakdown and force_runtime_recalculation.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/invoices/{id}" method="get" path="/invoices/{id}" -->
+<!-- UsageSnippet language="go" operationID="getInvoice" method="get" path="/invoices/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.GetInvoicesID(ctx, "<id>", nil, nil)
+    res, err := s.Invoices.GetInvoice(ctx, "<id>", nil, nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -347,46 +291,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.GetInvoiceResponse](../../models/operations/getinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutInvoicesID
+## UpdateInvoice
 
-Update invoice details like PDF URL and due date.
+Use when updating invoice metadata or due date (e.g. PDF URL, net terms). For paid invoices only safe fields can be updated.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/invoices/{id}" method="put" path="/invoices/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateInvoice" method="put" path="/invoices/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PutInvoicesID(ctx, "<id>", components.DtoUpdateInvoiceRequest{})
+    res, err := s.Invoices.UpdateInvoice(ctx, "<id>", components.DtoUpdateInvoiceRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -403,45 +347,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.UpdateInvoiceResponse](../../models/operations/updateinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesIDCommsTrigger
+## TriggerInvoiceCommsWebhook
 
-Triggers a communication webhook event containing all information about the invoice
+Use when sending an invoice to the customer (e.g. trigger email or Slack). Payload includes full invoice details for your integration.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/{id}/comms/trigger" method="post" path="/invoices/{id}/comms/trigger" -->
+<!-- UsageSnippet language="go" operationID="triggerInvoiceCommsWebhook" method="post" path="/invoices/{id}/comms/trigger" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesIDCommsTrigger(ctx, "<id>")
+    res, err := s.Invoices.TriggerInvoiceCommsWebhook(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -457,45 +401,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.TriggerInvoiceCommsWebhookResponse](../../models/operations/triggerinvoicecommswebhookresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesIDFinalize
+## FinalizeInvoice
 
-Finalize a draft invoice
+Use when locking an invoice for payment (e.g. after review). Once finalized, line items are locked; invoice can be paid or voided.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/{id}/finalize" method="post" path="/invoices/{id}/finalize" -->
+<!-- UsageSnippet language="go" operationID="finalizeInvoice" method="post" path="/invoices/{id}/finalize" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesIDFinalize(ctx, "<id>")
+    res, err := s.Invoices.FinalizeInvoice(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -511,48 +455,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.FinalizeInvoiceResponse](../../models/operations/finalizeinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutInvoicesIDPayment
+## UpdateInvoicePaymentStatus
 
-Update the payment status of an invoice
+Use when reconciling payment status from an external gateway or manual entry (e.g. mark paid after bank confirmation).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/invoices/{id}/payment" method="put" path="/invoices/{id}/payment" -->
+<!-- UsageSnippet language="go" operationID="updateInvoicePaymentStatus" method="put" path="/invoices/{id}/payment" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PutInvoicesIDPayment(ctx, "<id>", components.DtoUpdatePaymentStatusRequest{
-        PaymentStatus: components.TypesPaymentStatusRefunded,
+    res, err := s.Invoices.UpdateInvoicePaymentStatus(ctx, "<id>", components.DtoUpdatePaymentStatusRequest{
+        PaymentStatus: components.TypesPaymentStatusInitiated,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -569,45 +513,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.UpdateInvoicePaymentStatusResponse](../../models/operations/updateinvoicepaymentstatusresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesIDPaymentAttempt
+## AttemptInvoicePayment
 
-Attempt to pay an invoice using customer's available wallets
+Use when paying an invoice with the customer's wallet balance (e.g. prepaid credits or balance applied at checkout).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/{id}/payment/attempt" method="post" path="/invoices/{id}/payment/attempt" -->
+<!-- UsageSnippet language="go" operationID="attemptInvoicePayment" method="post" path="/invoices/{id}/payment/attempt" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesIDPaymentAttempt(ctx, "<id>")
+    res, err := s.Invoices.AttemptInvoicePayment(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -623,45 +567,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.AttemptInvoicePaymentResponse](../../models/operations/attemptinvoicepaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetInvoicesIDPdf
+## GetInvoicePdf
 
-Retrieve the PDF document for a specific invoice by its ID
+Use when delivering an invoice PDF to the customer (e.g. email attachment or download). Use url=true for a presigned URL instead of binary.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/invoices/{id}/pdf" method="get" path="/invoices/{id}/pdf" -->
+<!-- UsageSnippet language="go" operationID="getInvoicePdf" method="get" path="/invoices/{id}/pdf" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.GetInvoicesIDPdf(ctx, "<id>", nil)
+    res, err := s.Invoices.GetInvoicePdf(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.ResponseStream != nil {
         // handle response
     }
 }
@@ -678,43 +622,43 @@ func main() {
 
 ### Response
 
-**[io.ReadCloser](../../.md), error**
+**[*operations.GetInvoicePdfResponse](../../models/operations/getinvoicepdfresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostInvoicesIDRecalculate
+## RecalculateInvoice
 
-Recalculate totals and line items for a draft invoice, useful when subscription line items or usage data has changed
+Use when subscription or usage data changed and you need to refresh a draft invoice before finalizing. Optional finalize=true to lock after recalc.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/{id}/recalculate" method="post" path="/invoices/{id}/recalculate" -->
+<!-- UsageSnippet language="go" operationID="recalculateInvoice" method="post" path="/invoices/{id}/recalculate" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesIDRecalculate(ctx, "<id>", nil)
+    res, err := s.Invoices.RecalculateInvoice(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoInvoiceResponse != nil {
         // handle response
     }
 }
@@ -731,45 +675,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoInvoiceResponse](../../models/components/dtoinvoiceresponse.md), error**
+**[*operations.RecalculateInvoiceResponse](../../models/operations/recalculateinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostInvoicesIDVoid
+## VoidInvoice
 
-Void an invoice that hasn't been paid
+Use when cancelling an invoice (e.g. order cancelled or duplicate). Only unpaid invoices can be voided.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/invoices/{id}/void" method="post" path="/invoices/{id}/void" -->
+<!-- UsageSnippet language="go" operationID="voidInvoice" method="post" path="/invoices/{id}/void" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.PostInvoicesIDVoid(ctx, "<id>")
+    res, err := s.Invoices.VoidInvoice(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -785,12 +729,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.VoidInvoiceResponse](../../models/operations/voidinvoiceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

@@ -4,43 +4,43 @@
 
 ### Available Operations
 
-* [PostWebhooksChargebeeTenantIDEnvironmentID](#postwebhookschargebeetenantidenvironmentid) - Handle Chargebee webhook events
-* [PostWebhooksHubspotTenantIDEnvironmentID](#postwebhookshubspottenantidenvironmentid) - Handle HubSpot webhook events
-* [PostWebhooksMoyasarTenantIDEnvironmentID](#postwebhooksmoyasartenantidenvironmentid) - Handle Moyasar webhook events
-* [PostWebhooksNomodTenantIDEnvironmentID](#postwebhooksnomodtenantidenvironmentid) - Handle Nomod webhook events
-* [PostWebhooksQuickbooksTenantIDEnvironmentID](#postwebhooksquickbookstenantidenvironmentid) - Handle QuickBooks webhook events
-* [PostWebhooksRazorpayTenantIDEnvironmentID](#postwebhooksrazorpaytenantidenvironmentid) - Handle Razorpay webhook events
-* [PostWebhooksStripeTenantIDEnvironmentID](#postwebhooksstripetenantidenvironmentid) - Handle Stripe webhook events
+* [HandleChargebeeWebhook](#handlechargebeewebhook) - Handle Chargebee webhook events
+* [HandleHubspotWebhook](#handlehubspotwebhook) - Handle HubSpot webhook events
+* [HandleMoyasarWebhook](#handlemoyasarwebhook) - Handle Moyasar webhook events
+* [HandleNomodWebhook](#handlenomodwebhook) - Handle Nomod webhook events
+* [HandleQuickbooksWebhook](#handlequickbookswebhook) - Handle QuickBooks webhook events
+* [HandleRazorpayWebhook](#handlerazorpaywebhook) - Handle Razorpay webhook events
+* [HandleStripeWebhook](#handlestripewebhook) - Handle Stripe webhook events
 
-## PostWebhooksChargebeeTenantIDEnvironmentID
+## HandleChargebeeWebhook
 
-Process incoming Chargebee webhook events for payment status updates
+Use as the Chargebee webhook endpoint URL. Receives payment and subscription events from Chargebee to sync status into FlexPrice.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/chargebee/{tenant_id}/{environment_id}" method="post" path="/webhooks/chargebee/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleChargebeeWebhook" method="post" path="/webhooks/chargebee/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksChargebeeTenantIDEnvironmentID(ctx, "<id>", "<id>")
+    res, err := s.Webhooks.HandleChargebeeWebhook(ctx, "<id>", "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -57,43 +57,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleChargebeeWebhookResponse](../../models/operations/handlechargebeewebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksHubspotTenantIDEnvironmentID
+## HandleHubspotWebhook
 
-Process incoming HubSpot webhook events for deal closed won and customer creation
+Use as the HubSpot webhook endpoint URL. Receives deal and customer events (e.g. deal closed won) to create or update customers in FlexPrice.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/hubspot/{tenant_id}/{environment_id}" method="post" path="/webhooks/hubspot/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleHubspotWebhook" method="post" path="/webhooks/hubspot/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksHubspotTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")
+    res, err := s.Webhooks.HandleHubspotWebhook(ctx, "<id>", "<id>", "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -111,43 +111,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleHubspotWebhookResponse](../../models/operations/handlehubspotwebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksMoyasarTenantIDEnvironmentID
+## HandleMoyasarWebhook
 
-Process incoming Moyasar webhook events for payment status updates
+Use as the Moyasar webhook endpoint URL. Receives payment events from Moyasar to update payment status in FlexPrice.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/moyasar/{tenant_id}/{environment_id}" method="post" path="/webhooks/moyasar/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleMoyasarWebhook" method="post" path="/webhooks/moyasar/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksMoyasarTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
+    res, err := s.Webhooks.HandleMoyasarWebhook(ctx, "<id>", "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -165,43 +165,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleMoyasarWebhookResponse](../../models/operations/handlemoyasarwebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksNomodTenantIDEnvironmentID
+## HandleNomodWebhook
 
-Process incoming Nomod webhook events for payment and invoice payments
+Use as the Nomod webhook endpoint URL. Receives payment and invoice events from Nomod to keep FlexPrice in sync.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/nomod/{tenant_id}/{environment_id}" method="post" path="/webhooks/nomod/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleNomodWebhook" method="post" path="/webhooks/nomod/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksNomodTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
+    res, err := s.Webhooks.HandleNomodWebhook(ctx, "<id>", "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -219,43 +219,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleNomodWebhookResponse](../../models/operations/handlenomodwebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksQuickbooksTenantIDEnvironmentID
+## HandleQuickbooksWebhook
 
-Process incoming QuickBooks webhook events for payment sync
+Use as the QuickBooks webhook endpoint URL. Receives payment events from QuickBooks to sync payment status into FlexPrice.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/quickbooks/{tenant_id}/{environment_id}" method="post" path="/webhooks/quickbooks/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleQuickbooksWebhook" method="post" path="/webhooks/quickbooks/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksQuickbooksTenantIDEnvironmentID(ctx, "<id>", "<id>", nil)
+    res, err := s.Webhooks.HandleQuickbooksWebhook(ctx, "<id>", "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -273,43 +273,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleQuickbooksWebhookResponse](../../models/operations/handlequickbookswebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksRazorpayTenantIDEnvironmentID
+## HandleRazorpayWebhook
 
-Process incoming Razorpay webhook events for payment capture and failure
+Use as the Razorpay webhook endpoint URL. Receives payment capture and failure events to update invoice or payment status in FlexPrice.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/razorpay/{tenant_id}/{environment_id}" method="post" path="/webhooks/razorpay/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleRazorpayWebhook" method="post" path="/webhooks/razorpay/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksRazorpayTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")
+    res, err := s.Webhooks.HandleRazorpayWebhook(ctx, "<id>", "<id>", "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -327,43 +327,43 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleRazorpayWebhookResponse](../../models/operations/handlerazorpaywebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |
 
-## PostWebhooksStripeTenantIDEnvironmentID
+## HandleStripeWebhook
 
-Process incoming Stripe webhook events for payment status updates and customer creation
+Use as the Stripe webhook endpoint URL. Receives payment and customer events from Stripe to keep FlexPrice in sync (e.g. payment succeeded, customer created).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/webhooks/stripe/{tenant_id}/{environment_id}" method="post" path="/webhooks/stripe/{tenant_id}/{environment_id}" -->
+<!-- UsageSnippet language="go" operationID="handleStripeWebhook" method="post" path="/webhooks/stripe/{tenant_id}/{environment_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Webhooks.PostWebhooksStripeTenantIDEnvironmentID(ctx, "<id>", "<id>", "<value>")
+    res, err := s.Webhooks.HandleStripeWebhook(ctx, "<id>", "<id>", "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -381,10 +381,10 @@ func main() {
 
 ### Response
 
-**[map[string]any](../../.md), error**
+**[*operations.HandleStripeWebhookResponse](../../models/operations/handlestripewebhookresponse.md), error**
 
 ### Errors
 
 | Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.APIError | 4XX, 5XX           | \*/\*              |
+| apierrors.APIError | 4XX, 5XX           | \*/\*              |

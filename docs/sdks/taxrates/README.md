@@ -4,42 +4,42 @@
 
 ### Available Operations
 
-* [GetTaxesRates](#gettaxesrates) - Get tax rates
-* [PostTaxesRates](#posttaxesrates) - Create a tax rate
-* [GetTaxesRatesID](#gettaxesratesid) - Get a tax rate
-* [PutTaxesRatesID](#puttaxesratesid) - Update a tax rate
-* [DeleteTaxesRatesID](#deletetaxesratesid) - Delete a tax rate
+* [GetTaxRates](#gettaxrates) - Get tax rates
+* [CreateTaxRate](#createtaxrate) - Create a tax rate
+* [GetTaxRate](#gettaxrate) - Get a tax rate
+* [UpdateTaxRate](#updatetaxrate) - Update a tax rate
+* [DeleteTaxRate](#deletetaxrate) - Delete a tax rate
 
-## GetTaxesRates
+## GetTaxRates
 
-Get tax rates
+Use when listing tax rates (e.g. tax config UI). Returns tax rates with optional filters.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/taxes/rates" method="get" path="/taxes/rates" -->
+<!-- UsageSnippet language="go" operationID="getTaxRates" method="get" path="/taxes/rates" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxRates.GetTaxesRates(ctx, operations.GetTaxesRatesRequest{})
+    res, err := s.TaxRates.GetTaxRates(ctx, operations.GetTaxRatesRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxRateResponses != nil {
         // handle response
     }
 }
@@ -47,57 +47,57 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                          | Type                                                                               | Required                                                                           | Description                                                                        |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `ctx`                                                                              | [context.Context](https://pkg.go.dev/context#Context)                              | :heavy_check_mark:                                                                 | The context to use for the request.                                                |
-| `request`                                                                          | [operations.GetTaxesRatesRequest](../../models/operations/gettaxesratesrequest.md) | :heavy_check_mark:                                                                 | The request object to use for the request.                                         |
-| `opts`                                                                             | [][operations.Option](../../models/operations/option.md)                           | :heavy_minus_sign:                                                                 | The options for this request.                                                      |
+| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
+| `request`                                                                      | [operations.GetTaxRatesRequest](../../models/operations/gettaxratesrequest.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
+| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
 
 ### Response
 
-**[[]components.DtoTaxRateResponse](../../.md), error**
+**[*operations.GetTaxRatesResponse](../../models/operations/gettaxratesresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTaxesRates
+## CreateTaxRate
 
-Create a tax rate
+Use when defining a new tax rate (e.g. VAT or sales tax) for use in invoices. Attach to customers or products via tax associations.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/taxes/rates" method="post" path="/taxes/rates" -->
+<!-- UsageSnippet language="go" operationID="createTaxRate" method="post" path="/taxes/rates" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxRates.PostTaxesRates(ctx, components.DtoCreateTaxRateRequest{
+    res, err := s.TaxRates.CreateTaxRate(ctx, components.DtoCreateTaxRateRequest{
         Code: "<value>",
         Name: "<value>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxRateResponse != nil {
         // handle response
     }
 }
@@ -113,45 +113,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxRateResponse](../../models/components/dtotaxrateresponse.md), error**
+**[*operations.CreateTaxRateResponse](../../models/operations/createtaxrateresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTaxesRatesID
+## GetTaxRate
 
-Get a tax rate
+Use when you need to load a single tax rate (e.g. for display or when creating an association).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/taxes/rates/{id}" method="get" path="/taxes/rates/{id}" -->
+<!-- UsageSnippet language="go" operationID="getTaxRate" method="get" path="/taxes/rates/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxRates.GetTaxesRatesID(ctx, "<id>")
+    res, err := s.TaxRates.GetTaxRate(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxRateResponse != nil {
         // handle response
     }
 }
@@ -167,46 +167,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxRateResponse](../../models/components/dtotaxrateresponse.md), error**
+**[*operations.GetTaxRateResponse](../../models/operations/gettaxrateresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutTaxesRatesID
+## UpdateTaxRate
 
-Update a tax rate
+Use when changing a tax rate (e.g. rate value or name). Request body contains the fields to update.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/taxes/rates/{id}" method="put" path="/taxes/rates/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateTaxRate" method="put" path="/taxes/rates/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxRates.PutTaxesRatesID(ctx, "<id>", components.DtoUpdateTaxRateRequest{})
+    res, err := s.TaxRates.UpdateTaxRate(ctx, "<id>", components.DtoUpdateTaxRateRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxRateResponse != nil {
         // handle response
     }
 }
@@ -223,43 +223,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxRateResponse](../../models/components/dtotaxrateresponse.md), error**
+**[*operations.UpdateTaxRateResponse](../../models/operations/updatetaxrateresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteTaxesRatesID
+## DeleteTaxRate
 
-Delete a tax rate
+Use when retiring a tax rate (e.g. no longer applicable). Fails if still referenced by associations.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/taxes/rates/{id}" method="delete" path="/taxes/rates/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteTaxRate" method="delete" path="/taxes/rates/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    err := s.TaxRates.DeleteTaxesRatesID(ctx, "<id>")
+    res, err := s.TaxRates.DeleteTaxRate(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
     }
 }
 ```
@@ -274,12 +277,12 @@ func main() {
 
 ### Response
 
-**error**
+**[*operations.DeleteTaxRateResponse](../../models/operations/deletetaxrateresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

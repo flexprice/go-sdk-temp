@@ -5,8 +5,9 @@ package components
 type TypesSubscriptionLineItemEntityType string
 
 const (
-	TypesSubscriptionLineItemEntityTypePlan  TypesSubscriptionLineItemEntityType = "plan"
-	TypesSubscriptionLineItemEntityTypeAddon TypesSubscriptionLineItemEntityType = "addon"
+	TypesSubscriptionLineItemEntityTypePlan         TypesSubscriptionLineItemEntityType = "plan"
+	TypesSubscriptionLineItemEntityTypeAddon        TypesSubscriptionLineItemEntityType = "addon"
+	TypesSubscriptionLineItemEntityTypeSubscription TypesSubscriptionLineItemEntityType = "subscription"
 )
 
 func (e TypesSubscriptionLineItemEntityType) ToPointer() *TypesSubscriptionLineItemEntityType {
@@ -17,7 +18,7 @@ func (e TypesSubscriptionLineItemEntityType) ToPointer() *TypesSubscriptionLineI
 func (e *TypesSubscriptionLineItemEntityType) IsExact() bool {
 	if e != nil {
 		switch *e {
-		case "plan", "addon":
+		case "plan", "addon", "subscription":
 			return true
 		}
 	}

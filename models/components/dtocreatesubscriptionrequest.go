@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoCreateSubscriptionRequest struct {
@@ -15,8 +15,9 @@ type DtoCreateSubscriptionRequest struct {
 	BillingPeriodCount *int64                             `json:"billing_period_count,omitzero"`
 	CollectionMethod   *TypesCollectionMethod             `json:"collection_method,omitzero"`
 	// CommitmentAmount is the minimum amount a customer commits to paying for a billing period
-	CommitmentAmount *string  `json:"commitment_amount,omitzero"`
-	Coupons          []string `json:"coupons,omitzero"`
+	CommitmentAmount   *string             `json:"commitment_amount,omitzero"`
+	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
+	Coupons            []string            `json:"coupons,omitzero"`
 	// Credit grants to be applied when subscription is created
 	CreditGrants []DtoCreateCreditGrantRequest `json:"credit_grants,omitzero"`
 	Currency     string                        `json:"currency"`
@@ -37,15 +38,20 @@ type DtoCreateSubscriptionRequest struct {
 	// LineItemCommitments allows setting commitment configuration per line item (keyed by price_id)
 	LineItemCommitments map[string]DtoLineItemCommitmentConfig `json:"line_item_commitments,omitzero"`
 	LineItemCoupons     map[string][]string                    `json:"line_item_coupons,omitzero"`
-	LookupKey           *string                                `json:"lookup_key,omitzero"`
-	Metadata            map[string]string                      `json:"metadata,omitzero"`
+	// LineItems are extra line items to add at creation (each with price_id or price), in addition to plan prices
+	LineItems []DtoCreateSubscriptionLineItemRequest `json:"line_items,omitzero"`
+	LookupKey *string                                `json:"lookup_key,omitzero"`
+	Metadata  map[string]string                      `json:"metadata,omitzero"`
 	// OverageFactor is a multiplier applied to usage beyond the commitment amount
 	OverageFactor *string `json:"overage_factor,omitzero"`
 	// OverrideEntitlements allows customizing specific entitlements for this subscription
 	OverrideEntitlements []DtoOverrideEntitlementRequest `json:"override_entitlements,omitzero"`
 	// OverrideLineItems allows customizing specific prices for this subscription
 	OverrideLineItems []DtoOverrideLineItemRequest `json:"override_line_items,omitzero"`
-	PaymentBehavior   *TypesPaymentBehavior        `json:"payment_behavior,omitzero"`
+	// ParentSubscriptionID is the parent subscription ID for hierarchy (e.g. child subscription under a parent)
+	ParentSubscriptionID *string               `json:"parent_subscription_id,omitzero"`
+	PaymentBehavior      *TypesPaymentBehavior `json:"payment_behavior,omitzero"`
+	PaymentTerms         *TypesPaymentTerms    `json:"payment_terms,omitzero"`
 	// Phases represents subscription phases to be created with the subscription
 	Phases             []DtoSubscriptionPhaseCreateRequest `json:"phases,omitzero"`
 	PlanID             string                              `json:"plan_id"`
@@ -116,6 +122,13 @@ func (d *DtoCreateSubscriptionRequest) GetCommitmentAmount() *string {
 		return nil
 	}
 	return d.CommitmentAmount
+}
+
+func (d *DtoCreateSubscriptionRequest) GetCommitmentDuration() *TypesBillingPeriod {
+	if d == nil {
+		return nil
+	}
+	return d.CommitmentDuration
 }
 
 func (d *DtoCreateSubscriptionRequest) GetCoupons() []string {
@@ -202,6 +215,13 @@ func (d *DtoCreateSubscriptionRequest) GetLineItemCoupons() map[string][]string 
 	return d.LineItemCoupons
 }
 
+func (d *DtoCreateSubscriptionRequest) GetLineItems() []DtoCreateSubscriptionLineItemRequest {
+	if d == nil {
+		return nil
+	}
+	return d.LineItems
+}
+
 func (d *DtoCreateSubscriptionRequest) GetLookupKey() *string {
 	if d == nil {
 		return nil
@@ -237,11 +257,25 @@ func (d *DtoCreateSubscriptionRequest) GetOverrideLineItems() []DtoOverrideLineI
 	return d.OverrideLineItems
 }
 
+func (d *DtoCreateSubscriptionRequest) GetParentSubscriptionID() *string {
+	if d == nil {
+		return nil
+	}
+	return d.ParentSubscriptionID
+}
+
 func (d *DtoCreateSubscriptionRequest) GetPaymentBehavior() *TypesPaymentBehavior {
 	if d == nil {
 		return nil
 	}
 	return d.PaymentBehavior
+}
+
+func (d *DtoCreateSubscriptionRequest) GetPaymentTerms() *TypesPaymentTerms {
+	if d == nil {
+		return nil
+	}
+	return d.PaymentTerms
 }
 
 func (d *DtoCreateSubscriptionRequest) GetPhases() []DtoSubscriptionPhaseCreateRequest {

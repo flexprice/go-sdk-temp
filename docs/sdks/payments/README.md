@@ -4,43 +4,43 @@
 
 ### Available Operations
 
-* [GetPayments](#getpayments) - List payments
-* [PostPayments](#postpayments) - Create a new payment
-* [GetPaymentsID](#getpaymentsid) - Get a payment by ID
-* [PutPaymentsID](#putpaymentsid) - Update a payment
-* [DeletePaymentsID](#deletepaymentsid) - Delete a payment
-* [PostPaymentsIDProcess](#postpaymentsidprocess) - Process a payment
+* [ListPayments](#listpayments) - List payments
+* [CreatePayment](#createpayment) - Create payment
+* [GetPayment](#getpayment) - Get payment
+* [UpdatePayment](#updatepayment) - Update payment
+* [DeletePayment](#deletepayment) - Delete payment
+* [ProcessPayment](#processpayment) - Process payment
 
-## GetPayments
+## ListPayments
 
-List payments with the specified filter
+Use when listing or searching payments (e.g. reconciliation UI or customer payment history). Returns a paginated list; supports filtering by customer, invoice, status.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/payments" method="get" path="/payments" -->
+<!-- UsageSnippet language="go" operationID="listPayments" method="get" path="/payments" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.GetPayments(ctx, operations.GetPaymentsRequest{})
+    res, err := s.Payments.ListPayments(ctx, operations.ListPaymentsRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListPaymentsResponse != nil {
         // handle response
     }
 }
@@ -48,60 +48,60 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
-| `request`                                                                      | [operations.GetPaymentsRequest](../../models/operations/getpaymentsrequest.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
-| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `ctx`                                                                            | [context.Context](https://pkg.go.dev/context#Context)                            | :heavy_check_mark:                                                               | The context to use for the request.                                              |
+| `request`                                                                        | [operations.ListPaymentsRequest](../../models/operations/listpaymentsrequest.md) | :heavy_check_mark:                                                               | The request object to use for the request.                                       |
+| `opts`                                                                           | [][operations.Option](../../models/operations/option.md)                         | :heavy_minus_sign:                                                               | The options for this request.                                                    |
 
 ### Response
 
-**[*components.DtoListPaymentsResponse](../../models/components/dtolistpaymentsresponse.md), error**
+**[*operations.ListPaymentsResponse](../../models/operations/listpaymentsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPayments
+## CreatePayment
 
-Create a new payment with the specified configuration
+Use when recording a payment against an invoice (e.g. after receiving funds via a gateway or manual entry).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/payments" method="post" path="/payments" -->
+<!-- UsageSnippet language="go" operationID="createPayment" method="post" path="/payments" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.PostPayments(ctx, components.DtoCreatePaymentRequest{
-        Amount: "910.96",
-        Currency: "Costa Rican Colon",
+    res, err := s.Payments.CreatePayment(ctx, components.DtoCreatePaymentRequest{
+        Amount: "883.46",
+        Currency: "CFP Franc",
         DestinationID: "<id>",
         DestinationType: components.TypesPaymentDestinationTypeInvoice,
-        PaymentMethodType: components.TypesPaymentMethodTypeCredits,
+        PaymentMethodType: components.TypesPaymentMethodTypeOffline,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPaymentResponse != nil {
         // handle response
     }
 }
@@ -117,45 +117,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoPaymentResponse](../../models/components/dtopaymentresponse.md), error**
+**[*operations.CreatePaymentResponse](../../models/operations/createpaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPaymentsID
+## GetPayment
 
-Get a payment by ID
+Use when you need to load a single payment (e.g. for a receipt view or reconciliation).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/payments/{id}" method="get" path="/payments/{id}" -->
+<!-- UsageSnippet language="go" operationID="getPayment" method="get" path="/payments/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.GetPaymentsID(ctx, "<id>")
+    res, err := s.Payments.GetPayment(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPaymentResponse != nil {
         // handle response
     }
 }
@@ -171,46 +171,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoPaymentResponse](../../models/components/dtopaymentresponse.md), error**
+**[*operations.GetPaymentResponse](../../models/operations/getpaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutPaymentsID
+## UpdatePayment
 
-Update a payment with the specified configuration
+Use when updating payment status or metadata (e.g. after reconciliation or adding a reference).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/payments/{id}" method="put" path="/payments/{id}" -->
+<!-- UsageSnippet language="go" operationID="updatePayment" method="put" path="/payments/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.PutPaymentsID(ctx, "<id>", components.DtoUpdatePaymentRequest{})
+    res, err := s.Payments.UpdatePayment(ctx, "<id>", components.DtoUpdatePaymentRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPaymentResponse != nil {
         // handle response
     }
 }
@@ -227,45 +227,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoPaymentResponse](../../models/components/dtopaymentresponse.md), error**
+**[*operations.UpdatePaymentResponse](../../models/operations/updatepaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeletePaymentsID
+## DeletePayment
 
-Delete a payment
+Use when removing or voiding a payment record (e.g. correcting erroneous entries). Returns 200 with success message.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/payments/{id}" method="delete" path="/payments/{id}" -->
+<!-- UsageSnippet language="go" operationID="deletePayment" method="delete" path="/payments/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.DeletePaymentsID(ctx, "<id>")
+    res, err := s.Payments.DeletePayment(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -281,45 +281,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeletePaymentResponse](../../models/operations/deletepaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPaymentsIDProcess
+## ProcessPayment
 
-Process a payment
+Use when you need to charge or process a payment (e.g. trigger the payment provider to capture funds). Returns updated payment with status.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/payments/{id}/process" method="post" path="/payments/{id}/process" -->
+<!-- UsageSnippet language="go" operationID="processPayment" method="post" path="/payments/{id}/process" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Payments.PostPaymentsIDProcess(ctx, "<id>")
+    res, err := s.Payments.ProcessPayment(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPaymentResponse != nil {
         // handle response
     }
 }
@@ -335,12 +335,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoPaymentResponse](../../models/components/dtopaymentresponse.md), error**
+**[*operations.ProcessPaymentResponse](../../models/operations/processpaymentresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

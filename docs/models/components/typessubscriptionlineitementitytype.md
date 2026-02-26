@@ -3,7 +3,8 @@
 
 ## Values
 
-| Name                                       | Value                                      |
-| ------------------------------------------ | ------------------------------------------ |
-| `TypesSubscriptionLineItemEntityTypePlan`  | plan                                       |
-| `TypesSubscriptionLineItemEntityTypeAddon` | addon                                      |
+| Name                                              | Value                                             |
+| ------------------------------------------------- | ------------------------------------------------- |
+| `TypesSubscriptionLineItemEntityTypePlan`         | plan                                              |
+| `TypesSubscriptionLineItemEntityTypeAddon`        | addon                                             |
+| `TypesSubscriptionLineItemEntityTypeSubscription` | subscription                                      |

@@ -14,7 +14,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/flexprice/go-sdk-temp/types"
+	"github.com/flexprice/flexprice-go/types"
 )
 
 func MarshalJSON(v interface{}, tag reflect.StructTag, topLevel bool) ([]byte, error) {

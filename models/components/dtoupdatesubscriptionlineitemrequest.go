@@ -3,7 +3,7 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoUpdateSubscriptionLineItemRequest struct {
@@ -12,6 +12,7 @@ type DtoUpdateSubscriptionLineItemRequest struct {
 	BillingModel *TypesBillingModel `json:"billing_model,omitzero"`
 	// Commitment fields
 	CommitmentAmount        *float64             `json:"commitment_amount,omitzero"`
+	CommitmentDuration      *TypesBillingPeriod  `json:"commitment_duration,omitzero"`
 	CommitmentOverageFactor *float64             `json:"commitment_overage_factor,omitzero"`
 	CommitmentQuantity      *float64             `json:"commitment_quantity,omitzero"`
 	CommitmentTrueUpEnabled *bool                `json:"commitment_true_up_enabled,omitzero"`
@@ -57,6 +58,13 @@ func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentAmount() *float64 {
 		return nil
 	}
 	return d.CommitmentAmount
+}
+
+func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentDuration() *TypesBillingPeriod {
+	if d == nil {
+		return nil
+	}
+	return d.CommitmentDuration
 }
 
 func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentOverageFactor() *float64 {

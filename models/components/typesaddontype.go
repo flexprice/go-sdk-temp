@@ -2,30 +2,24 @@
 
 package components
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type TypesAddonType string
 
 const (
-	TypesAddonTypeOnetime TypesAddonType = "onetime"
+	TypesAddonTypeOnetime          TypesAddonType = "onetime"
+	TypesAddonTypeMultipleInstance TypesAddonType = "multiple_instance"
 )
 
 func (e TypesAddonType) ToPointer() *TypesAddonType {
 	return &e
 }
-func (e *TypesAddonType) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
+
+// IsExact returns true if the value matches a known enum value, false otherwise.
+func (e *TypesAddonType) IsExact() bool {
+	if e != nil {
+		switch *e {
+		case "onetime", "multiple_instance":
+			return true
+		}
 	}
-	switch v {
-	case "onetime":
-		*e = TypesAddonType(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for TypesAddonType: %v", v)
-	}
+	return false
 }

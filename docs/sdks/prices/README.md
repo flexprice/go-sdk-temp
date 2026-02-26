@@ -4,110 +4,54 @@
 
 ### Available Operations
 
-* [GetPrices](#getprices) - Get prices
-* [PostPrices](#postprices) - Create a new price
-* [PostPricesBulk](#postpricesbulk) - Create multiple prices in bulk
-* [GetPricesLookupLookupKey](#getpriceslookuplookupkey) - Get price by lookup key
-* [PostPricesSearch](#postpricessearch) - List prices by filter
-* [GetPricesID](#getpricesid) - Get a price by ID
-* [PutPricesID](#putpricesid) - Update a price
-* [DeletePricesID](#deletepricesid) - Delete a price
+* [CreatePrice](#createprice) - Create price
+* [CreatePricesBulk](#createpricesbulk) - Create prices in bulk
+* [GetPriceByLookupKey](#getpricebylookupkey) - Get price by lookup key
+* [QueryPrice](#queryprice) - Query prices
+* [GetPrice](#getprice) - Get price
+* [UpdatePrice](#updateprice) - Update price
+* [DeletePrice](#deleteprice) - Delete price
 
-## GetPrices
+## CreatePrice
 
-Get prices with the specified filter
+Use when adding a new price to a plan or catalog (e.g. per-seat, flat, or metered). Ideal for both simple and usage-based pricing.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices" method="get" path="/prices" -->
+<!-- UsageSnippet language="go" operationID="createPrice" method="post" path="/prices" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.GetPrices(ctx, operations.GetPricesRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
-| `request`                                                                  | [operations.GetPricesRequest](../../models/operations/getpricesrequest.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
-| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
-
-### Response
-
-**[*components.DtoListPricesResponse](../../models/components/dtolistpricesresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostPrices
-
-Create a new price with the specified configuration. Supports both regular and price unit configurations.
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/prices" method="post" path="/prices" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Prices.PostPrices(ctx, components.DtoCreatePriceRequest{
+    res, err := s.Prices.CreatePrice(ctx, components.DtoCreatePriceRequest{
         BillingCadence: components.TypesBillingCadenceRecurring,
-        BillingModel: components.TypesBillingModelTiered,
-        BillingPeriod: components.TypesBillingPeriodDaily,
-        Currency: "Iceland Krona",
+        BillingModel: components.TypesBillingModelPackage,
+        BillingPeriod: components.TypesBillingPeriodHalfYearly,
+        Currency: "Serbian Dinar",
         EntityID: "<id>",
-        EntityType: components.TypesPriceEntityTypeCostsheet,
-        InvoiceCadence: components.TypesInvoiceCadenceAdvance,
+        EntityType: components.TypesPriceEntityTypePrice,
+        InvoiceCadence: components.TypesInvoiceCadenceArrear,
         PriceUnitType: components.TypesPriceUnitTypeCustom,
         Type: components.TypesPriceTypeUsage,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceResponse != nil {
         // handle response
     }
 }
@@ -123,48 +67,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceResponse](../../models/components/dtopriceresponse.md), error**
+**[*operations.CreatePriceResponse](../../models/operations/createpriceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPricesBulk
+## CreatePricesBulk
 
-Create multiple prices with the specified configurations. Supports both regular and price unit configurations.
+Use when creating many prices at once (e.g. importing a catalog or setting up a plan with multiple tiers).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/prices/bulk" method="post" path="/prices/bulk" -->
+<!-- UsageSnippet language="go" operationID="createPricesBulk" method="post" path="/prices/bulk" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.PostPricesBulk(ctx, components.DtoCreateBulkPriceRequest{
+    res, err := s.Prices.CreatePricesBulk(ctx, components.DtoCreateBulkPriceRequest{
         Items: []components.DtoCreatePriceRequest{},
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreateBulkPriceResponse != nil {
         // handle response
     }
 }
@@ -180,45 +124,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreateBulkPriceResponse](../../models/components/dtocreatebulkpriceresponse.md), error**
+**[*operations.CreatePricesBulkResponse](../../models/operations/createpricesbulkresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPricesLookupLookupKey
+## GetPriceByLookupKey
 
-Get price by lookup key
+Use when resolving a price by external id (e.g. from your catalog or CMS). Ideal for integrations.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices/lookup/{lookup_key}" method="get" path="/prices/lookup/{lookup_key}" -->
+<!-- UsageSnippet language="go" operationID="getPriceByLookupKey" method="get" path="/prices/lookup/{lookup_key}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.GetPricesLookupLookupKey(ctx, "<value>")
+    res, err := s.Prices.GetPriceByLookupKey(ctx, "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceResponse != nil {
         // handle response
     }
 }
@@ -234,46 +178,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceResponse](../../models/components/dtopriceresponse.md), error**
+**[*operations.GetPriceByLookupKeyResponse](../../models/operations/getpricebylookupkeyresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPricesSearch
+## QueryPrice
 
-List prices with filter
+Use when listing or searching prices (e.g. plan builder or catalog). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/prices/search" method="post" path="/prices/search" -->
+<!-- UsageSnippet language="go" operationID="queryPrice" method="post" path="/prices/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.PostPricesSearch(ctx, components.TypesPriceFilter{})
+    res, err := s.Prices.QueryPrice(ctx, components.TypesPriceFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListPricesResponse != nil {
         // handle response
     }
 }
@@ -289,45 +233,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoListPricesResponse](../../models/components/dtolistpricesresponse.md), error**
+**[*operations.QueryPriceResponse](../../models/operations/querypriceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPricesID
+## GetPrice
 
-Get a price by ID with expanded meter and price unit information
+Use when you need to load a single price (e.g. for display or editing). Response includes expanded meter and price unit when applicable.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices/{id}" method="get" path="/prices/{id}" -->
+<!-- UsageSnippet language="go" operationID="getPrice" method="get" path="/prices/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.GetPricesID(ctx, "<id>")
+    res, err := s.Prices.GetPrice(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceResponse != nil {
         // handle response
     }
 }
@@ -343,46 +287,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceResponse](../../models/components/dtopriceresponse.md), error**
+**[*operations.GetPriceResponse](../../models/operations/getpriceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutPricesID
+## UpdatePrice
 
-Update a price with the specified configuration
+Use when changing price configuration (e.g. amount, billing scheme, or metadata).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/prices/{id}" method="put" path="/prices/{id}" -->
+<!-- UsageSnippet language="go" operationID="updatePrice" method="put" path="/prices/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.PutPricesID(ctx, "<id>", components.DtoUpdatePriceRequest{})
+    res, err := s.Prices.UpdatePrice(ctx, "<id>", components.DtoUpdatePriceRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceResponse != nil {
         // handle response
     }
 }
@@ -399,46 +343,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceResponse](../../models/components/dtopriceresponse.md), error**
+**[*operations.UpdatePriceResponse](../../models/operations/updatepriceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeletePricesID
+## DeletePrice
 
-Delete a price
+Use when retiring a price (e.g. end-of-life or replacement). Optional effective date or cascade for subscriptions.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/prices/{id}" method="delete" path="/prices/{id}" -->
+<!-- UsageSnippet language="go" operationID="deletePrice" method="delete" path="/prices/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.DeletePricesID(ctx, "<id>", components.DtoDeletePriceRequest{})
+    res, err := s.Prices.DeletePrice(ctx, "<id>", components.DtoDeletePriceRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -455,12 +399,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeletePriceResponse](../../models/operations/deletepriceresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

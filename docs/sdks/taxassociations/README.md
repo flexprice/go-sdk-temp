@@ -4,41 +4,41 @@
 
 ### Available Operations
 
-* [GetTaxesAssociations](#gettaxesassociations) - List tax associations
-* [PostTaxesAssociations](#posttaxesassociations) - Create Tax Association
-* [GetTaxesAssociationsID](#gettaxesassociationsid) - Get Tax Association
-* [PutTaxesAssociationsID](#puttaxesassociationsid) - Update tax association
-* [DeleteTaxesAssociationsID](#deletetaxesassociationsid) - Delete tax association
+* [ListTaxAssociations](#listtaxassociations) - List tax associations
+* [CreateTaxAssociation](#createtaxassociation) - Create Tax Association
+* [GetTaxAssociation](#gettaxassociation) - Get Tax Association
+* [UpdateTaxAssociation](#updatetaxassociation) - Update tax association
+* [DeleteTaxAssociation](#deletetaxassociation) - Delete tax association
 
-## GetTaxesAssociations
+## ListTaxAssociations
 
-List tax associations
+Use when listing tax associations (e.g. tax config or audit). Returns list with optional filtering.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/taxes/associations" method="get" path="/taxes/associations" -->
+<!-- UsageSnippet language="go" operationID="listTaxAssociations" method="get" path="/taxes/associations" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.GetTaxesAssociations(ctx, nil, nil, nil)
+    res, err := s.TaxAssociations.ListTaxAssociations(ctx, nil, nil, nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListTaxAssociationsResponse != nil {
         // handle response
     }
 }
@@ -56,50 +56,50 @@ func main() {
 
 ### Response
 
-**[*components.DtoListTaxAssociationsResponse](../../models/components/dtolisttaxassociationsresponse.md), error**
+**[*operations.ListTaxAssociationsResponse](../../models/operations/listtaxassociationsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTaxesAssociations
+## CreateTaxAssociation
 
-Create a new tax association
+Use when linking a tax rate to an entity (e.g. customer, product, or region) so that rate applies on invoices.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/taxes/associations" method="post" path="/taxes/associations" -->
+<!-- UsageSnippet language="go" operationID="createTaxAssociation" method="post" path="/taxes/associations" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.PostTaxesAssociations(ctx, components.DtoCreateTaxAssociationRequest{
+    res, err := s.TaxAssociations.CreateTaxAssociation(ctx, components.DtoCreateTaxAssociationRequest{
         EntityID: "<id>",
-        EntityType: components.TypesTaxRateEntityTypeSubscription,
+        EntityType: components.TypesTaxRateEntityTypeCustomer,
         TaxRateCode: "<value>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxAssociationResponse != nil {
         // handle response
     }
 }
@@ -115,45 +115,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxAssociationResponse](../../models/components/dtotaxassociationresponse.md), error**
+**[*operations.CreateTaxAssociationResponse](../../models/operations/createtaxassociationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTaxesAssociationsID
+## GetTaxAssociation
 
-Get a tax association by ID
+Use when you need to load a single tax association (e.g. for display or editing).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/taxes/associations/{id}" method="get" path="/taxes/associations/{id}" -->
+<!-- UsageSnippet language="go" operationID="getTaxAssociation" method="get" path="/taxes/associations/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.GetTaxesAssociationsID(ctx, "<id>")
+    res, err := s.TaxAssociations.GetTaxAssociation(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxAssociationResponse != nil {
         // handle response
     }
 }
@@ -169,46 +169,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxAssociationResponse](../../models/components/dtotaxassociationresponse.md), error**
+**[*operations.GetTaxAssociationResponse](../../models/operations/gettaxassociationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutTaxesAssociationsID
+## UpdateTaxAssociation
 
-Update a tax association by ID
+Use when changing a tax association (e.g. switch rate or entity). Request body contains the fields to update.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/taxes/associations/{id}" method="put" path="/taxes/associations/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateTaxAssociation" method="put" path="/taxes/associations/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.PutTaxesAssociationsID(ctx, "<id>", components.DtoTaxAssociationUpdateRequest{})
+    res, err := s.TaxAssociations.UpdateTaxAssociation(ctx, "<id>", components.DtoTaxAssociationUpdateRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxAssociationResponse != nil {
         // handle response
     }
 }
@@ -225,45 +225,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxAssociationResponse](../../models/components/dtotaxassociationresponse.md), error**
+**[*operations.UpdateTaxAssociationResponse](../../models/operations/updatetaxassociationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteTaxesAssociationsID
+## DeleteTaxAssociation
 
-Delete a tax association by ID
+Use when removing a tax association (e.g. entity no longer subject to that rate).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/taxes/associations/{id}" method="delete" path="/taxes/associations/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteTaxAssociation" method="delete" path="/taxes/associations/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.TaxAssociations.DeleteTaxesAssociationsID(ctx, "<id>")
+    res, err := s.TaxAssociations.DeleteTaxAssociation(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTaxAssociationResponse != nil {
         // handle response
     }
 }
@@ -279,12 +279,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoTaxAssociationResponse](../../models/components/dtotaxassociationresponse.md), error**
+**[*operations.DeleteTaxAssociationResponse](../../models/operations/deletetaxassociationresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

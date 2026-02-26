@@ -4,44 +4,44 @@
 
 ### Available Operations
 
-* [GetPricesUnits](#getpricesunits) - List price units
-* [PostPricesUnits](#postpricesunits) - Create a new price unit
-* [GetPricesUnitsCodeCode](#getpricesunitscodecode) - Get a price unit by code
-* [PostPricesUnitsSearch](#postpricesunitssearch) - List price units by filter
-* [GetPricesUnitsID](#getpricesunitsid) - Get a price unit by ID
-* [PutPricesUnitsID](#putpricesunitsid) - Update a price unit
-* [DeletePricesUnitsID](#deletepricesunitsid) - Delete a price unit
+* [ListPriceUnits](#listpriceunits) - List price units
+* [CreatePriceUnit](#createpriceunit) - Create price unit
+* [GetPriceUnitByCode](#getpriceunitbycode) - Get price unit by code
+* [QueryPriceUnit](#querypriceunit) - Query price units
+* [GetPriceUnit](#getpriceunit) - Get price unit
+* [UpdatePriceUnit](#updatepriceunit) - Update price unit
+* [DeletePriceUnit](#deletepriceunit) - Delete price unit
 
-## GetPricesUnits
+## ListPriceUnits
 
-Get a paginated list of price units with optional filtering
+Use when listing price units (e.g. in a catalog or when creating prices). Returns a paginated list; supports status, sort, and pagination.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices/units" method="get" path="/prices/units" -->
+<!-- UsageSnippet language="go" operationID="listPriceUnits" method="get" path="/prices/units" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.GetPricesUnits(ctx, operations.GetPricesUnitsRequest{})
+    res, err := s.PriceUnits.ListPriceUnits(ctx, operations.ListPriceUnitsRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListPriceUnitsResponse != nil {
         // handle response
     }
 }
@@ -52,46 +52,47 @@ func main() {
 | Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 | `ctx`                                                                                | [context.Context](https://pkg.go.dev/context#Context)                                | :heavy_check_mark:                                                                   | The context to use for the request.                                                  |
-| `request`                                                                            | [operations.GetPricesUnitsRequest](../../models/operations/getpricesunitsrequest.md) | :heavy_check_mark:                                                                   | The request object to use for the request.                                           |
+| `request`                                                                            | [operations.ListPriceUnitsRequest](../../models/operations/listpriceunitsrequest.md) | :heavy_check_mark:                                                                   | The request object to use for the request.                                           |
 | `opts`                                                                               | [][operations.Option](../../models/operations/option.md)                             | :heavy_minus_sign:                                                                   | The options for this request.                                                        |
 
 ### Response
 
-**[*components.DtoListPriceUnitsResponse](../../models/components/dtolistpriceunitsresponse.md), error**
+**[*operations.ListPriceUnitsResponse](../../models/operations/listpriceunitsresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPricesUnits
+## CreatePriceUnit
 
-Create a new price unit with the provided details
+Use when defining a new unit of measure for pricing (e.g. GB, API call, seat). Ideal for metered or usage-based prices.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/prices/units" method="post" path="/prices/units" -->
+<!-- UsageSnippet language="go" operationID="createPriceUnit" method="post" path="/prices/units" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.PostPricesUnits(ctx, components.DtoCreatePriceUnitRequest{
+    res, err := s.PriceUnits.CreatePriceUnit(ctx, components.DtoCreatePriceUnitRequest{
         BaseCurrency: "<value>",
         Code: "<value>",
         ConversionRate: "<value>",
@@ -101,7 +102,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreatePriceUnitResponse != nil {
         // handle response
     }
 }
@@ -117,44 +118,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreatePriceUnitResponse](../../models/components/dtocreatepriceunitresponse.md), error**
+**[*operations.CreatePriceUnitResponse](../../models/operations/createpriceunitresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPricesUnitsCodeCode
+## GetPriceUnitByCode
 
-Get a price unit by code
+Use when resolving a price unit by code (e.g. from an external catalog or config). Ideal for integrations.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices/units/code/{code}" method="get" path="/prices/units/code/{code}" -->
+<!-- UsageSnippet language="go" operationID="getPriceUnitByCode" method="get" path="/prices/units/code/{code}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.GetPricesUnitsCodeCode(ctx, "<value>")
+    res, err := s.PriceUnits.GetPriceUnitByCode(ctx, "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceUnitResponse != nil {
         // handle response
     }
 }
@@ -170,46 +172,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceUnitResponse](../../models/components/dtopriceunitresponse.md), error**
+**[*operations.GetPriceUnitByCodeResponse](../../models/operations/getpriceunitbycoderesponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostPricesUnitsSearch
+## QueryPriceUnit
 
-List price units by filter
+Use when searching or listing price units (e.g. admin catalog). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/prices/units/search" method="post" path="/prices/units/search" -->
+<!-- UsageSnippet language="go" operationID="queryPriceUnit" method="post" path="/prices/units/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.PostPricesUnitsSearch(ctx, components.TypesFilter{})
+    res, err := s.PriceUnits.QueryPriceUnit(ctx, components.TypesPriceUnitFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListPriceUnitsResponse != nil {
         // handle response
     }
 }
@@ -217,53 +219,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                        | Type                                                             | Required                                                         | Description                                                      |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `ctx`                                                            | [context.Context](https://pkg.go.dev/context#Context)            | :heavy_check_mark:                                               | The context to use for the request.                              |
-| `request`                                                        | [components.TypesFilter](../../models/components/typesfilter.md) | :heavy_check_mark:                                               | The request object to use for the request.                       |
-| `opts`                                                           | [][operations.Option](../../models/operations/option.md)         | :heavy_minus_sign:                                               | The options for this request.                                    |
+| Parameter                                                                          | Type                                                                               | Required                                                                           | Description                                                                        |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `ctx`                                                                              | [context.Context](https://pkg.go.dev/context#Context)                              | :heavy_check_mark:                                                                 | The context to use for the request.                                                |
+| `request`                                                                          | [components.TypesPriceUnitFilter](../../models/components/typespriceunitfilter.md) | :heavy_check_mark:                                                                 | The request object to use for the request.                                         |
+| `opts`                                                                             | [][operations.Option](../../models/operations/option.md)                           | :heavy_minus_sign:                                                                 | The options for this request.                                                      |
 
 ### Response
 
-**[*components.DtoListPriceUnitsResponse](../../models/components/dtolistpriceunitsresponse.md), error**
+**[*operations.QueryPriceUnitResponse](../../models/operations/querypriceunitresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetPricesUnitsID
+## GetPriceUnit
 
-Get a price unit by ID
+Use when you need to load a single price unit (e.g. for display or when creating a price).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/prices/units/{id}" method="get" path="/prices/units/{id}" -->
+<!-- UsageSnippet language="go" operationID="getPriceUnit" method="get" path="/prices/units/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.GetPricesUnitsID(ctx, "<id>")
+    res, err := s.PriceUnits.GetPriceUnit(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceUnitResponse != nil {
         // handle response
     }
 }
@@ -279,45 +281,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceUnitResponse](../../models/components/dtopriceunitresponse.md), error**
+**[*operations.GetPriceUnitResponse](../../models/operations/getpriceunitresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutPricesUnitsID
+## UpdatePriceUnit
 
-Update an existing price unit with the provided details. Only name and metadata can be updated.
+Use when renaming or updating metadata for a price unit. Code is immutable once created.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/prices/units/{id}" method="put" path="/prices/units/{id}" -->
+<!-- UsageSnippet language="go" operationID="updatePriceUnit" method="put" path="/prices/units/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.PutPricesUnitsID(ctx, "<id>", components.DtoUpdatePriceUnitRequest{})
+    res, err := s.PriceUnits.UpdatePriceUnit(ctx, "<id>", components.DtoUpdatePriceUnitRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoPriceUnitResponse != nil {
         // handle response
     }
 }
@@ -334,44 +336,44 @@ func main() {
 
 ### Response
 
-**[*components.DtoPriceUnitResponse](../../models/components/dtopriceunitresponse.md), error**
+**[*operations.UpdatePriceUnitResponse](../../models/operations/updatepriceunitresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeletePricesUnitsID
+## DeletePriceUnit
 
-Delete an existing price unit.
+Use when removing a price unit that is no longer needed. Fails if any price references this unit.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/prices/units/{id}" method="delete" path="/prices/units/{id}" -->
+<!-- UsageSnippet language="go" operationID="deletePriceUnit" method="delete" path="/prices/units/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.PriceUnits.DeletePricesUnitsID(ctx, "<id>")
+    res, err := s.PriceUnits.DeletePriceUnit(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -387,11 +389,11 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeletePriceUnitResponse](../../models/operations/deletepriceunitresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

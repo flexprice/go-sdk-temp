@@ -3,13 +3,14 @@
 package components
 
 import (
-	"github.com/flexprice/go-sdk-temp/internal/utils"
+	"github.com/flexprice/flexprice-go/internal/utils"
 )
 
 type DtoGetUsageAnalyticsResponse struct {
-	Currency  *string                `json:"currency,omitzero"`
-	Items     []DtoUsageAnalyticItem `json:"items,omitzero"`
-	TotalCost *string                `json:"total_cost,omitzero"`
+	Currency        *string                 `json:"currency,omitzero"`
+	CustomAnalytics []DtoCustomAnalyticItem `json:"custom_analytics,omitzero"`
+	Items           []DtoUsageAnalyticItem  `json:"items,omitzero"`
+	TotalCost       *string                 `json:"total_cost,omitzero"`
 }
 
 func (d DtoGetUsageAnalyticsResponse) MarshalJSON() ([]byte, error) {
@@ -28,6 +29,13 @@ func (d *DtoGetUsageAnalyticsResponse) GetCurrency() *string {
 		return nil
 	}
 	return d.Currency
+}
+
+func (d *DtoGetUsageAnalyticsResponse) GetCustomAnalytics() []DtoCustomAnalyticItem {
+	if d == nil {
+		return nil
+	}
+	return d.CustomAnalytics
 }
 
 func (d *DtoGetUsageAnalyticsResponse) GetItems() []DtoUsageAnalyticItem {

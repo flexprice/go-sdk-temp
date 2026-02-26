@@ -4,44 +4,44 @@
 
 ### Available Operations
 
-* [GetTasksScheduled](#gettasksscheduled) - List scheduled tasks
-* [PostTasksScheduled](#posttasksscheduled) - Create a scheduled task
-* [PostTasksScheduledScheduleUpdateBillingPeriod](#posttasksscheduledscheduleupdatebillingperiod) - Schedule update billing period
-* [GetTasksScheduledID](#gettasksscheduledid) - Get a scheduled task
-* [PutTasksScheduledID](#puttasksscheduledid) - Update a scheduled task
-* [DeleteTasksScheduledID](#deletetasksscheduledid) - Delete a scheduled task
-* [PostTasksScheduledIDRun](#posttasksscheduledidrun) - Trigger force run
+* [ListScheduledTasks](#listscheduledtasks) - List scheduled tasks
+* [CreateScheduledTask](#createscheduledtask) - Create scheduled task
+* [ScheduleUpdateBillingPeriod](#scheduleupdatebillingperiod) - Schedule update billing period
+* [GetScheduledTask](#getscheduledtask) - Get scheduled task
+* [UpdateScheduledTask](#updatescheduledtask) - Update a scheduled task
+* [DeleteScheduledTask](#deletescheduledtask) - Delete a scheduled task
+* [TriggerScheduledTaskRun](#triggerscheduledtaskrun) - Trigger force run
 
-## GetTasksScheduled
+## ListScheduledTasks
 
-Get a list of scheduled tasks with optional filters
+Use when listing or managing scheduled tasks in an admin UI. Returns a list; supports filtering by status, type, and pagination.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks/scheduled" method="get" path="/tasks/scheduled" -->
+<!-- UsageSnippet language="go" operationID="listScheduledTasks" method="get" path="/tasks/scheduled" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.GetTasksScheduled(ctx, operations.GetTasksScheduledRequest{})
+    res, err := s.ScheduledTasks.ListScheduledTasks(ctx, operations.ListScheduledTasksRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListScheduledTasksResponse != nil {
         // handle response
     }
 }
@@ -49,59 +49,59 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                  | Type                                                                                       | Required                                                                                   | Description                                                                                |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                      | [context.Context](https://pkg.go.dev/context#Context)                                      | :heavy_check_mark:                                                                         | The context to use for the request.                                                        |
-| `request`                                                                                  | [operations.GetTasksScheduledRequest](../../models/operations/gettasksscheduledrequest.md) | :heavy_check_mark:                                                                         | The request object to use for the request.                                                 |
-| `opts`                                                                                     | [][operations.Option](../../models/operations/option.md)                                   | :heavy_minus_sign:                                                                         | The options for this request.                                                              |
+| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                        | [context.Context](https://pkg.go.dev/context#Context)                                        | :heavy_check_mark:                                                                           | The context to use for the request.                                                          |
+| `request`                                                                                    | [operations.ListScheduledTasksRequest](../../models/operations/listscheduledtasksrequest.md) | :heavy_check_mark:                                                                           | The request object to use for the request.                                                   |
+| `opts`                                                                                       | [][operations.Option](../../models/operations/option.md)                                     | :heavy_minus_sign:                                                                           | The options for this request.                                                                |
 
 ### Response
 
-**[*components.DtoListScheduledTasksResponse](../../models/components/dtolistscheduledtasksresponse.md), error**
+**[*operations.ListScheduledTasksResponse](../../models/operations/listscheduledtasksresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTasksScheduled
+## CreateScheduledTask
 
-Create a new scheduled task for data export
+Use when setting up recurring data exports or other scheduled jobs. Ideal for report generation or syncing data on a schedule.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/tasks/scheduled" method="post" path="/tasks/scheduled" -->
+<!-- UsageSnippet language="go" operationID="createScheduledTask" method="post" path="/tasks/scheduled" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.PostTasksScheduled(ctx, components.DtoCreateScheduledTaskRequest{
+    res, err := s.ScheduledTasks.CreateScheduledTask(ctx, components.DtoCreateScheduledTaskRequest{
         ConnectionID: "<id>",
         EntityType: components.TypesScheduledTaskEntityTypeCreditTopups,
-        Interval: components.TypesScheduledTaskIntervalFifteenMin,
+        Interval: components.TypesScheduledTaskIntervalHourly,
         JobConfig: components.TypesS3JobConfig{},
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoScheduledTaskResponse != nil {
         // handle response
     }
 }
@@ -117,46 +117,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoScheduledTaskResponse](../../models/components/dtoscheduledtaskresponse.md), error**
+**[*operations.CreateScheduledTaskResponse](../../models/operations/createscheduledtaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTasksScheduledScheduleUpdateBillingPeriod
+## ScheduleUpdateBillingPeriod
 
-Schedule an update billing period workflow
+Use when you need to trigger a billing-period update workflow (e.g. to recalculate or sync billing windows).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/tasks/scheduled/schedule-update-billing-period" method="post" path="/tasks/scheduled/schedule-update-billing-period" -->
+<!-- UsageSnippet language="go" operationID="scheduleUpdateBillingPeriod" method="post" path="/tasks/scheduled/schedule-update-billing-period" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.PostTasksScheduledScheduleUpdateBillingPeriod(ctx, operations.PostTasksScheduledScheduleUpdateBillingPeriodRequest{})
+    res, err := s.ScheduledTasks.ScheduleUpdateBillingPeriod(ctx, operations.ScheduleUpdateBillingPeriodRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -164,53 +164,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                                                                          | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                                                              | [context.Context](https://pkg.go.dev/context#Context)                                                                                              | :heavy_check_mark:                                                                                                                                 | The context to use for the request.                                                                                                                |
-| `request`                                                                                                                                          | [operations.PostTasksScheduledScheduleUpdateBillingPeriodRequest](../../models/operations/posttasksscheduledscheduleupdatebillingperiodrequest.md) | :heavy_check_mark:                                                                                                                                 | The request object to use for the request.                                                                                                         |
-| `opts`                                                                                                                                             | [][operations.Option](../../models/operations/option.md)                                                                                           | :heavy_minus_sign:                                                                                                                                 | The options for this request.                                                                                                                      |
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                                          | [context.Context](https://pkg.go.dev/context#Context)                                                          | :heavy_check_mark:                                                                                             | The context to use for the request.                                                                            |
+| `request`                                                                                                      | [operations.ScheduleUpdateBillingPeriodRequest](../../models/operations/scheduleupdatebillingperiodrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
+| `opts`                                                                                                         | [][operations.Option](../../models/operations/option.md)                                                       | :heavy_minus_sign:                                                                                             | The options for this request.                                                                                  |
 
 ### Response
 
-**[*operations.PostTasksScheduledScheduleUpdateBillingPeriodResponse](../../models/operations/posttasksscheduledscheduleupdatebillingperiodresponse.md), error**
+**[*operations.ScheduleUpdateBillingPeriodResponse](../../models/operations/scheduleupdatebillingperiodresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetTasksScheduledID
+## GetScheduledTask
 
-Get a scheduled task by ID
+Use when you need to load a single scheduled task (e.g. to show details in a UI or check its configuration).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/tasks/scheduled/{id}" method="get" path="/tasks/scheduled/{id}" -->
+<!-- UsageSnippet language="go" operationID="getScheduledTask" method="get" path="/tasks/scheduled/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.GetTasksScheduledID(ctx, "<id>")
+    res, err := s.ScheduledTasks.GetScheduledTask(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoScheduledTaskResponse != nil {
         // handle response
     }
 }
@@ -226,48 +226,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoScheduledTaskResponse](../../models/components/dtoscheduledtaskresponse.md), error**
+**[*operations.GetScheduledTaskResponse](../../models/operations/getscheduledtaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutTasksScheduledID
+## UpdateScheduledTask
 
-Update a scheduled task by ID - Only enabled field can be changed (pause/resume)
+Use when pausing or resuming a scheduled task. Only the enabled field can be changed.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/tasks/scheduled/{id}" method="put" path="/tasks/scheduled/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateScheduledTask" method="put" path="/tasks/scheduled/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.PutTasksScheduledID(ctx, "<id>", components.DtoUpdateScheduledTaskRequest{
-        Enabled: true,
+    res, err := s.ScheduledTasks.UpdateScheduledTask(ctx, "<id>", components.DtoUpdateScheduledTaskRequest{
+        Enabled: false,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoScheduledTaskResponse != nil {
         // handle response
     }
 }
@@ -284,43 +284,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoScheduledTaskResponse](../../models/components/dtoscheduledtaskresponse.md), error**
+**[*operations.UpdateScheduledTaskResponse](../../models/operations/updatescheduledtaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteTasksScheduledID
+## DeleteScheduledTask
 
-Archive a scheduled task by ID (soft delete) - Sets status to archived and deletes from Temporal
+Use when removing a scheduled task from the active roster. Archives the task and removes it from the scheduler (soft delete).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/tasks/scheduled/{id}" method="delete" path="/tasks/scheduled/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteScheduledTask" method="delete" path="/tasks/scheduled/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    err := s.ScheduledTasks.DeleteTasksScheduledID(ctx, "<id>")
+    res, err := s.ScheduledTasks.DeleteScheduledTask(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
     }
 }
 ```
@@ -335,45 +338,45 @@ func main() {
 
 ### Response
 
-**error**
+**[*operations.DeleteScheduledTaskResponse](../../models/operations/deletescheduledtaskresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostTasksScheduledIDRun
+## TriggerScheduledTaskRun
 
-Trigger a force run export immediately for a scheduled task with optional custom time range
+Use when you need to run a scheduled export immediately (e.g. on-demand report or catch-up). Supports optional custom time range.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/tasks/scheduled/{id}/run" method="post" path="/tasks/scheduled/{id}/run" -->
+<!-- UsageSnippet language="go" operationID="triggerScheduledTaskRun" method="post" path="/tasks/scheduled/{id}/run" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.PostTasksScheduledIDRun(ctx, "<id>", nil)
+    res, err := s.ScheduledTasks.TriggerScheduledTaskRun(ctx, "<id>", nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoTriggerForceRunResponse != nil {
         // handle response
     }
 }
@@ -390,12 +393,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoTriggerForceRunResponse](../../models/components/dtotriggerforcerunresponse.md), error**
+**[*operations.TriggerScheduledTaskRunResponse](../../models/operations/triggerscheduledtaskrunresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

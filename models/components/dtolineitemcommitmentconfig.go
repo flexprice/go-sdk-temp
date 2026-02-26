@@ -4,7 +4,8 @@ package components
 
 type DtoLineItemCommitmentConfig struct {
 	// CommitmentAmount is the minimum amount committed for this line item
-	CommitmentAmount *float64 `json:"commitment_amount,omitzero"`
+	CommitmentAmount   *float64            `json:"commitment_amount,omitzero"`
+	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
 	// CommitmentQuantity is the minimum quantity committed for this line item
 	CommitmentQuantity *float64             `json:"commitment_quantity,omitzero"`
 	CommitmentType     *TypesCommitmentType `json:"commitment_type,omitzero"`
@@ -21,6 +22,13 @@ func (d *DtoLineItemCommitmentConfig) GetCommitmentAmount() *float64 {
 		return nil
 	}
 	return d.CommitmentAmount
+}
+
+func (d *DtoLineItemCommitmentConfig) GetCommitmentDuration() *TypesBillingPeriod {
+	if d == nil {
+		return nil
+	}
+	return d.CommitmentDuration
 }
 
 func (d *DtoLineItemCommitmentConfig) GetCommitmentQuantity() *float64 {

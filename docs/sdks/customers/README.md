@@ -4,102 +4,46 @@
 
 ### Available Operations
 
-* [GetCustomers](#getcustomers) - Get customers
-* [PutCustomers](#putcustomers) - Update a customer
-* [PostCustomers](#postcustomers) - Create a customer
-* [GetCustomersExternalExternalID](#getcustomersexternalexternalid) - Get a customer by external id
-* [PostCustomersSearch](#postcustomerssearch) - List customers by filter
-* [GetCustomersUsage](#getcustomersusage) - Get customer usage summary
-* [GetCustomersID](#getcustomersid) - Get a customer
-* [DeleteCustomersID](#deletecustomersid) - Delete a customer
-* [GetCustomersIDEntitlements](#getcustomersidentitlements) - Get customer entitlements
-* [GetCustomersIDGrantsUpcoming](#getcustomersidgrantsupcoming) - Get upcoming credit grant applications
+* [UpdateCustomer](#updatecustomer) - Update customer
+* [CreateCustomer](#createcustomer) - Create customer
+* [GetCustomerByExternalID](#getcustomerbyexternalid) - Get customer by external ID
+* [QueryCustomer](#querycustomer) - Query customers
+* [GetCustomerUsageSummary](#getcustomerusagesummary) - Get customer usage summary
+* [GetCustomer](#getcustomer) - Get customer
+* [DeleteCustomer](#deletecustomer) - Delete customer
+* [GetCustomerEntitlements](#getcustomerentitlements) - Get customer entitlements
+* [GetCustomerUpcomingGrants](#getcustomerupcominggrants) - Get upcoming credit grant applications
 
-## GetCustomers
+## UpdateCustomer
 
-Get customers
+Use when updating customer details (e.g. name, email, or metadata). Identify by id or external_customer_id.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers" method="get" path="/customers" -->
+<!-- UsageSnippet language="go" operationID="updateCustomer" method="put" path="/customers" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.GetCustomers(ctx, operations.GetCustomersRequest{})
+    res, err := s.Customers.UpdateCustomer(ctx, components.DtoUpdateCustomerRequest{}, nil, nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
-| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `ctx`                                                                            | [context.Context](https://pkg.go.dev/context#Context)                            | :heavy_check_mark:                                                               | The context to use for the request.                                              |
-| `request`                                                                        | [operations.GetCustomersRequest](../../models/operations/getcustomersrequest.md) | :heavy_check_mark:                                                               | The request object to use for the request.                                       |
-| `opts`                                                                           | [][operations.Option](../../models/operations/option.md)                         | :heavy_minus_sign:                                                               | The options for this request.                                                    |
-
-### Response
-
-**[*components.DtoListCustomersResponse](../../models/components/dtolistcustomersresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PutCustomers
-
-Update a customer by id or external_customer_id
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="put_/customers" method="put" path="/customers" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Customers.PutCustomers(ctx, components.DtoUpdateCustomerRequest{}, nil, nil)
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
+    if res.DtoCustomerResponse != nil {
         // handle response
     }
 }
@@ -117,48 +61,48 @@ func main() {
 
 ### Response
 
-**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
+**[*operations.UpdateCustomerResponse](../../models/operations/updatecustomerresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCustomers
+## CreateCustomer
 
-Create a customer
+Use when onboarding a new billing customer (e.g. sign-up or CRM sync). Ideal for linking via external_customer_id to your app's user id.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/customers" method="post" path="/customers" -->
+<!-- UsageSnippet language="go" operationID="createCustomer" method="post" path="/customers" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.PostCustomers(ctx, components.DtoCreateCustomerRequest{
+    res, err := s.Customers.CreateCustomer(ctx, components.DtoCreateCustomerRequest{
         ExternalID: "<id>",
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCustomerResponse != nil {
         // handle response
     }
 }
@@ -174,45 +118,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
+**[*operations.CreateCustomerResponse](../../models/operations/createcustomerresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCustomersExternalExternalID
+## GetCustomerByExternalID
 
-Get a customer by external id
+Use when resolving a customer by your app's id (e.g. from your user table). Ideal for integrations that key by external id.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/external/{external_id}" method="get" path="/customers/external/{external_id}" -->
+<!-- UsageSnippet language="go" operationID="getCustomerByExternalId" method="get" path="/customers/external/{external_id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.GetCustomersExternalExternalID(ctx, "<id>")
+    res, err := s.Customers.GetCustomerByExternalID(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCustomerResponse != nil {
         // handle response
     }
 }
@@ -228,46 +172,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
+**[*operations.GetCustomerByExternalIDResponse](../../models/operations/getcustomerbyexternalidresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostCustomersSearch
+## QueryCustomer
 
-List customers by filter
+Use when listing or searching customers (e.g. admin CRM or reporting). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/customers/search" method="post" path="/customers/search" -->
+<!-- UsageSnippet language="go" operationID="queryCustomer" method="post" path="/customers/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.PostCustomersSearch(ctx, components.TypesCustomerFilter{})
+    res, err := s.Customers.QueryCustomer(ctx, components.TypesCustomerFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListCustomersResponse != nil {
         // handle response
     }
 }
@@ -283,46 +227,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoListCustomersResponse](../../models/components/dtolistcustomersresponse.md), error**
+**[*operations.QueryCustomerResponse](../../models/operations/querycustomerresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCustomersUsage
+## GetCustomerUsageSummary
 
-Get customer usage summary by customer_id or customer_lookup_key (external_customer_id)
+Use when showing a customer's usage (e.g. portal or overage alerts). Identify by customer_id or customer_lookup_key; supports filters.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/usage" method="get" path="/customers/usage" -->
+<!-- UsageSnippet language="go" operationID="getCustomerUsageSummary" method="get" path="/customers/usage" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/operations"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.GetCustomersUsage(ctx, operations.GetCustomersUsageRequest{})
+    res, err := s.Customers.GetCustomerUsageSummary(ctx, operations.GetCustomerUsageSummaryRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCustomerUsageSummaryResponse != nil {
         // handle response
     }
 }
@@ -330,53 +274,53 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                  | Type                                                                                       | Required                                                                                   | Description                                                                                |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                      | [context.Context](https://pkg.go.dev/context#Context)                                      | :heavy_check_mark:                                                                         | The context to use for the request.                                                        |
-| `request`                                                                                  | [operations.GetCustomersUsageRequest](../../models/operations/getcustomersusagerequest.md) | :heavy_check_mark:                                                                         | The request object to use for the request.                                                 |
-| `opts`                                                                                     | [][operations.Option](../../models/operations/option.md)                                   | :heavy_minus_sign:                                                                         | The options for this request.                                                              |
+| Parameter                                                                                              | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `ctx`                                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                                  | :heavy_check_mark:                                                                                     | The context to use for the request.                                                                    |
+| `request`                                                                                              | [operations.GetCustomerUsageSummaryRequest](../../models/operations/getcustomerusagesummaryrequest.md) | :heavy_check_mark:                                                                                     | The request object to use for the request.                                                             |
+| `opts`                                                                                                 | [][operations.Option](../../models/operations/option.md)                                               | :heavy_minus_sign:                                                                                     | The options for this request.                                                                          |
 
 ### Response
 
-**[*components.DtoCustomerUsageSummaryResponse](../../models/components/dtocustomerusagesummaryresponse.md), error**
+**[*operations.GetCustomerUsageSummaryResponse](../../models/operations/getcustomerusagesummaryresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCustomersID
+## GetCustomer
 
-Get a customer
+Use when you need to load a single customer (e.g. for a billing portal or to attach a subscription).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/customers/{id}" method="get" path="/customers/{id}" -->
+<!-- UsageSnippet language="go" operationID="getCustomer" method="get" path="/customers/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Customers.GetCustomersID(ctx, "<id>")
+    res, err := s.Customers.GetCustomer(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCustomerResponse != nil {
         // handle response
     }
 }
@@ -392,148 +336,41 @@ func main() {
 
 ### Response
 
-**[*components.DtoCustomerResponse](../../models/components/dtocustomerresponse.md), error**
+**[*operations.GetCustomerResponse](../../models/operations/getcustomerresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteCustomersID
+## DeleteCustomer
 
-Delete a customer
+Use when removing a customer (e.g. GDPR or churn). Returns 204 No Content on success.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/customers/{id}" method="delete" path="/customers/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteCustomer" method="delete" path="/customers/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    err := s.Customers.DeleteCustomersID(ctx, "<id>")
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## GetCustomersIDEntitlements
-
-Get customer entitlements
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="get_/customers/{id}/entitlements" method="get" path="/customers/{id}/entitlements" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Customers.GetCustomersIDEntitlements(ctx, "<id>", nil, nil)
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
-| `featureIds`                                             | []*string*                                               | :heavy_minus_sign:                                       | N/A                                                      |
-| `subscriptionIds`                                        | []*string*                                               | :heavy_minus_sign:                                       | N/A                                                      |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**[*components.DtoCustomerEntitlementsResponse](../../models/components/dtocustomerentitlementsresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## GetCustomersIDGrantsUpcoming
-
-Get upcoming credit grant applications for a customer
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="get_/customers/{id}/grants/upcoming" method="get" path="/customers/{id}/grants/upcoming" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Customers.GetCustomersIDGrantsUpcoming(ctx, "<id>")
+    res, err := s.Customers.DeleteCustomer(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
@@ -553,12 +390,120 @@ func main() {
 
 ### Response
 
-**[*components.DtoListCreditGrantApplicationsResponse](../../models/components/dtolistcreditgrantapplicationsresponse.md), error**
+**[*operations.DeleteCustomerResponse](../../models/operations/deletecustomerresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetCustomerEntitlements
+
+Use when checking what a customer can access (e.g. feature gating or usage limits). Supports optional filters (feature_ids, subscription_ids).
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="getCustomerEntitlements" method="get" path="/customers/{id}/entitlements" -->
+```go
+package main
+
+import(
+	"context"
+	flexprice "github.com/flexprice/flexprice-go"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := flexprice.New(
+        "https://api.example.com",
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Customers.GetCustomerEntitlements(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res.DtoCustomerEntitlementsResponse != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*operations.GetCustomerEntitlementsResponse](../../models/operations/getcustomerentitlementsresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetCustomerUpcomingGrants
+
+Use when showing upcoming or pending credits for a customer (e.g. in a portal or for forecasting).
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="getCustomerUpcomingGrants" method="get" path="/customers/{id}/grants/upcoming" -->
+```go
+package main
+
+import(
+	"context"
+	flexprice "github.com/flexprice/flexprice-go"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := flexprice.New(
+        "https://api.example.com",
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Customers.GetCustomerUpcomingGrants(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res.DtoListCreditGrantApplicationsResponse != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*operations.GetCustomerUpcomingGrantsResponse](../../models/operations/getcustomerupcominggrantsresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

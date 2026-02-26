@@ -4,37 +4,37 @@
 
 ### Available Operations
 
-* [PostGroups](#postgroups) - Create a group
-* [PostGroupsSearch](#postgroupssearch) - Get groups
-* [GetGroupsID](#getgroupsid) - Get a group
-* [DeleteGroupsID](#deletegroupsid) - Delete a group
+* [CreateGroup](#creategroup) - Create group
+* [QueryGroup](#querygroup) - Query groups
+* [GetGroup](#getgroup) - Get group
+* [DeleteGroup](#deletegroup) - Delete group
 
-## PostGroups
+## CreateGroup
 
-Create a new group for organizing entities (prices, plans, customers, etc.)
+Use when organizing entities into a group (e.g. for filtering prices or plans by product line or region).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/groups" method="post" path="/groups" -->
+<!-- UsageSnippet language="go" operationID="createGroup" method="post" path="/groups" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Groups.PostGroups(ctx, components.DtoCreateGroupRequest{
+    res, err := s.Groups.CreateGroup(ctx, components.DtoCreateGroupRequest{
         EntityType: "<value>",
         LookupKey: "<value>",
         Name: "<value>",
@@ -42,7 +42,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoGroupResponse != nil {
         // handle response
     }
 }
@@ -58,46 +58,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoGroupResponse](../../models/components/dtogroupresponse.md), error**
+**[*operations.CreateGroupResponse](../../models/operations/creategroupresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostGroupsSearch
+## QueryGroup
 
-Get groups with optional filtering via query parameters
+Use when listing or searching groups (e.g. admin catalog). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/groups/search" method="post" path="/groups/search" -->
+<!-- UsageSnippet language="go" operationID="queryGroup" method="post" path="/groups/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Groups.PostGroupsSearch(ctx, operations.PostGroupsSearchRequest{})
+    res, err := s.Groups.QueryGroup(ctx, components.TypesGroupFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListGroupsResponse != nil {
         // handle response
     }
 }
@@ -105,49 +105,103 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `ctx`                                                                                    | [context.Context](https://pkg.go.dev/context#Context)                                    | :heavy_check_mark:                                                                       | The context to use for the request.                                                      |
-| `request`                                                                                | [operations.PostGroupsSearchRequest](../../models/operations/postgroupssearchrequest.md) | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
-| `opts`                                                                                   | [][operations.Option](../../models/operations/option.md)                                 | :heavy_minus_sign:                                                                       | The options for this request.                                                            |
+| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
+| `request`                                                                  | [components.TypesGroupFilter](../../models/components/typesgroupfilter.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
+| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
 
 ### Response
 
-**[*components.DtoListGroupsResponse](../../models/components/dtolistgroupsresponse.md), error**
+**[*operations.QueryGroupResponse](../../models/operations/querygroupresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetGroupsID
+## GetGroup
 
-Get a group by ID
+Use when you need to load a single group (e.g. for display or to assign entities).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/groups/{id}" method="get" path="/groups/{id}" -->
+<!-- UsageSnippet language="go" operationID="getGroup" method="get" path="/groups/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Groups.GetGroupsID(ctx, "<id>")
+    res, err := s.Groups.GetGroup(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res.DtoGroupResponse != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Group ID                                                 |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+
+### Response
+
+**[*operations.GetGroupResponse](../../models/operations/getgroupresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## DeleteGroup
+
+Use when removing a group and clearing its entity associations (e.g. retiring a product line). Returns 204 or 200 on success.
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="deleteGroup" method="delete" path="/groups/{id}" -->
+```go
+package main
+
+import(
+	"context"
+	flexprice "github.com/flexprice/flexprice-go"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := flexprice.New(
+        "https://api.example.com",
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Groups.DeleteGroup(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
@@ -167,63 +221,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoGroupResponse](../../models/components/dtogroupresponse.md), error**
+**[*operations.DeleteGroupResponse](../../models/operations/deletegroupresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## DeleteGroupsID
-
-Delete a group and remove all entity associations
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="delete_/groups/{id}" method="delete" path="/groups/{id}" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    err := s.Groups.DeleteGroupsID(ctx, "<id>")
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Group ID                                                 |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
-
-### Response
-
-**error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

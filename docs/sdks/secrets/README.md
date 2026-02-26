@@ -4,39 +4,39 @@
 
 ### Available Operations
 
-* [GetSecretsAPIKeys](#getsecretsapikeys) - List API keys
-* [PostSecretsAPIKeys](#postsecretsapikeys) - Create a new API key
-* [DeleteSecretsAPIKeysID](#deletesecretsapikeysid) - Delete an API key
+* [ListAPIKeys](#listapikeys) - List API keys
+* [CreateAPIKey](#createapikey) - Create a new API key
+* [DeleteAPIKey](#deleteapikey) - Delete an API key
 
-## GetSecretsAPIKeys
+## ListAPIKeys
 
-Get a paginated list of API keys
+Use when listing API keys (e.g. admin view or rotating keys). Returns a paginated list.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/secrets/api/keys" method="get" path="/secrets/api/keys" -->
+<!-- UsageSnippet language="go" operationID="listApiKeys" method="get" path="/secrets/api/keys" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Secrets.GetSecretsAPIKeys(ctx, nil, nil, nil)
+    res, err := s.Secrets.ListAPIKeys(ctx, nil, nil, nil)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListSecretsResponse != nil {
         // handle response
     }
 }
@@ -54,49 +54,49 @@ func main() {
 
 ### Response
 
-**[*components.DtoListSecretsResponse](../../models/components/dtolistsecretsresponse.md), error**
+**[*operations.ListAPIKeysResponse](../../models/operations/listapikeysresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostSecretsAPIKeys
+## CreateAPIKey
 
-Create a new API key. Provide 'service_account_id' in body to create API key for a service account, otherwise creates for authenticated user.
+Use when issuing a new API key (e.g. for a service account or for the current user). Provide service_account_id to create for a service account.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/secrets/api/keys" method="post" path="/secrets/api/keys" -->
+<!-- UsageSnippet language="go" operationID="createApiKey" method="post" path="/secrets/api/keys" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Secrets.PostSecretsAPIKeys(ctx, components.DtoCreateAPIKeyRequest{
+    res, err := s.Secrets.CreateAPIKey(ctx, components.DtoCreateAPIKeyRequest{
         Name: "<value>",
-        Type: components.TypesSecretTypeIntegration,
+        Type: components.TypesSecretTypePublishableKey,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreateAPIKeyResponse != nil {
         // handle response
     }
 }
@@ -112,43 +112,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreateAPIKeyResponse](../../models/components/dtocreateapikeyresponse.md), error**
+**[*operations.CreateAPIKeyResponse](../../models/operations/createapikeyresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteSecretsAPIKeysID
+## DeleteAPIKey
 
-Delete an API key by ID
+Use when revoking an API key (e.g. rotation or compromise). Permanently invalidates the key.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/secrets/api/keys/{id}" method="delete" path="/secrets/api/keys/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteApiKey" method="delete" path="/secrets/api/keys/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    err := s.Secrets.DeleteSecretsAPIKeysID(ctx, "<id>")
+    res, err := s.Secrets.DeleteAPIKey(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
+    }
+    if res != nil {
+        // handle response
     }
 }
 ```
@@ -163,12 +166,12 @@ func main() {
 
 ### Response
 
-**error**
+**[*operations.DeleteAPIKeyResponse](../../models/operations/deleteapikeyresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 404                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 404                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

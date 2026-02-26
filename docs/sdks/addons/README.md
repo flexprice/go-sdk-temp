@@ -4,103 +4,47 @@
 
 ### Available Operations
 
-* [GetAddons](#getaddons) - List addons
-* [PostAddons](#postaddons) - Create addon
-* [GetAddonsLookupLookupKey](#getaddonslookuplookupkey) - Get addon by lookup key
-* [PostAddonsSearch](#postaddonssearch) - List addons by filter
-* [GetAddonsID](#getaddonsid) - Get addon
-* [PutAddonsID](#putaddonsid) - Update addon
-* [DeleteAddonsID](#deleteaddonsid) - Delete addon
+* [CreateAddon](#createaddon) - Create addon
+* [GetAddonByLookupKey](#getaddonbylookupkey) - Get addon by lookup key
+* [QueryAddon](#queryaddon) - Query addons
+* [GetAddon](#getaddon) - Get addon
+* [UpdateAddon](#updateaddon) - Update addon
+* [DeleteAddon](#deleteaddon) - Delete addon
 
-## GetAddons
+## CreateAddon
 
-Get addons with optional filtering
+Use when defining an optional purchasable item (e.g. extra storage or support tier). Ideal for add-ons that customers can attach to a subscription.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/addons" method="get" path="/addons" -->
+<!-- UsageSnippet language="go" operationID="createAddon" method="post" path="/addons" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
-| `request`                                                                  | [operations.GetAddonsRequest](../../models/operations/getaddonsrequest.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
-| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
-
-### Response
-
-**[*components.DtoListAddonsResponse](../../models/components/dtolistaddonsresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostAddons
-
-Create a new addon
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/addons" method="post" path="/addons" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Addons.PostAddons(ctx, components.DtoCreateAddonRequest{
+    res, err := s.Addons.CreateAddon(ctx, components.DtoCreateAddonRequest{
         LookupKey: "<value>",
         Name: "<value>",
-        Type: components.TypesAddonTypeOnetime,
+        Type: components.TypesAddonTypeMultipleInstance,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCreateAddonResponse != nil {
         // handle response
     }
 }
@@ -116,45 +60,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCreateAddonResponse](../../models/components/dtocreateaddonresponse.md), error**
+**[*operations.CreateAddonResponse](../../models/operations/createaddonresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetAddonsLookupLookupKey
+## GetAddonByLookupKey
 
-Get an addon by lookup key
+Use when resolving an addon by external id (e.g. from your product catalog). Ideal for integrations.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/addons/lookup/{lookup_key}" method="get" path="/addons/lookup/{lookup_key}" -->
+<!-- UsageSnippet language="go" operationID="getAddonByLookupKey" method="get" path="/addons/lookup/{lookup_key}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.GetAddonsLookupLookupKey(ctx, "<value>")
+    res, err := s.Addons.GetAddonByLookupKey(ctx, "<value>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoAddonResponse != nil {
         // handle response
     }
 }
@@ -170,46 +114,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoAddonResponse](../../models/components/dtoaddonresponse.md), error**
+**[*operations.GetAddonByLookupKeyResponse](../../models/operations/getaddonbylookupkeyresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PostAddonsSearch
+## QueryAddon
 
-List addons by filter
+Use when listing or searching addons (e.g. catalog or subscription builder). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="post_/addons/search" method="post" path="/addons/search" -->
+<!-- UsageSnippet language="go" operationID="queryAddon" method="post" path="/addons/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.PostAddonsSearch(ctx, components.TypesAddonFilter{})
+    res, err := s.Addons.QueryAddon(ctx, components.TypesAddonFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListAddonsResponse != nil {
         // handle response
     }
 }
@@ -225,45 +169,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoListAddonsResponse](../../models/components/dtolistaddonsresponse.md), error**
+**[*operations.QueryAddonResponse](../../models/operations/queryaddonresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetAddonsID
+## GetAddon
 
-Get an addon by ID
+Use when you need to load a single addon (e.g. for display or to attach to a subscription).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/addons/{id}" method="get" path="/addons/{id}" -->
+<!-- UsageSnippet language="go" operationID="getAddon" method="get" path="/addons/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.GetAddonsID(ctx, "<id>")
+    res, err := s.Addons.GetAddon(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoAddonResponse != nil {
         // handle response
     }
 }
@@ -279,46 +223,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoAddonResponse](../../models/components/dtoaddonresponse.md), error**
+**[*operations.GetAddonResponse](../../models/operations/getaddonresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutAddonsID
+## UpdateAddon
 
-Update an existing addon
+Use when changing addon details (e.g. name, pricing, or metadata).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/addons/{id}" method="put" path="/addons/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateAddon" method="put" path="/addons/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.PutAddonsID(ctx, "<id>", components.DtoUpdateAddonRequest{})
+    res, err := s.Addons.UpdateAddon(ctx, "<id>", components.DtoUpdateAddonRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoAddonResponse != nil {
         // handle response
     }
 }
@@ -335,45 +279,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoAddonResponse](../../models/components/dtoaddonresponse.md), error**
+**[*operations.UpdateAddonResponse](../../models/operations/updateaddonresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteAddonsID
+## DeleteAddon
 
-Delete an addon
+Use when retiring an addon (e.g. end-of-life). Returns 200 with success message.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/addons/{id}" method="delete" path="/addons/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteAddon" method="delete" path="/addons/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.DeleteAddonsID(ctx, "<id>")
+    res, err := s.Addons.DeleteAddon(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoSuccessResponse != nil {
         // handle response
     }
 }
@@ -389,12 +333,12 @@ func main() {
 
 ### Response
 
-**[*components.DtoSuccessResponse](../../models/components/dtosuccessresponse.md), error**
+**[*operations.DeleteAddonResponse](../../models/operations/deleteaddonresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400                           | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |

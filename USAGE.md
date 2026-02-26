@@ -4,24 +4,28 @@ package main
 
 import (
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
 	ctx := context.Background()
 
-	s := gosdktemp.New(
+	s := flexprice.New(
 		"https://api.example.com",
-		gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+		flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
-	res, err := s.Addons.GetAddons(ctx, operations.GetAddonsRequest{})
+	res, err := s.Addons.CreateAddon(ctx, components.DtoCreateAddonRequest{
+		LookupKey: "<value>",
+		Name:      "<value>",
+		Type:      components.TypesAddonTypeMultipleInstance,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
-	if res != nil {
+	if res.DtoCreateAddonResponse != nil {
 		// handle response
 	}
 }

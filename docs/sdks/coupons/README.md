@@ -4,101 +4,46 @@
 
 ### Available Operations
 
-* [GetCoupons](#getcoupons) - List coupons with filtering
-* [PostCoupons](#postcoupons) - Create a new coupon
-* [GetCouponsID](#getcouponsid) - Get a coupon by ID
-* [PutCouponsID](#putcouponsid) - Update a coupon
-* [DeleteCouponsID](#deletecouponsid) - Delete a coupon
+* [CreateCoupon](#createcoupon) - Create coupon
+* [QueryCoupon](#querycoupon) - Query coupons
+* [GetCoupon](#getcoupon) - Get coupon
+* [UpdateCoupon](#updatecoupon) - Update coupon
+* [DeleteCoupon](#deletecoupon) - Delete coupon
 
-## GetCoupons
+## CreateCoupon
 
-Lists coupons with filtering
+Use when creating a discount (e.g. promo code or referral). Ideal for percent or fixed value, with optional validity and usage limits.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/coupons" method="get" path="/coupons" -->
+<!-- UsageSnippet language="go" operationID="createCoupon" method="post" path="/coupons" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/operations"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Coupons.GetCoupons(ctx, operations.GetCouponsRequest{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if res != nil {
-        // handle response
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
-| `request`                                                                    | [operations.GetCouponsRequest](../../models/operations/getcouponsrequest.md) | :heavy_check_mark:                                                           | The request object to use for the request.                                   |
-| `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
-
-### Response
-
-**[*components.DtoListCouponsResponse](../../models/components/dtolistcouponsresponse.md), error**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
-
-## PostCoupons
-
-Creates a new coupon
-
-### Example Usage
-
-<!-- UsageSnippet language="go" operationID="post_/coupons" method="post" path="/coupons" -->
-```go
-package main
-
-import(
-	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
-	"log"
-)
-
-func main() {
-    ctx := context.Background()
-
-    s := gosdktemp.New(
-        "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
-    )
-
-    res, err := s.Coupons.PostCoupons(ctx, components.DtoCreateCouponRequest{
-        Cadence: components.TypesCouponCadenceForever,
+    res, err := s.Coupons.CreateCoupon(ctx, components.DtoCreateCouponRequest{
+        Cadence: components.TypesCouponCadenceRepeated,
         Name: "<value>",
         Type: components.TypesCouponTypePercentage,
     })
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCouponResponse != nil {
         // handle response
     }
 }
@@ -114,45 +59,100 @@ func main() {
 
 ### Response
 
-**[*components.DtoCouponResponse](../../models/components/dtocouponresponse.md), error**
+**[*operations.CreateCouponResponse](../../models/operations/createcouponresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## GetCouponsID
+## QueryCoupon
 
-Retrieves a coupon by ID
+Use when listing or searching coupons (e.g. promo management). Returns a paginated list; supports filtering and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="get_/coupons/{id}" method="get" path="/coupons/{id}" -->
+<!-- UsageSnippet language="go" operationID="queryCoupon" method="post" path="/coupons/search" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Coupons.GetCouponsID(ctx, "<id>")
+    res, err := s.Coupons.QueryCoupon(ctx, components.TypesCouponFilter{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoListCouponsResponse != nil {
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
+| `request`                                                                    | [components.TypesCouponFilter](../../models/components/typescouponfilter.md) | :heavy_check_mark:                                                           | The request object to use for the request.                                   |
+| `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
+
+### Response
+
+**[*operations.QueryCouponResponse](../../models/operations/querycouponresponse.md), error**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| apierrors.ErrorsErrorResponse | 400                           | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+
+## GetCoupon
+
+Use when you need to load a single coupon (e.g. for display or to validate a code).
+
+### Example Usage
+
+<!-- UsageSnippet language="go" operationID="getCoupon" method="get" path="/coupons/{id}" -->
+```go
+package main
+
+import(
+	"context"
+	flexprice "github.com/flexprice/flexprice-go"
+	"log"
+)
+
+func main() {
+    ctx := context.Background()
+
+    s := flexprice.New(
+        "https://api.example.com",
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Coupons.GetCoupon(ctx, "<id>")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res.DtoCouponResponse != nil {
         // handle response
     }
 }
@@ -168,46 +168,46 @@ func main() {
 
 ### Response
 
-**[*components.DtoCouponResponse](../../models/components/dtocouponresponse.md), error**
+**[*operations.GetCouponResponse](../../models/operations/getcouponresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## PutCouponsID
+## UpdateCoupon
 
-Updates an existing coupon
+Use when changing coupon config (e.g. value, validity, or usage limits).
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="put_/coupons/{id}" method="put" path="/coupons/{id}" -->
+<!-- UsageSnippet language="go" operationID="updateCoupon" method="put" path="/coupons/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
-	"github.com/flexprice/go-sdk-temp/models/components"
+	flexprice "github.com/flexprice/flexprice-go"
+	"github.com/flexprice/flexprice-go/models/components"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Coupons.PutCouponsID(ctx, "<id>", components.DtoUpdateCouponRequest{})
+    res, err := s.Coupons.UpdateCoupon(ctx, "<id>", components.DtoUpdateCouponRequest{})
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.DtoCouponResponse != nil {
         // handle response
     }
 }
@@ -224,45 +224,45 @@ func main() {
 
 ### Response
 
-**[*components.DtoCouponResponse](../../models/components/dtocouponresponse.md), error**
+**[*operations.UpdateCouponResponse](../../models/operations/updatecouponresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
 
-## DeleteCouponsID
+## DeleteCoupon
 
-Deletes a coupon
+Use when retiring a coupon (e.g. campaign ended). Returns 200 with success message.
 
 ### Example Usage
 
-<!-- UsageSnippet language="go" operationID="delete_/coupons/{id}" method="delete" path="/coupons/{id}" -->
+<!-- UsageSnippet language="go" operationID="deleteCoupon" method="delete" path="/coupons/{id}" -->
 ```go
 package main
 
 import(
 	"context"
-	gosdktemp "github.com/flexprice/go-sdk-temp"
+	flexprice "github.com/flexprice/flexprice-go"
 	"log"
 )
 
 func main() {
     ctx := context.Background()
 
-    s := gosdktemp.New(
+    s := flexprice.New(
         "https://api.example.com",
-        gosdktemp.WithSecurity("<YOUR_API_KEY_HERE>"),
+        flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Coupons.DeleteCouponsID(ctx, "<id>")
+    res, err := s.Coupons.DeleteCoupon(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -278,12 +278,12 @@ func main() {
 
 ### Response
 
-**[map[string]string](../../.md), error**
+**[*operations.DeleteCouponResponse](../../models/operations/deletecouponresponse.md), error**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| sdkerrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
-| sdkerrors.ErrorsErrorResponse | 500                           | application/json              |
-| sdkerrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| apierrors.ErrorsErrorResponse | 400, 401, 403, 404            | application/json              |
+| apierrors.ErrorsErrorResponse | 500                           | application/json              |
+| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
