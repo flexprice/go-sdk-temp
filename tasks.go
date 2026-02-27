@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"net/url"
 )
@@ -33,11 +33,11 @@ func newTasks(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *hook
 
 // ListTasks - List tasks
 // Use when listing or searching async tasks (e.g. admin queue view). Returns list with optional filtering.
-func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksRequest, opts ...operations.Option) (*operations.ListTasksResponse, error) {
-	o := operations.Options{}
+func (s *Tasks) ListTasks(ctx context.Context, request dtos.ListTasksRequest, opts ...dtos.Option) (*dtos.ListTasksResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -188,8 +188,8 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 		}
 	}
 
-	res := &operations.ListTasksResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.ListTasksResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -204,7 +204,7 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 				return nil, err
 			}
 
-			var out components.DtoListTasksResponse
+			var out types.DtoListTasksResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -215,7 +215,7 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -225,12 +225,12 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -240,7 +240,7 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -250,12 +250,12 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -265,26 +265,26 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -293,11 +293,11 @@ func (s *Tasks) ListTasks(ctx context.Context, request operations.ListTasksReque
 
 // CreateTask - Create a new task
 // Use when submitting a file or job for async processing (e.g. export or import). Returns task ID to poll for status and result.
-func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTaskRequest, opts ...operations.Option) (*operations.CreateTaskResponse, error) {
-	o := operations.Options{}
+func (s *Tasks) CreateTask(ctx context.Context, request types.DtoCreateTaskRequest, opts ...dtos.Option) (*dtos.CreateTaskResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -451,8 +451,8 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 		}
 	}
 
-	res := &operations.CreateTaskResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.CreateTaskResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -467,7 +467,7 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 				return nil, err
 			}
 
-			var out components.DtoTaskResponse
+			var out types.DtoTaskResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -478,7 +478,7 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -488,12 +488,12 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -503,7 +503,7 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -513,12 +513,12 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -528,26 +528,26 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -556,15 +556,15 @@ func (s *Tasks) CreateTask(ctx context.Context, request components.DtoCreateTask
 
 // GetTaskResult - Get task processing result
 // Use when fetching the outcome of a completed task (e.g. export URL or error message). Call after task status is complete.
-func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...operations.Option) (*operations.GetTaskResultResponse, error) {
-	request := operations.GetTaskResultRequest{
+func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...dtos.Option) (*dtos.GetTaskResultResponse, error) {
+	request := dtos.GetTaskResultRequest{
 		WorkflowID: workflowID,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -715,8 +715,8 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 		}
 	}
 
-	res := &operations.GetTaskResultResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetTaskResultResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -731,7 +731,7 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 				return nil, err
 			}
 
-			var out components.ModelsTemporalWorkflowResult
+			var out types.ModelsTemporalWorkflowResult
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -742,7 +742,7 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -754,12 +754,12 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -769,7 +769,7 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -779,12 +779,12 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -794,26 +794,26 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -822,15 +822,15 @@ func (s *Tasks) GetTaskResult(ctx context.Context, workflowID string, opts ...op
 
 // GetTask - Get a task
 // Use when checking task status or progress (e.g. polling after create). Returns task by ID.
-func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Option) (*operations.GetTaskResponse, error) {
-	request := operations.GetTaskRequest{
+func (s *Tasks) GetTask(ctx context.Context, id string, opts ...dtos.Option) (*dtos.GetTaskResponse, error) {
+	request := dtos.GetTaskRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -977,8 +977,8 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 		}
 	}
 
-	res := &operations.GetTaskResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetTaskResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -993,7 +993,7 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 				return nil, err
 			}
 
-			var out components.DtoTaskResponse
+			var out types.DtoTaskResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1004,7 +1004,7 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1016,12 +1016,12 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1031,7 +1031,7 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1041,12 +1041,12 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1056,26 +1056,26 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1084,15 +1084,15 @@ func (s *Tasks) GetTask(ctx context.Context, id string, opts ...operations.Optio
 
 // DownloadTaskExport - Download task export file
 // Use when letting a user download an exported file (e.g. report or data export). Returns a presigned URL; supports FlexPrice or customer-owned S3.
-func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...operations.Option) (*operations.DownloadTaskExportResponse, error) {
-	request := operations.DownloadTaskExportRequest{
+func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...dtos.Option) (*dtos.DownloadTaskExportResponse, error) {
+	request := dtos.DownloadTaskExportRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1239,8 +1239,8 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 		}
 	}
 
-	res := &operations.DownloadTaskExportResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.DownloadTaskExportResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1266,7 +1266,7 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1278,12 +1278,12 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1293,7 +1293,7 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1303,12 +1303,12 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1318,26 +1318,26 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1346,16 +1346,16 @@ func (s *Tasks) DownloadTaskExport(ctx context.Context, id string, opts ...opera
 
 // UpdateTaskStatus - Update task status
 // Use when updating task status (e.g. marking complete or failed from a worker). Typically called by backend processors.
-func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components.DtoUpdateTaskStatusRequest, opts ...operations.Option) (*operations.UpdateTaskStatusResponse, error) {
-	request := operations.UpdateTaskStatusRequest{
+func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body types.DtoUpdateTaskStatusRequest, opts ...dtos.Option) (*dtos.UpdateTaskStatusResponse, error) {
+	request := dtos.UpdateTaskStatusRequest{
 		ID:   id,
 		Body: body,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1509,8 +1509,8 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 		}
 	}
 
-	res := &operations.UpdateTaskStatusResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.UpdateTaskStatusResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1525,7 +1525,7 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out components.DtoSuccessResponse
+			var out types.DtoSuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1536,7 +1536,7 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1548,12 +1548,12 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1563,7 +1563,7 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1573,12 +1573,12 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1588,26 +1588,26 @@ func (s *Tasks) UpdateTaskStatus(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

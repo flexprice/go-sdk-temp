@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"net/url"
 )
@@ -33,11 +33,11 @@ func newPayments(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *h
 
 // ListPayments - List payments
 // Use when listing or searching payments (e.g. reconciliation UI or customer payment history). Returns a paginated list; supports filtering by customer, invoice, status.
-func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaymentsRequest, opts ...operations.Option) (*operations.ListPaymentsResponse, error) {
-	o := operations.Options{}
+func (s *Payments) ListPayments(ctx context.Context, request dtos.ListPaymentsRequest, opts ...dtos.Option) (*dtos.ListPaymentsResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -188,8 +188,8 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 		}
 	}
 
-	res := &operations.ListPaymentsResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.ListPaymentsResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -204,7 +204,7 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 				return nil, err
 			}
 
-			var out components.DtoListPaymentsResponse
+			var out types.DtoListPaymentsResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -215,7 +215,7 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -225,12 +225,12 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -240,7 +240,7 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -250,12 +250,12 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -265,26 +265,26 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -293,11 +293,11 @@ func (s *Payments) ListPayments(ctx context.Context, request operations.ListPaym
 
 // CreatePayment - Create payment
 // Use when recording a payment against an invoice (e.g. after receiving funds via a gateway or manual entry).
-func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCreatePaymentRequest, opts ...operations.Option) (*operations.CreatePaymentResponse, error) {
-	o := operations.Options{}
+func (s *Payments) CreatePayment(ctx context.Context, request types.DtoCreatePaymentRequest, opts ...dtos.Option) (*dtos.CreatePaymentResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -451,8 +451,8 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 		}
 	}
 
-	res := &operations.CreatePaymentResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.CreatePaymentResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -467,7 +467,7 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out components.DtoPaymentResponse
+			var out types.DtoPaymentResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -478,7 +478,7 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -488,12 +488,12 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -503,7 +503,7 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -513,12 +513,12 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -528,26 +528,26 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -556,15 +556,15 @@ func (s *Payments) CreatePayment(ctx context.Context, request components.DtoCrea
 
 // GetPayment - Get payment
 // Use when you need to load a single payment (e.g. for a receipt view or reconciliation).
-func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations.Option) (*operations.GetPaymentResponse, error) {
-	request := operations.GetPaymentRequest{
+func (s *Payments) GetPayment(ctx context.Context, id string, opts ...dtos.Option) (*dtos.GetPaymentResponse, error) {
+	request := dtos.GetPaymentRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -711,8 +711,8 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 		}
 	}
 
-	res := &operations.GetPaymentResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetPaymentResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -727,7 +727,7 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 				return nil, err
 			}
 
-			var out components.DtoPaymentResponse
+			var out types.DtoPaymentResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -738,7 +738,7 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -750,12 +750,12 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -765,7 +765,7 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -775,12 +775,12 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -790,26 +790,26 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -818,16 +818,16 @@ func (s *Payments) GetPayment(ctx context.Context, id string, opts ...operations
 
 // UpdatePayment - Update payment
 // Use when updating payment status or metadata (e.g. after reconciliation or adding a reference).
-func (s *Payments) UpdatePayment(ctx context.Context, id string, body components.DtoUpdatePaymentRequest, opts ...operations.Option) (*operations.UpdatePaymentResponse, error) {
-	request := operations.UpdatePaymentRequest{
+func (s *Payments) UpdatePayment(ctx context.Context, id string, body types.DtoUpdatePaymentRequest, opts ...dtos.Option) (*dtos.UpdatePaymentResponse, error) {
+	request := dtos.UpdatePaymentRequest{
 		ID:   id,
 		Body: body,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -981,8 +981,8 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 		}
 	}
 
-	res := &operations.UpdatePaymentResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.UpdatePaymentResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -997,7 +997,7 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out components.DtoPaymentResponse
+			var out types.DtoPaymentResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1008,7 +1008,7 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -1018,12 +1018,12 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1033,7 +1033,7 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1043,12 +1043,12 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1058,26 +1058,26 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1086,15 +1086,15 @@ func (s *Payments) UpdatePayment(ctx context.Context, id string, body components
 
 // DeletePayment - Delete payment
 // Use when removing or voiding a payment record (e.g. correcting erroneous entries). Returns 200 with success message.
-func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operations.Option) (*operations.DeletePaymentResponse, error) {
-	request := operations.DeletePaymentRequest{
+func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...dtos.Option) (*dtos.DeletePaymentResponse, error) {
+	request := dtos.DeletePaymentRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1241,8 +1241,8 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 		}
 	}
 
-	res := &operations.DeletePaymentResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.DeletePaymentResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1257,7 +1257,7 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out components.DtoSuccessResponse
+			var out types.DtoSuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1268,7 +1268,7 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1280,12 +1280,12 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1295,7 +1295,7 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1305,12 +1305,12 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1320,26 +1320,26 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1348,15 +1348,15 @@ func (s *Payments) DeletePayment(ctx context.Context, id string, opts ...operati
 
 // ProcessPayment - Process payment
 // Use when you need to charge or process a payment (e.g. trigger the payment provider to capture funds). Returns updated payment with status.
-func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operations.Option) (*operations.ProcessPaymentResponse, error) {
-	request := operations.ProcessPaymentRequest{
+func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...dtos.Option) (*dtos.ProcessPaymentResponse, error) {
+	request := dtos.ProcessPaymentRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1503,8 +1503,8 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 		}
 	}
 
-	res := &operations.ProcessPaymentResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.ProcessPaymentResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1519,7 +1519,7 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 				return nil, err
 			}
 
-			var out components.DtoPaymentResponse
+			var out types.DtoPaymentResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1530,7 +1530,7 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1542,12 +1542,12 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1557,7 +1557,7 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1567,12 +1567,12 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1582,26 +1582,26 @@ func (s *Payments) ProcessPayment(ctx context.Context, id string, opts ...operat
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

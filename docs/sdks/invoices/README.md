@@ -54,23 +54,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Customer ID                                              |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Customer ID                                           |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.GetCustomerInvoiceSummaryResponse](../../models/operations/getcustomerinvoicesummaryresponse.md), error**
+**[*dtos.GetCustomerInvoiceSummaryResponse](../../dtos/getcustomerinvoicesummaryresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## CreateInvoice
 
@@ -85,7 +85,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -97,7 +97,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.CreateInvoice(ctx, components.DtoCreateInvoiceRequest{
+    res, err := s.Invoices.CreateInvoice(ctx, types.DtoCreateInvoiceRequest{
         AmountDue: "<value>",
         Currency: "Surinam Dollar",
         CustomerID: "<id>",
@@ -115,23 +115,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `ctx`                                                                                    | [context.Context](https://pkg.go.dev/context#Context)                                    | :heavy_check_mark:                                                                       | The context to use for the request.                                                      |
-| `request`                                                                                | [components.DtoCreateInvoiceRequest](../../models/components/dtocreateinvoicerequest.md) | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
-| `opts`                                                                                   | [][operations.Option](../../models/operations/option.md)                                 | :heavy_minus_sign:                                                                       | The options for this request.                                                            |
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `ctx`                                                                   | [context.Context](https://pkg.go.dev/context#Context)                   | :heavy_check_mark:                                                      | The context to use for the request.                                     |
+| `request`                                                               | [types.DtoCreateInvoiceRequest](../../types/dtocreateinvoicerequest.md) | :heavy_check_mark:                                                      | The request object to use for the request.                              |
+| `opts`                                                                  | [][dtos.Option](../../dtos/option.md)                                   | :heavy_minus_sign:                                                      | The options for this request.                                           |
 
 ### Response
 
-**[*operations.CreateInvoiceResponse](../../models/operations/createinvoiceresponse.md), error**
+**[*dtos.CreateInvoiceResponse](../../dtos/createinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## GetInvoicePreview
 
@@ -146,7 +146,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -158,7 +158,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.GetInvoicePreview(ctx, components.DtoGetPreviewInvoiceRequest{
+    res, err := s.Invoices.GetInvoicePreview(ctx, types.DtoGetPreviewInvoiceRequest{
         SubscriptionID: "<id>",
     })
     if err != nil {
@@ -172,23 +172,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                            | [context.Context](https://pkg.go.dev/context#Context)                                            | :heavy_check_mark:                                                                               | The context to use for the request.                                                              |
-| `request`                                                                                        | [components.DtoGetPreviewInvoiceRequest](../../models/components/dtogetpreviewinvoicerequest.md) | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
-| `opts`                                                                                           | [][operations.Option](../../models/operations/option.md)                                         | :heavy_minus_sign:                                                                               | The options for this request.                                                                    |
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `ctx`                                                                           | [context.Context](https://pkg.go.dev/context#Context)                           | :heavy_check_mark:                                                              | The context to use for the request.                                             |
+| `request`                                                                       | [types.DtoGetPreviewInvoiceRequest](../../types/dtogetpreviewinvoicerequest.md) | :heavy_check_mark:                                                              | The request object to use for the request.                                      |
+| `opts`                                                                          | [][dtos.Option](../../dtos/option.md)                                           | :heavy_minus_sign:                                                              | The options for this request.                                                   |
 
 ### Response
 
-**[*operations.GetInvoicePreviewResponse](../../models/operations/getinvoicepreviewresponse.md), error**
+**[*dtos.GetInvoicePreviewResponse](../../dtos/getinvoicepreviewresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## QueryInvoice
 
@@ -203,7 +203,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -215,7 +215,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.QueryInvoice(ctx, components.InvoiceFilter{})
+    res, err := s.Invoices.QueryInvoice(ctx, types.InvoiceFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -227,23 +227,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `ctx`                                                                | [context.Context](https://pkg.go.dev/context#Context)                | :heavy_check_mark:                                                   | The context to use for the request.                                  |
-| `request`                                                            | [components.InvoiceFilter](../../models/components/invoicefilter.md) | :heavy_check_mark:                                                   | The request object to use for the request.                           |
-| `opts`                                                               | [][operations.Option](../../models/operations/option.md)             | :heavy_minus_sign:                                                   | The options for this request.                                        |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `request`                                             | [types.InvoiceFilter](../../types/invoicefilter.md)   | :heavy_check_mark:                                    | The request object to use for the request.            |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.QueryInvoiceResponse](../../models/operations/queryinvoiceresponse.md), error**
+**[*dtos.QueryInvoiceResponse](../../dtos/queryinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## GetInvoice
 
@@ -287,19 +287,19 @@ func main() {
 | `id`                                                                                    | *string*                                                                                | :heavy_check_mark:                                                                      | Invoice ID                                                                              |
 | `expandBySource`                                                                        | **bool*                                                                                 | :heavy_minus_sign:                                                                      | Include source-level price breakdown for usage line items (legacy)                      |
 | `groupBy`                                                                               | []*string*                                                                              | :heavy_minus_sign:                                                                      | Group usage breakdown by specified fields (e.g., source, feature_id, properties.org_id) |
-| `opts`                                                                                  | [][operations.Option](../../models/operations/option.md)                                | :heavy_minus_sign:                                                                      | The options for this request.                                                           |
+| `opts`                                                                                  | [][dtos.Option](../../dtos/option.md)                                                   | :heavy_minus_sign:                                                                      | The options for this request.                                                           |
 
 ### Response
 
-**[*operations.GetInvoiceResponse](../../models/operations/getinvoiceresponse.md), error**
+**[*dtos.GetInvoiceResponse](../../dtos/getinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 404                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 404                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## UpdateInvoice
 
@@ -314,7 +314,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -326,7 +326,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.UpdateInvoice(ctx, "<id>", components.DtoUpdateInvoiceRequest{})
+    res, err := s.Invoices.UpdateInvoice(ctx, "<id>", types.DtoUpdateInvoiceRequest{})
     if err != nil {
         log.Fatal(err)
     }
@@ -338,24 +338,24 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `ctx`                                                                                    | [context.Context](https://pkg.go.dev/context#Context)                                    | :heavy_check_mark:                                                                       | The context to use for the request.                                                      |
-| `id`                                                                                     | *string*                                                                                 | :heavy_check_mark:                                                                       | Invoice ID                                                                               |
-| `body`                                                                                   | [components.DtoUpdateInvoiceRequest](../../models/components/dtoupdateinvoicerequest.md) | :heavy_check_mark:                                                                       | Invoice Update Request                                                                   |
-| `opts`                                                                                   | [][operations.Option](../../models/operations/option.md)                                 | :heavy_minus_sign:                                                                       | The options for this request.                                                            |
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `ctx`                                                                   | [context.Context](https://pkg.go.dev/context#Context)                   | :heavy_check_mark:                                                      | The context to use for the request.                                     |
+| `id`                                                                    | *string*                                                                | :heavy_check_mark:                                                      | Invoice ID                                                              |
+| `body`                                                                  | [types.DtoUpdateInvoiceRequest](../../types/dtoupdateinvoicerequest.md) | :heavy_check_mark:                                                      | Invoice Update Request                                                  |
+| `opts`                                                                  | [][dtos.Option](../../dtos/option.md)                                   | :heavy_minus_sign:                                                      | The options for this request.                                           |
 
 ### Response
 
-**[*operations.UpdateInvoiceResponse](../../models/operations/updateinvoiceresponse.md), error**
+**[*dtos.UpdateInvoiceResponse](../../dtos/updateinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## TriggerInvoiceCommsWebhook
 
@@ -393,23 +393,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Invoice ID                                               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Invoice ID                                            |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.TriggerInvoiceCommsWebhookResponse](../../models/operations/triggerinvoicecommswebhookresponse.md), error**
+**[*dtos.TriggerInvoiceCommsWebhookResponse](../../dtos/triggerinvoicecommswebhookresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## FinalizeInvoice
 
@@ -447,23 +447,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Invoice ID                                               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Invoice ID                                            |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.FinalizeInvoiceResponse](../../models/operations/finalizeinvoiceresponse.md), error**
+**[*dtos.FinalizeInvoiceResponse](../../dtos/finalizeinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## UpdateInvoicePaymentStatus
 
@@ -478,7 +478,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -490,8 +490,8 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Invoices.UpdateInvoicePaymentStatus(ctx, "<id>", components.DtoUpdatePaymentStatusRequest{
-        PaymentStatus: components.PaymentStatusInitiated,
+    res, err := s.Invoices.UpdateInvoicePaymentStatus(ctx, "<id>", types.DtoUpdatePaymentStatusRequest{
+        PaymentStatus: types.PaymentStatusInitiated,
     })
     if err != nil {
         log.Fatal(err)
@@ -504,24 +504,24 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                | [context.Context](https://pkg.go.dev/context#Context)                                                | :heavy_check_mark:                                                                                   | The context to use for the request.                                                                  |
-| `id`                                                                                                 | *string*                                                                                             | :heavy_check_mark:                                                                                   | Invoice ID                                                                                           |
-| `body`                                                                                               | [components.DtoUpdatePaymentStatusRequest](../../models/components/dtoupdatepaymentstatusrequest.md) | :heavy_check_mark:                                                                                   | Payment Status Update Request                                                                        |
-| `opts`                                                                                               | [][operations.Option](../../models/operations/option.md)                                             | :heavy_minus_sign:                                                                                   | The options for this request.                                                                        |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `ctx`                                                                               | [context.Context](https://pkg.go.dev/context#Context)                               | :heavy_check_mark:                                                                  | The context to use for the request.                                                 |
+| `id`                                                                                | *string*                                                                            | :heavy_check_mark:                                                                  | Invoice ID                                                                          |
+| `body`                                                                              | [types.DtoUpdatePaymentStatusRequest](../../types/dtoupdatepaymentstatusrequest.md) | :heavy_check_mark:                                                                  | Payment Status Update Request                                                       |
+| `opts`                                                                              | [][dtos.Option](../../dtos/option.md)                                               | :heavy_minus_sign:                                                                  | The options for this request.                                                       |
 
 ### Response
 
-**[*operations.UpdateInvoicePaymentStatusResponse](../../models/operations/updateinvoicepaymentstatusresponse.md), error**
+**[*dtos.UpdateInvoicePaymentStatusResponse](../../dtos/updateinvoicepaymentstatusresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## AttemptInvoicePayment
 
@@ -559,23 +559,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Invoice ID                                               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Invoice ID                                            |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.AttemptInvoicePaymentResponse](../../models/operations/attemptinvoicepaymentresponse.md), error**
+**[*dtos.AttemptInvoicePaymentResponse](../../dtos/attemptinvoicepaymentresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## GetInvoicePdf
 
@@ -613,22 +613,22 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Invoice ID                                               |
-| `url_`                                                   | **bool*                                                  | :heavy_minus_sign:                                       | Return presigned URL from s3 instead of PDF              |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Invoice ID                                            |
+| `url_`                                                | **bool*                                               | :heavy_minus_sign:                                    | Return presigned URL from s3 instead of PDF           |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.GetInvoicePdfResponse](../../models/operations/getinvoicepdfresponse.md), error**
+**[*dtos.GetInvoicePdfResponse](../../dtos/getinvoicepdfresponse.md), error**
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| apierrors.APIError | 4XX, 5XX           | \*/\*              |
+| Error Type      | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.APIError | 4XX, 5XX        | \*/\*           |
 
 ## RecalculateInvoice
 
@@ -671,19 +671,19 @@ func main() {
 | `ctx`                                                               | [context.Context](https://pkg.go.dev/context#Context)               | :heavy_check_mark:                                                  | The context to use for the request.                                 |
 | `id`                                                                | *string*                                                            | :heavy_check_mark:                                                  | Invoice ID                                                          |
 | `finalize`                                                          | **bool*                                                             | :heavy_minus_sign:                                                  | Whether to finalize the invoice after recalculation (default: true) |
-| `opts`                                                              | [][operations.Option](../../models/operations/option.md)            | :heavy_minus_sign:                                                  | The options for this request.                                       |
+| `opts`                                                              | [][dtos.Option](../../dtos/option.md)                               | :heavy_minus_sign:                                                  | The options for this request.                                       |
 
 ### Response
 
-**[*operations.RecalculateInvoiceResponse](../../models/operations/recalculateinvoiceresponse.md), error**
+**[*dtos.RecalculateInvoiceResponse](../../dtos/recalculateinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## VoidInvoice
 
@@ -721,20 +721,20 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Invoice ID                                               |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Invoice ID                                            |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.VoidInvoiceResponse](../../models/operations/voidinvoiceresponse.md), error**
+**[*dtos.VoidInvoiceResponse](../../dtos/voidinvoiceresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |

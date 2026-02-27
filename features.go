@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"net/url"
 )
@@ -33,11 +33,11 @@ func newFeatures(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *h
 
 // CreateFeature - Create feature
 // Use when defining a new feature or capability to gate or meter (e.g. feature flags or usage-based limits). Ideal for boolean or usage features.
-func (s *Features) CreateFeature(ctx context.Context, request components.DtoCreateFeatureRequest, opts ...operations.Option) (*operations.CreateFeatureResponse, error) {
-	o := operations.Options{}
+func (s *Features) CreateFeature(ctx context.Context, request types.DtoCreateFeatureRequest, opts ...dtos.Option) (*dtos.CreateFeatureResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -191,8 +191,8 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 		}
 	}
 
-	res := &operations.CreateFeatureResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.CreateFeatureResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -207,7 +207,7 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out components.DtoFeatureResponse
+			var out types.DtoFeatureResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -218,7 +218,7 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -228,12 +228,12 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -243,7 +243,7 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -253,12 +253,12 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -268,26 +268,26 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -296,11 +296,11 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 
 // QueryFeature - Query features
 // Use when listing or searching features (e.g. catalog or entitlement setup). Returns a paginated list; supports filtering and sorting.
-func (s *Features) QueryFeature(ctx context.Context, request components.FeatureFilter, opts ...operations.Option) (*operations.QueryFeatureResponse, error) {
-	o := operations.Options{}
+func (s *Features) QueryFeature(ctx context.Context, request types.FeatureFilter, opts ...dtos.Option) (*dtos.QueryFeatureResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -454,8 +454,8 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 		}
 	}
 
-	res := &operations.QueryFeatureResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.QueryFeatureResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -470,7 +470,7 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 				return nil, err
 			}
 
-			var out components.DtoListFeaturesResponse
+			var out types.DtoListFeaturesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -481,7 +481,7 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -491,12 +491,12 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -506,7 +506,7 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -516,12 +516,12 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -531,26 +531,26 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -559,16 +559,16 @@ func (s *Features) QueryFeature(ctx context.Context, request components.FeatureF
 
 // UpdateFeature - Update feature
 // Use when changing feature definition (e.g. name, type, or meter). Request body contains the fields to update.
-func (s *Features) UpdateFeature(ctx context.Context, id string, body components.DtoUpdateFeatureRequest, opts ...operations.Option) (*operations.UpdateFeatureResponse, error) {
-	request := operations.UpdateFeatureRequest{
+func (s *Features) UpdateFeature(ctx context.Context, id string, body types.DtoUpdateFeatureRequest, opts ...dtos.Option) (*dtos.UpdateFeatureResponse, error) {
+	request := dtos.UpdateFeatureRequest{
 		ID:   id,
 		Body: body,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -722,8 +722,8 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 		}
 	}
 
-	res := &operations.UpdateFeatureResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.UpdateFeatureResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -738,7 +738,7 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out components.DtoFeatureResponse
+			var out types.DtoFeatureResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -749,7 +749,7 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -761,12 +761,12 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -776,7 +776,7 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -786,12 +786,12 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -801,26 +801,26 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -829,15 +829,15 @@ func (s *Features) UpdateFeature(ctx context.Context, id string, body components
 
 // DeleteFeature - Delete feature
 // Use when retiring a feature (e.g. deprecated capability). Returns 200 with success message.
-func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operations.Option) (*operations.DeleteFeatureResponse, error) {
-	request := operations.DeleteFeatureRequest{
+func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...dtos.Option) (*dtos.DeleteFeatureResponse, error) {
+	request := dtos.DeleteFeatureRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -984,8 +984,8 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 		}
 	}
 
-	res := &operations.DeleteFeatureResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.DeleteFeatureResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1000,7 +1000,7 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out components.DtoSuccessResponse
+			var out types.DtoSuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1011,7 +1011,7 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1023,12 +1023,12 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1038,7 +1038,7 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1048,12 +1048,12 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1063,26 +1063,26 @@ func (s *Features) DeleteFeature(ctx context.Context, id string, opts ...operati
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

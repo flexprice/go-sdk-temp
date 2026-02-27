@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"net/url"
 )
@@ -33,11 +33,11 @@ func newCreditNotes(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks
 
 // CreateCreditNote - Create credit note
 // Use when issuing a refund or adjustment (e.g. customer dispute or proration). Links to an invoice; create as draft then finalize.
-func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.DtoCreateCreditNoteRequest, opts ...operations.Option) (*operations.CreateCreditNoteResponse, error) {
-	o := operations.Options{}
+func (s *CreditNotes) CreateCreditNote(ctx context.Context, request types.DtoCreateCreditNoteRequest, opts ...dtos.Option) (*dtos.CreateCreditNoteResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -191,8 +191,8 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 		}
 	}
 
-	res := &operations.CreateCreditNoteResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.CreateCreditNoteResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -207,7 +207,7 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 				return nil, err
 			}
 
-			var out components.DtoCreditNoteResponse
+			var out types.DtoCreditNoteResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -218,7 +218,7 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -234,12 +234,12 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -249,7 +249,7 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -259,12 +259,12 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -274,26 +274,26 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -302,15 +302,15 @@ func (s *CreditNotes) CreateCreditNote(ctx context.Context, request components.D
 
 // GetCreditNote - Get credit note
 // Use when you need to load a single credit note (e.g. for display or reconciliation).
-func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...operations.Option) (*operations.GetCreditNoteResponse, error) {
-	request := operations.GetCreditNoteRequest{
+func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...dtos.Option) (*dtos.GetCreditNoteResponse, error) {
+	request := dtos.GetCreditNoteRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -457,8 +457,8 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 		}
 	}
 
-	res := &operations.GetCreditNoteResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetCreditNoteResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -473,7 +473,7 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 				return nil, err
 			}
 
-			var out components.DtoCreditNoteResponse
+			var out types.DtoCreditNoteResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -484,7 +484,7 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -496,12 +496,12 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -511,7 +511,7 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -521,12 +521,12 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -536,26 +536,26 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -564,15 +564,15 @@ func (s *CreditNotes) GetCreditNote(ctx context.Context, id string, opts ...oper
 
 // ProcessCreditNote - Finalize credit note
 // Use when locking a draft credit note and applying the credit (e.g. after approval). Once finalized, applied per billing provider.
-func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...operations.Option) (*operations.ProcessCreditNoteResponse, error) {
-	request := operations.ProcessCreditNoteRequest{
+func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...dtos.Option) (*dtos.ProcessCreditNoteResponse, error) {
+	request := dtos.ProcessCreditNoteRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -719,8 +719,8 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 		}
 	}
 
-	res := &operations.ProcessCreditNoteResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.ProcessCreditNoteResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -735,7 +735,7 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 				return nil, err
 			}
 
-			var out components.DtoCreditNoteResponse
+			var out types.DtoCreditNoteResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -746,7 +746,7 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -762,12 +762,12 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -777,7 +777,7 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -787,12 +787,12 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -802,26 +802,26 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -830,15 +830,15 @@ func (s *CreditNotes) ProcessCreditNote(ctx context.Context, id string, opts ...
 
 // VoidCreditNote - Void credit note
 // Use when cancelling a draft credit note (e.g. created by mistake). Only draft credit notes can be voided.
-func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...operations.Option) (*operations.VoidCreditNoteResponse, error) {
-	request := operations.VoidCreditNoteRequest{
+func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...dtos.Option) (*dtos.VoidCreditNoteResponse, error) {
+	request := dtos.VoidCreditNoteRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -985,8 +985,8 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 		}
 	}
 
-	res := &operations.VoidCreditNoteResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.VoidCreditNoteResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1001,7 +1001,7 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 				return nil, err
 			}
 
-			var out components.DtoCreditNoteResponse
+			var out types.DtoCreditNoteResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1012,7 +1012,7 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1028,12 +1028,12 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1043,7 +1043,7 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1053,12 +1053,12 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1068,26 +1068,26 @@ func (s *CreditNotes) VoidCreditNote(ctx context.Context, id string, opts ...ope
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

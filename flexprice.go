@@ -2,15 +2,15 @@
 
 package flexprice
 
-// Generated from OpenAPI doc version 1.0 and generator version 2.845.5
+// Generated from OpenAPI doc version 1.0 and generator version 2.845.12
 
 import (
 	"context"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/components"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"time"
 )
@@ -110,13 +110,13 @@ func WithClient(client HTTPClient) SDKOption {
 // WithSecurity configures the SDK to use the provided security details
 func WithSecurity(apiKeyAuth string) SDKOption {
 	return func(sdk *Flexprice) {
-		security := components.Security{APIKeyAuth: apiKeyAuth}
+		security := types.Security{APIKeyAuth: apiKeyAuth}
 		sdk.sdkConfiguration.Security = utils.AsSecuritySource(&security)
 	}
 }
 
 // WithSecuritySource configures the SDK to invoke the Security Source function on each method call to determine authentication
-func WithSecuritySource(security func(context.Context) (components.Security, error)) SDKOption {
+func WithSecuritySource(security func(context.Context) (types.Security, error)) SDKOption {
 	return func(sdk *Flexprice) {
 		sdk.sdkConfiguration.Security = func(ctx context.Context) (interface{}, error) {
 			return security(ctx)
@@ -140,9 +140,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided serverURL and options
 func New(serverURL string, opts ...SDKOption) *Flexprice {
 	sdk := &Flexprice{
-		SDKVersion: "0.0.56",
+		SDKVersion: "0.0.57",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent: "speakeasy-sdk/go 0.0.56 2.845.5 1.0 github.com/flexprice/flexprice-go",
+			UserAgent: "speakeasy-sdk/go 0.0.57 2.845.12 1.0 github.com/flexprice/flexprice-go",
 		},
 		hooks: hooks.New(),
 	}

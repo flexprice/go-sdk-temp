@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 	"net/url"
 )
@@ -33,11 +33,11 @@ func newAddons(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *hoo
 
 // CreateAddon - Create addon
 // Use when defining an optional purchasable item (e.g. extra storage or support tier). Ideal for add-ons that customers can attach to a subscription.
-func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAddonRequest, opts ...operations.Option) (*operations.CreateAddonResponse, error) {
-	o := operations.Options{}
+func (s *Addons) CreateAddon(ctx context.Context, request types.DtoCreateAddonRequest, opts ...dtos.Option) (*dtos.CreateAddonResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -191,8 +191,8 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 		}
 	}
 
-	res := &operations.CreateAddonResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.CreateAddonResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -207,7 +207,7 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 				return nil, err
 			}
 
-			var out components.DtoCreateAddonResponse
+			var out types.DtoCreateAddonResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -218,7 +218,7 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -228,12 +228,12 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -243,7 +243,7 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -253,12 +253,12 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -268,26 +268,26 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -296,15 +296,15 @@ func (s *Addons) CreateAddon(ctx context.Context, request components.DtoCreateAd
 
 // GetAddonByLookupKey - Get addon by lookup key
 // Use when resolving an addon by external id (e.g. from your product catalog). Ideal for integrations.
-func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts ...operations.Option) (*operations.GetAddonByLookupKeyResponse, error) {
-	request := operations.GetAddonByLookupKeyRequest{
+func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts ...dtos.Option) (*dtos.GetAddonByLookupKeyResponse, error) {
+	request := dtos.GetAddonByLookupKeyRequest{
 		LookupKey: lookupKey,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -451,8 +451,8 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 		}
 	}
 
-	res := &operations.GetAddonByLookupKeyResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetAddonByLookupKeyResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -467,7 +467,7 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 				return nil, err
 			}
 
-			var out components.DtoAddonResponse
+			var out types.DtoAddonResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -478,7 +478,7 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -488,12 +488,12 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -503,7 +503,7 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -513,12 +513,12 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -528,26 +528,26 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -556,11 +556,11 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 
 // QueryAddon - Query addons
 // Use when listing or searching addons (e.g. catalog or subscription builder). Returns a paginated list; supports filtering and sorting.
-func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter, opts ...operations.Option) (*operations.QueryAddonResponse, error) {
-	o := operations.Options{}
+func (s *Addons) QueryAddon(ctx context.Context, request types.AddonFilter, opts ...dtos.Option) (*dtos.QueryAddonResponse, error) {
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -714,8 +714,8 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 		}
 	}
 
-	res := &operations.QueryAddonResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.QueryAddonResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -730,7 +730,7 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 				return nil, err
 			}
 
-			var out components.DtoListAddonsResponse
+			var out types.DtoListAddonsResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -741,7 +741,7 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -751,12 +751,12 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -766,7 +766,7 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -776,12 +776,12 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -791,26 +791,26 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -819,15 +819,15 @@ func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter,
 
 // GetAddon - Get addon
 // Use when you need to load a single addon (e.g. for display or to attach to a subscription).
-func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Option) (*operations.GetAddonResponse, error) {
-	request := operations.GetAddonRequest{
+func (s *Addons) GetAddon(ctx context.Context, id string, opts ...dtos.Option) (*dtos.GetAddonResponse, error) {
+	request := dtos.GetAddonRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -974,8 +974,8 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 		}
 	}
 
-	res := &operations.GetAddonResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.GetAddonResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -990,7 +990,7 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 				return nil, err
 			}
 
-			var out components.DtoAddonResponse
+			var out types.DtoAddonResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1001,7 +1001,7 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -1011,12 +1011,12 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1026,7 +1026,7 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1036,12 +1036,12 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1051,26 +1051,26 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1079,16 +1079,16 @@ func (s *Addons) GetAddon(ctx context.Context, id string, opts ...operations.Opt
 
 // UpdateAddon - Update addon
 // Use when changing addon details (e.g. name, pricing, or metadata).
-func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.DtoUpdateAddonRequest, opts ...operations.Option) (*operations.UpdateAddonResponse, error) {
-	request := operations.UpdateAddonRequest{
+func (s *Addons) UpdateAddon(ctx context.Context, id string, body types.DtoUpdateAddonRequest, opts ...dtos.Option) (*dtos.UpdateAddonResponse, error) {
+	request := dtos.UpdateAddonRequest{
 		ID:   id,
 		Body: body,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1242,8 +1242,8 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 		}
 	}
 
-	res := &operations.UpdateAddonResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.UpdateAddonResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1258,7 +1258,7 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 				return nil, err
 			}
 
-			var out components.DtoAddonResponse
+			var out types.DtoAddonResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1269,7 +1269,7 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -1279,12 +1279,12 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1294,7 +1294,7 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1304,12 +1304,12 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1319,26 +1319,26 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1347,15 +1347,15 @@ func (s *Addons) UpdateAddon(ctx context.Context, id string, body components.Dto
 
 // DeleteAddon - Delete addon
 // Use when retiring an addon (e.g. end-of-life). Returns 200 with success message.
-func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.Option) (*operations.DeleteAddonResponse, error) {
-	request := operations.DeleteAddonRequest{
+func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...dtos.Option) (*dtos.DeleteAddonResponse, error) {
+	request := dtos.DeleteAddonRequest{
 		ID: id,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1502,8 +1502,8 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 		}
 	}
 
-	res := &operations.DeleteAddonResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.DeleteAddonResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1518,7 +1518,7 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 				return nil, err
 			}
 
-			var out components.DtoSuccessResponse
+			var out types.DtoSuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
@@ -1529,7 +1529,7 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
@@ -1539,12 +1539,12 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1554,7 +1554,7 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
@@ -1564,12 +1564,12 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 				return nil, err
 			}
 
-			var out apierrors.ErrorsErrorResponse
+			var out errors.ErrorsErrorResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.HTTPMeta = components.HTTPMetadata{
+			out.HTTPMeta = types.HTTPMetadata{
 				Request:  req,
 				Response: httpRes,
 			}
@@ -1579,26 +1579,26 @@ func (s *Addons) DeleteAddon(ctx context.Context, id string, opts ...operations.
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

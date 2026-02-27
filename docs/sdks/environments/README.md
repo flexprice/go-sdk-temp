@@ -20,7 +20,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -32,7 +32,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Environments.CreateEnvironment(ctx, components.DtoCreateEnvironmentRequest{
+    res, err := s.Environments.CreateEnvironment(ctx, types.DtoCreateEnvironmentRequest{
         Name: "<value>",
         Type: "<value>",
     })
@@ -47,23 +47,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                            | [context.Context](https://pkg.go.dev/context#Context)                                            | :heavy_check_mark:                                                                               | The context to use for the request.                                                              |
-| `request`                                                                                        | [components.DtoCreateEnvironmentRequest](../../models/components/dtocreateenvironmentrequest.md) | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
-| `opts`                                                                                           | [][operations.Option](../../models/operations/option.md)                                         | :heavy_minus_sign:                                                                               | The options for this request.                                                                    |
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `ctx`                                                                           | [context.Context](https://pkg.go.dev/context#Context)                           | :heavy_check_mark:                                                              | The context to use for the request.                                             |
+| `request`                                                                       | [types.DtoCreateEnvironmentRequest](../../types/dtocreateenvironmentrequest.md) | :heavy_check_mark:                                                              | The request object to use for the request.                                      |
+| `opts`                                                                          | [][dtos.Option](../../dtos/option.md)                                           | :heavy_minus_sign:                                                              | The options for this request.                                                   |
 
 ### Response
 
-**[*operations.CreateEnvironmentResponse](../../models/operations/createenvironmentresponse.md), error**
+**[*dtos.CreateEnvironmentResponse](../../dtos/createenvironmentresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## UpdateEnvironment
 
@@ -78,7 +78,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -90,7 +90,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Environments.UpdateEnvironment(ctx, "<id>", components.DtoUpdateEnvironmentRequest{})
+    res, err := s.Environments.UpdateEnvironment(ctx, "<id>", types.DtoUpdateEnvironmentRequest{})
     if err != nil {
         log.Fatal(err)
     }
@@ -102,21 +102,21 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `ctx`                                                                                            | [context.Context](https://pkg.go.dev/context#Context)                                            | :heavy_check_mark:                                                                               | The context to use for the request.                                                              |
-| `id`                                                                                             | *string*                                                                                         | :heavy_check_mark:                                                                               | Environment ID                                                                                   |
-| `body`                                                                                           | [components.DtoUpdateEnvironmentRequest](../../models/components/dtoupdateenvironmentrequest.md) | :heavy_check_mark:                                                                               | Environment                                                                                      |
-| `opts`                                                                                           | [][operations.Option](../../models/operations/option.md)                                         | :heavy_minus_sign:                                                                               | The options for this request.                                                                    |
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `ctx`                                                                           | [context.Context](https://pkg.go.dev/context#Context)                           | :heavy_check_mark:                                                              | The context to use for the request.                                             |
+| `id`                                                                            | *string*                                                                        | :heavy_check_mark:                                                              | Environment ID                                                                  |
+| `body`                                                                          | [types.DtoUpdateEnvironmentRequest](../../types/dtoupdateenvironmentrequest.md) | :heavy_check_mark:                                                              | Environment                                                                     |
+| `opts`                                                                          | [][dtos.Option](../../dtos/option.md)                                           | :heavy_minus_sign:                                                              | The options for this request.                                                   |
 
 ### Response
 
-**[*operations.UpdateEnvironmentResponse](../../models/operations/updateenvironmentresponse.md), error**
+**[*dtos.UpdateEnvironmentResponse](../../dtos/updateenvironmentresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |

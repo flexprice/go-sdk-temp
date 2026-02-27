@@ -6,13 +6,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/flexprice/flexprice-go/dtos"
+	"github.com/flexprice/flexprice-go/errors"
 	"github.com/flexprice/flexprice-go/internal/config"
 	"github.com/flexprice/flexprice-go/internal/hooks"
 	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/models/apierrors"
-	"github.com/flexprice/flexprice-go/models/components"
-	"github.com/flexprice/flexprice-go/models/operations"
 	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/types"
 	"net/http"
 )
 
@@ -32,16 +32,16 @@ func newWebhooks(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *h
 
 // HandleChargebeeWebhook - Handle Chargebee webhook events
 // Use as the Chargebee webhook endpoint URL. Receives payment and subscription events from Chargebee to sync status into FlexPrice.
-func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, environmentID string, opts ...operations.Option) (*operations.HandleChargebeeWebhookResponse, error) {
-	request := operations.HandleChargebeeWebhookRequest{
+func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, environmentID string, opts ...dtos.Option) (*dtos.HandleChargebeeWebhookResponse, error) {
+	request := dtos.HandleChargebeeWebhookRequest{
 		TenantID:      tenantID,
 		EnvironmentID: environmentID,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -188,8 +188,8 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 		}
 	}
 
-	res := &operations.HandleChargebeeWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleChargebeeWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -215,7 +215,7 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -226,7 +226,7 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode == 500:
 		fallthrough
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
@@ -234,13 +234,13 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -249,17 +249,17 @@ func (s *Webhooks) HandleChargebeeWebhook(ctx context.Context, tenantID string, 
 
 // HandleHubspotWebhook - Handle HubSpot webhook events
 // Use as the HubSpot webhook endpoint URL. Receives deal and customer events (e.g. deal closed won) to create or update customers in FlexPrice.
-func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, environmentID string, xHubSpotSignatureV3 string, opts ...operations.Option) (*operations.HandleHubspotWebhookResponse, error) {
-	request := operations.HandleHubspotWebhookRequest{
+func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, environmentID string, xHubSpotSignatureV3 string, opts ...dtos.Option) (*dtos.HandleHubspotWebhookResponse, error) {
+	request := dtos.HandleHubspotWebhookRequest{
 		TenantID:            tenantID,
 		EnvironmentID:       environmentID,
 		XHubSpotSignatureV3: xHubSpotSignatureV3,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -408,8 +408,8 @@ func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, en
 		}
 	}
 
-	res := &operations.HandleHubspotWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleHubspotWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -435,26 +435,26 @@ func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, en
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -463,17 +463,17 @@ func (s *Webhooks) HandleHubspotWebhook(ctx context.Context, tenantID string, en
 
 // HandleMoyasarWebhook - Handle Moyasar webhook events
 // Use as the Moyasar webhook endpoint URL. Receives payment events from Moyasar to update payment status in FlexPrice.
-func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, environmentID string, xMoyasarSignature *string, opts ...operations.Option) (*operations.HandleMoyasarWebhookResponse, error) {
-	request := operations.HandleMoyasarWebhookRequest{
+func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, environmentID string, xMoyasarSignature *string, opts ...dtos.Option) (*dtos.HandleMoyasarWebhookResponse, error) {
+	request := dtos.HandleMoyasarWebhookRequest{
 		TenantID:          tenantID,
 		EnvironmentID:     environmentID,
 		XMoyasarSignature: xMoyasarSignature,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -622,8 +622,8 @@ func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, en
 		}
 	}
 
-	res := &operations.HandleMoyasarWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleMoyasarWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -649,26 +649,26 @@ func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, en
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -677,17 +677,17 @@ func (s *Webhooks) HandleMoyasarWebhook(ctx context.Context, tenantID string, en
 
 // HandleNomodWebhook - Handle Nomod webhook events
 // Use as the Nomod webhook endpoint URL. Receives payment and invoice events from Nomod to keep FlexPrice in sync.
-func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, environmentID string, xAPIKey *string, opts ...operations.Option) (*operations.HandleNomodWebhookResponse, error) {
-	request := operations.HandleNomodWebhookRequest{
+func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, environmentID string, xAPIKey *string, opts ...dtos.Option) (*dtos.HandleNomodWebhookResponse, error) {
+	request := dtos.HandleNomodWebhookRequest{
 		TenantID:      tenantID,
 		EnvironmentID: environmentID,
 		XAPIKey:       xAPIKey,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -836,8 +836,8 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 		}
 	}
 
-	res := &operations.HandleNomodWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleNomodWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -863,7 +863,7 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 401:
 		fallthrough
@@ -872,19 +872,19 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -893,17 +893,17 @@ func (s *Webhooks) HandleNomodWebhook(ctx context.Context, tenantID string, envi
 
 // HandleQuickbooksWebhook - Handle QuickBooks webhook events
 // Use as the QuickBooks webhook endpoint URL. Receives payment events from QuickBooks to sync payment status into FlexPrice.
-func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string, environmentID string, intuitSignature *string, opts ...operations.Option) (*operations.HandleQuickbooksWebhookResponse, error) {
-	request := operations.HandleQuickbooksWebhookRequest{
+func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string, environmentID string, intuitSignature *string, opts ...dtos.Option) (*dtos.HandleQuickbooksWebhookResponse, error) {
+	request := dtos.HandleQuickbooksWebhookRequest{
 		TenantID:        tenantID,
 		EnvironmentID:   environmentID,
 		IntuitSignature: intuitSignature,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1052,8 +1052,8 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 		}
 	}
 
-	res := &operations.HandleQuickbooksWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleQuickbooksWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1079,7 +1079,7 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1090,7 +1090,7 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode == 500:
 		fallthrough
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
@@ -1098,13 +1098,13 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1113,17 +1113,17 @@ func (s *Webhooks) HandleQuickbooksWebhook(ctx context.Context, tenantID string,
 
 // HandleRazorpayWebhook - Handle Razorpay webhook events
 // Use as the Razorpay webhook endpoint URL. Receives payment capture and failure events to update invoice or payment status in FlexPrice.
-func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, environmentID string, xRazorpaySignature string, opts ...operations.Option) (*operations.HandleRazorpayWebhookResponse, error) {
-	request := operations.HandleRazorpayWebhookRequest{
+func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, environmentID string, xRazorpaySignature string, opts ...dtos.Option) (*dtos.HandleRazorpayWebhookResponse, error) {
+	request := dtos.HandleRazorpayWebhookRequest{
 		TenantID:           tenantID,
 		EnvironmentID:      environmentID,
 		XRazorpaySignature: xRazorpaySignature,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1272,8 +1272,8 @@ func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, e
 		}
 	}
 
-	res := &operations.HandleRazorpayWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleRazorpayWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1299,26 +1299,26 @@ func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, e
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil
@@ -1327,17 +1327,17 @@ func (s *Webhooks) HandleRazorpayWebhook(ctx context.Context, tenantID string, e
 
 // HandleStripeWebhook - Handle Stripe webhook events
 // Use as the Stripe webhook endpoint URL. Receives payment and customer events from Stripe to keep FlexPrice in sync (e.g. payment succeeded, customer created).
-func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, environmentID string, stripeSignature string, opts ...operations.Option) (*operations.HandleStripeWebhookResponse, error) {
-	request := operations.HandleStripeWebhookRequest{
+func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, environmentID string, stripeSignature string, opts ...dtos.Option) (*dtos.HandleStripeWebhookResponse, error) {
+	request := dtos.HandleStripeWebhookRequest{
 		TenantID:        tenantID,
 		EnvironmentID:   environmentID,
 		StripeSignature: stripeSignature,
 	}
 
-	o := operations.Options{}
+	o := dtos.Options{}
 	supportedOptions := []string{
-		operations.SupportedOptionRetries,
-		operations.SupportedOptionTimeout,
+		dtos.SupportedOptionRetries,
+		dtos.SupportedOptionTimeout,
 	}
 
 	for _, opt := range opts {
@@ -1486,8 +1486,8 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 		}
 	}
 
-	res := &operations.HandleStripeWebhookResponse{
-		HTTPMeta: components.HTTPMetadata{
+	res := &dtos.HandleStripeWebhookResponse{
+		HTTPMeta: types.HTTPMetadata{
 			Request:  req,
 			Response: httpRes,
 		},
@@ -1513,7 +1513,7 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 			if err != nil {
 				return nil, err
 			}
-			return nil, apierrors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		fallthrough
@@ -1522,7 +1522,7 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	case httpRes.StatusCode == 500:
 		fallthrough
 	case httpRes.StatusCode >= 500 && httpRes.StatusCode < 600:
@@ -1530,13 +1530,13 @@ func (s *Webhooks) HandleStripeWebhook(ctx context.Context, tenantID string, env
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("API error occurred", httpRes.StatusCode, string(rawBody), httpRes)
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
 			return nil, err
 		}
-		return nil, apierrors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
 	return res, nil

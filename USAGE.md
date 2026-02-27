@@ -5,7 +5,7 @@ package main
 import (
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -17,10 +17,10 @@ func main() {
 		flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 
-	res, err := s.Addons.CreateAddon(ctx, components.DtoCreateAddonRequest{
+	res, err := s.Addons.CreateAddon(ctx, types.DtoCreateAddonRequest{
 		LookupKey: "<value>",
 		Name:      "<value>",
-		Type:      components.AddonTypeMultipleInstance,
+		Type:      types.AddonTypeMultipleInstance,
 	})
 	if err != nil {
 		log.Fatal(err)

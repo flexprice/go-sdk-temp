@@ -25,7 +25,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/operations"
+	"github.com/flexprice/flexprice-go/dtos"
 	"log"
 )
 
@@ -37,7 +37,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.ListScheduledTasks(ctx, operations.ListScheduledTasksRequest{})
+    res, err := s.ScheduledTasks.ListScheduledTasks(ctx, dtos.ListScheduledTasksRequest{})
     if err != nil {
         log.Fatal(err)
     }
@@ -49,23 +49,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                        | [context.Context](https://pkg.go.dev/context#Context)                                        | :heavy_check_mark:                                                                           | The context to use for the request.                                                          |
-| `request`                                                                                    | [operations.ListScheduledTasksRequest](../../models/operations/listscheduledtasksrequest.md) | :heavy_check_mark:                                                                           | The request object to use for the request.                                                   |
-| `opts`                                                                                       | [][operations.Option](../../models/operations/option.md)                                     | :heavy_minus_sign:                                                                           | The options for this request.                                                                |
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `ctx`                                                                     | [context.Context](https://pkg.go.dev/context#Context)                     | :heavy_check_mark:                                                        | The context to use for the request.                                       |
+| `request`                                                                 | [dtos.ListScheduledTasksRequest](../../dtos/listscheduledtasksrequest.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
+| `opts`                                                                    | [][dtos.Option](../../dtos/option.md)                                     | :heavy_minus_sign:                                                        | The options for this request.                                             |
 
 ### Response
 
-**[*operations.ListScheduledTasksResponse](../../models/operations/listscheduledtasksresponse.md), error**
+**[*dtos.ListScheduledTasksResponse](../../dtos/listscheduledtasksresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## CreateScheduledTask
 
@@ -80,7 +80,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -92,11 +92,11 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.CreateScheduledTask(ctx, components.DtoCreateScheduledTaskRequest{
+    res, err := s.ScheduledTasks.CreateScheduledTask(ctx, types.DtoCreateScheduledTaskRequest{
         ConnectionID: "<id>",
-        EntityType: components.ScheduledTaskEntityTypeCreditTopups,
-        Interval: components.ScheduledTaskIntervalHourly,
-        JobConfig: components.S3JobConfig{},
+        EntityType: types.ScheduledTaskEntityTypeCreditTopups,
+        Interval: types.ScheduledTaskIntervalHourly,
+        JobConfig: types.S3JobConfig{},
     })
     if err != nil {
         log.Fatal(err)
@@ -109,23 +109,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                | [context.Context](https://pkg.go.dev/context#Context)                                                | :heavy_check_mark:                                                                                   | The context to use for the request.                                                                  |
-| `request`                                                                                            | [components.DtoCreateScheduledTaskRequest](../../models/components/dtocreatescheduledtaskrequest.md) | :heavy_check_mark:                                                                                   | The request object to use for the request.                                                           |
-| `opts`                                                                                               | [][operations.Option](../../models/operations/option.md)                                             | :heavy_minus_sign:                                                                                   | The options for this request.                                                                        |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `ctx`                                                                               | [context.Context](https://pkg.go.dev/context#Context)                               | :heavy_check_mark:                                                                  | The context to use for the request.                                                 |
+| `request`                                                                           | [types.DtoCreateScheduledTaskRequest](../../types/dtocreatescheduledtaskrequest.md) | :heavy_check_mark:                                                                  | The request object to use for the request.                                          |
+| `opts`                                                                              | [][dtos.Option](../../dtos/option.md)                                               | :heavy_minus_sign:                                                                  | The options for this request.                                                       |
 
 ### Response
 
-**[*operations.CreateScheduledTaskResponse](../../models/operations/createscheduledtaskresponse.md), error**
+**[*dtos.CreateScheduledTaskResponse](../../dtos/createscheduledtaskresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## ScheduleUpdateBillingPeriod
 
@@ -140,7 +140,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/operations"
+	"github.com/flexprice/flexprice-go/dtos"
 	"log"
 )
 
@@ -152,7 +152,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.ScheduleUpdateBillingPeriod(ctx, operations.ScheduleUpdateBillingPeriodRequest{})
+    res, err := s.ScheduledTasks.ScheduleUpdateBillingPeriod(ctx, dtos.ScheduleUpdateBillingPeriodRequest{})
     if err != nil {
         log.Fatal(err)
     }
@@ -164,23 +164,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                          | [context.Context](https://pkg.go.dev/context#Context)                                                          | :heavy_check_mark:                                                                                             | The context to use for the request.                                                                            |
-| `request`                                                                                                      | [operations.ScheduleUpdateBillingPeriodRequest](../../models/operations/scheduleupdatebillingperiodrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
-| `opts`                                                                                                         | [][operations.Option](../../models/operations/option.md)                                                       | :heavy_minus_sign:                                                                                             | The options for this request.                                                                                  |
+| Parameter                                                                                   | Type                                                                                        | Required                                                                                    | Description                                                                                 |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                       | [context.Context](https://pkg.go.dev/context#Context)                                       | :heavy_check_mark:                                                                          | The context to use for the request.                                                         |
+| `request`                                                                                   | [dtos.ScheduleUpdateBillingPeriodRequest](../../dtos/scheduleupdatebillingperiodrequest.md) | :heavy_check_mark:                                                                          | The request object to use for the request.                                                  |
+| `opts`                                                                                      | [][dtos.Option](../../dtos/option.md)                                                       | :heavy_minus_sign:                                                                          | The options for this request.                                                               |
 
 ### Response
 
-**[*operations.ScheduleUpdateBillingPeriodResponse](../../models/operations/scheduleupdatebillingperiodresponse.md), error**
+**[*dtos.ScheduleUpdateBillingPeriodResponse](../../dtos/scheduleupdatebillingperiodresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400                           | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400                        | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## GetScheduledTask
 
@@ -218,23 +218,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Scheduled Task ID                                        |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Scheduled Task ID                                     |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.GetScheduledTaskResponse](../../models/operations/getscheduledtaskresponse.md), error**
+**[*dtos.GetScheduledTaskResponse](../../dtos/getscheduledtaskresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## UpdateScheduledTask
 
@@ -249,7 +249,7 @@ package main
 import(
 	"context"
 	flexprice "github.com/flexprice/flexprice-go"
-	"github.com/flexprice/flexprice-go/models/components"
+	"github.com/flexprice/flexprice-go/types"
 	"log"
 )
 
@@ -261,7 +261,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.ScheduledTasks.UpdateScheduledTask(ctx, "<id>", components.DtoUpdateScheduledTaskRequest{
+    res, err := s.ScheduledTasks.UpdateScheduledTask(ctx, "<id>", types.DtoUpdateScheduledTaskRequest{
         Enabled: false,
     })
     if err != nil {
@@ -275,24 +275,24 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                                | [context.Context](https://pkg.go.dev/context#Context)                                                | :heavy_check_mark:                                                                                   | The context to use for the request.                                                                  |
-| `id`                                                                                                 | *string*                                                                                             | :heavy_check_mark:                                                                                   | Scheduled Task ID                                                                                    |
-| `body`                                                                                               | [components.DtoUpdateScheduledTaskRequest](../../models/components/dtoupdatescheduledtaskrequest.md) | :heavy_check_mark:                                                                                   | Update request (enabled: true/false to pause/resume)                                                 |
-| `opts`                                                                                               | [][operations.Option](../../models/operations/option.md)                                             | :heavy_minus_sign:                                                                                   | The options for this request.                                                                        |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `ctx`                                                                               | [context.Context](https://pkg.go.dev/context#Context)                               | :heavy_check_mark:                                                                  | The context to use for the request.                                                 |
+| `id`                                                                                | *string*                                                                            | :heavy_check_mark:                                                                  | Scheduled Task ID                                                                   |
+| `body`                                                                              | [types.DtoUpdateScheduledTaskRequest](../../types/dtoupdatescheduledtaskrequest.md) | :heavy_check_mark:                                                                  | Update request (enabled: true/false to pause/resume)                                |
+| `opts`                                                                              | [][dtos.Option](../../dtos/option.md)                                               | :heavy_minus_sign:                                                                  | The options for this request.                                                       |
 
 ### Response
 
-**[*operations.UpdateScheduledTaskResponse](../../models/operations/updatescheduledtaskresponse.md), error**
+**[*dtos.UpdateScheduledTaskResponse](../../dtos/updatescheduledtaskresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## DeleteScheduledTask
 
@@ -330,23 +330,23 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Scheduled Task ID                                        |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| `id`                                                  | *string*                                              | :heavy_check_mark:                                    | Scheduled Task ID                                     |
+| `opts`                                                | [][dtos.Option](../../dtos/option.md)                 | :heavy_minus_sign:                                    | The options for this request.                         |
 
 ### Response
 
-**[*operations.DeleteScheduledTaskResponse](../../models/operations/deletescheduledtaskresponse.md), error**
+**[*dtos.DeleteScheduledTaskResponse](../../dtos/deletescheduledtaskresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |
 
 ## TriggerScheduledTaskRun
 
@@ -384,21 +384,21 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                         | [context.Context](https://pkg.go.dev/context#Context)                                         | :heavy_check_mark:                                                                            | The context to use for the request.                                                           |
-| `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | Scheduled Task ID                                                                             |
-| `body`                                                                                        | [*components.DtoTriggerForceRunRequest](../../models/components/dtotriggerforcerunrequest.md) | :heavy_minus_sign:                                                                            | Optional start and end time for custom range                                                  |
-| `opts`                                                                                        | [][operations.Option](../../models/operations/option.md)                                      | :heavy_minus_sign:                                                                            | The options for this request.                                                                 |
+| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
+| `id`                                                                         | *string*                                                                     | :heavy_check_mark:                                                           | Scheduled Task ID                                                            |
+| `body`                                                                       | [*types.DtoTriggerForceRunRequest](../../types/dtotriggerforcerunrequest.md) | :heavy_minus_sign:                                                           | Optional start and end time for custom range                                 |
+| `opts`                                                                       | [][dtos.Option](../../dtos/option.md)                                        | :heavy_minus_sign:                                                           | The options for this request.                                                |
 
 ### Response
 
-**[*operations.TriggerScheduledTaskRunResponse](../../models/operations/triggerscheduledtaskrunresponse.md), error**
+**[*dtos.TriggerScheduledTaskRunResponse](../../dtos/triggerscheduledtaskrunresponse.md), error**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| apierrors.ErrorsErrorResponse | 400, 404                      | application/json              |
-| apierrors.ErrorsErrorResponse | 500                           | application/json              |
-| apierrors.APIError            | 4XX, 5XX                      | \*/\*                         |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.ErrorsErrorResponse | 400, 404                   | application/json           |
+| errors.ErrorsErrorResponse | 500                        | application/json           |
+| errors.APIError            | 4XX, 5XX                   | \*/\*                      |

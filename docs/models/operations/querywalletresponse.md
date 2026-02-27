@@ -1,9 +1,0 @@
-# QueryWalletResponse
-
-
-## Fields
-
-| Field                                                                                                 | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
-| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `HTTPMeta`                                                                                            | [components.HTTPMetadata](../../models/components/httpmetadata.md)                                    | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `ListResponseDtoWalletResponse`                                                                       | [*components.ListResponseDtoWalletResponse](../../models/components/listresponsedtowalletresponse.md) | :heavy_minus_sign:                                                                                    | OK                                                                                                    |

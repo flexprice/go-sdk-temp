@@ -1,9 +1,0 @@
-# TriggerScheduledTaskRunResponse
-
-
-## Fields
-
-| Field                                                                                           | Type                                                                                            | Required                                                                                        | Description                                                                                     |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `HTTPMeta`                                                                                      | [components.HTTPMetadata](../../models/components/httpmetadata.md)                              | :heavy_check_mark:                                                                              | N/A                                                                                             |
-| `DtoTriggerForceRunResponse`                                                                    | [*components.DtoTriggerForceRunResponse](../../models/components/dtotriggerforcerunresponse.md) | :heavy_minus_sign:                                                                              | Returns workflow details and time range                                                         |
