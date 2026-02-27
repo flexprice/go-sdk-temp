@@ -3,7 +3,7 @@
 package types
 
 import (
-	"github.com/flexprice/flexprice-go/internal/utils"
+	"github.com/flexprice/flexprice-go/v2/internal/utils"
 )
 
 // DtoGetPendingSchedulesResponse - List of pending schedules for a subscription

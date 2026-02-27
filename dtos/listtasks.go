@@ -5,8 +5,8 @@ package dtos
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/flexprice/flexprice-go/internal/utils"
-	"github.com/flexprice/flexprice-go/types"
+	"github.com/flexprice/flexprice-go/v2/internal/utils"
+	"github.com/flexprice/flexprice-go/v2/types"
 )
 
 type EntityType string

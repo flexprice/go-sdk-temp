@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/flexprice/flexprice-go/retry"
+	"github.com/flexprice/flexprice-go/v2/retry"
 	"io"
 	"math"
 	"math/rand"

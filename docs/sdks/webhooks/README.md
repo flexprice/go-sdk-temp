@@ -24,7 +24,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -77,7 +77,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -131,7 +131,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -185,7 +185,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -239,7 +239,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -293,7 +293,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 
@@ -347,7 +347,7 @@ package main
 
 import(
 	"context"
-	flexprice "github.com/flexprice/flexprice-go"
+	flexprice "github.com/flexprice/flexprice-go/v2"
 	"log"
 )
 

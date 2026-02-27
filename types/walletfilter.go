@@ -5,7 +5,7 @@ package types
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/flexprice/flexprice-go/internal/utils"
+	"github.com/flexprice/flexprice-go/v2/internal/utils"
 )
 
 type WalletFilterOrder string

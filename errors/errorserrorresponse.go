@@ -4,7 +4,7 @@ package errors
 
 import (
 	"encoding/json"
-	"github.com/flexprice/flexprice-go/types"
+	"github.com/flexprice/flexprice-go/v2/types"
 )
 
 type ErrorsErrorResponse struct {
