@@ -5,6 +5,7 @@
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |
+| `WindowSizeMonth`      | MONTH                  |
 | `WindowSizeMinute`     | MINUTE                 |
 | `WindowSizeFifteenMin` | 15MIN                  |
 | `WindowSizeThirtyMin`  | 30MIN                  |
@@ -14,4 +15,3 @@
 | `WindowSizeTwelveHour` | 12HOUR                 |
 | `WindowSizeDay`        | DAY                    |
 | `WindowSizeWeek`       | WEEK                   |
-| `WindowSizeMonth`      | MONTH                  |
