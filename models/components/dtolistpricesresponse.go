@@ -7,8 +7,8 @@ import (
 )
 
 type DtoListPricesResponse struct {
-	Items      []DtoPriceResponse       `json:"items,omitzero"`
-	Pagination *TypesPaginationResponse `json:"pagination,omitzero"`
+	Items      []DtoPriceResponse  `json:"items,omitzero"`
+	Pagination *PaginationResponse `json:"pagination,omitzero"`
 }
 
 func (d DtoListPricesResponse) MarshalJSON() ([]byte, error) {
@@ -29,7 +29,7 @@ func (d *DtoListPricesResponse) GetItems() []DtoPriceResponse {
 	return d.Items
 }
 
-func (d *DtoListPricesResponse) GetPagination() *TypesPaginationResponse {
+func (d *DtoListPricesResponse) GetPagination() *PaginationResponse {
 	if d == nil {
 		return nil
 	}

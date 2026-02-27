@@ -19,28 +19,28 @@ type DtoWalletTransactionResponse struct {
 	CreditsAvailable    *string          `json:"credits_available,omitzero"`
 	Currency            *string          `json:"currency,omitzero"`
 	// Customer response object containing all customer information
-	Customer       *DtoCustomerResponse        `json:"customer,omitzero"`
-	CustomerID     *string                     `json:"customer_id,omitzero"`
-	Description    *string                     `json:"description,omitzero"`
-	EnvironmentID  *string                     `json:"environment_id,omitzero"`
-	ExpiryDate     *string                     `json:"expiry_date,omitzero"`
-	ID             *string                     `json:"id,omitzero"`
-	IdempotencyKey *string                     `json:"idempotency_key,omitzero"`
-	Metadata       map[string]string           `json:"metadata,omitzero"`
-	Priority       *int64                      `json:"priority,omitzero"`
-	ReferenceID    *string                     `json:"reference_id,omitzero"`
-	ReferenceType  *TypesWalletTxReferenceType `json:"reference_type,omitzero"`
-	Status         *TypesStatus                `json:"status,omitzero"`
-	TenantID       *string                     `json:"tenant_id,omitzero"`
+	Customer       *DtoCustomerResponse   `json:"customer,omitzero"`
+	CustomerID     *string                `json:"customer_id,omitzero"`
+	Description    *string                `json:"description,omitzero"`
+	EnvironmentID  *string                `json:"environment_id,omitzero"`
+	ExpiryDate     *string                `json:"expiry_date,omitzero"`
+	ID             *string                `json:"id,omitzero"`
+	IdempotencyKey *string                `json:"idempotency_key,omitzero"`
+	Metadata       map[string]string      `json:"metadata,omitzero"`
+	Priority       *int64                 `json:"priority,omitzero"`
+	ReferenceID    *string                `json:"reference_id,omitzero"`
+	ReferenceType  *WalletTxReferenceType `json:"reference_type,omitzero"`
+	Status         *Status                `json:"status,omitzero"`
+	TenantID       *string                `json:"tenant_id,omitzero"`
 	// topup_conversion_rate is the conversion rate for the topup to the currency
-	TopupConversionRate *string                 `json:"topup_conversion_rate,omitzero"`
-	TransactionReason   *TypesTransactionReason `json:"transaction_reason,omitzero"`
-	TransactionStatus   *TypesTransactionStatus `json:"transaction_status,omitzero"`
-	Type                *TypesTransactionType   `json:"type,omitzero"`
-	UpdatedAt           *string                 `json:"updated_at,omitzero"`
-	UpdatedBy           *string                 `json:"updated_by,omitzero"`
-	Wallet              *DtoWalletResponse      `json:"wallet,omitzero"`
-	WalletID            *string                 `json:"wallet_id,omitzero"`
+	TopupConversionRate *string            `json:"topup_conversion_rate,omitzero"`
+	TransactionReason   *TransactionReason `json:"transaction_reason,omitzero"`
+	TransactionStatus   *TransactionStatus `json:"transaction_status,omitzero"`
+	Type                *TransactionType   `json:"type,omitzero"`
+	UpdatedAt           *string            `json:"updated_at,omitzero"`
+	UpdatedBy           *string            `json:"updated_by,omitzero"`
+	Wallet              *DtoWalletResponse `json:"wallet,omitzero"`
+	WalletID            *string            `json:"wallet_id,omitzero"`
 }
 
 func (d DtoWalletTransactionResponse) MarshalJSON() ([]byte, error) {
@@ -194,14 +194,14 @@ func (d *DtoWalletTransactionResponse) GetReferenceID() *string {
 	return d.ReferenceID
 }
 
-func (d *DtoWalletTransactionResponse) GetReferenceType() *TypesWalletTxReferenceType {
+func (d *DtoWalletTransactionResponse) GetReferenceType() *WalletTxReferenceType {
 	if d == nil {
 		return nil
 	}
 	return d.ReferenceType
 }
 
-func (d *DtoWalletTransactionResponse) GetStatus() *TypesStatus {
+func (d *DtoWalletTransactionResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -222,21 +222,21 @@ func (d *DtoWalletTransactionResponse) GetTopupConversionRate() *string {
 	return d.TopupConversionRate
 }
 
-func (d *DtoWalletTransactionResponse) GetTransactionReason() *TypesTransactionReason {
+func (d *DtoWalletTransactionResponse) GetTransactionReason() *TransactionReason {
 	if d == nil {
 		return nil
 	}
 	return d.TransactionReason
 }
 
-func (d *DtoWalletTransactionResponse) GetTransactionStatus() *TypesTransactionStatus {
+func (d *DtoWalletTransactionResponse) GetTransactionStatus() *TransactionStatus {
 	if d == nil {
 		return nil
 	}
 	return d.TransactionStatus
 }
 
-func (d *DtoWalletTransactionResponse) GetType() *TypesTransactionType {
+func (d *DtoWalletTransactionResponse) GetType() *TransactionType {
 	if d == nil {
 		return nil
 	}

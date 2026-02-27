@@ -7,14 +7,14 @@ import (
 )
 
 type DtoCreateFeatureRequest struct {
-	AlertSettings *TypesAlertSettings    `json:"alert_settings,omitzero"`
+	AlertSettings *AlertSettings         `json:"alert_settings,omitzero"`
 	Description   *string                `json:"description,omitzero"`
 	LookupKey     *string                `json:"lookup_key,omitzero"`
 	Metadata      map[string]string      `json:"metadata,omitzero"`
 	Meter         *DtoCreateMeterRequest `json:"meter,omitzero"`
 	MeterID       *string                `json:"meter_id,omitzero"`
 	Name          string                 `json:"name"`
-	Type          TypesFeatureType       `json:"type"`
+	Type          FeatureType            `json:"type"`
 	UnitPlural    *string                `json:"unit_plural,omitzero"`
 	UnitSingular  *string                `json:"unit_singular,omitzero"`
 }
@@ -30,7 +30,7 @@ func (d *DtoCreateFeatureRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreateFeatureRequest) GetAlertSettings() *TypesAlertSettings {
+func (d *DtoCreateFeatureRequest) GetAlertSettings() *AlertSettings {
 	if d == nil {
 		return nil
 	}
@@ -79,9 +79,9 @@ func (d *DtoCreateFeatureRequest) GetName() string {
 	return d.Name
 }
 
-func (d *DtoCreateFeatureRequest) GetType() TypesFeatureType {
+func (d *DtoCreateFeatureRequest) GetType() FeatureType {
 	if d == nil {
-		return TypesFeatureType("")
+		return FeatureType("")
 	}
 	return d.Type
 }

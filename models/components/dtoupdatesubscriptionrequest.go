@@ -6,8 +6,8 @@ type DtoUpdateSubscriptionRequest struct {
 	CancelAt          *string `json:"cancel_at,omitzero"`
 	CancelAtPeriodEnd *bool   `json:"cancel_at_period_end,omitzero"`
 	// ParentSubscriptionID sets or clears the parent subscription. Omit to leave unchanged; send "" to clear.
-	ParentSubscriptionID *string                  `json:"parent_subscription_id,omitzero"`
-	Status               *TypesSubscriptionStatus `json:"status,omitzero"`
+	ParentSubscriptionID *string             `json:"parent_subscription_id,omitzero"`
+	Status               *SubscriptionStatus `json:"status,omitzero"`
 }
 
 func (d *DtoUpdateSubscriptionRequest) GetCancelAt() *string {
@@ -31,7 +31,7 @@ func (d *DtoUpdateSubscriptionRequest) GetParentSubscriptionID() *string {
 	return d.ParentSubscriptionID
 }
 
-func (d *DtoUpdateSubscriptionRequest) GetStatus() *TypesSubscriptionStatus {
+func (d *DtoUpdateSubscriptionRequest) GetStatus() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

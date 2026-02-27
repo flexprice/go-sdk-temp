@@ -10,10 +10,10 @@ import (
 type PricePrice struct {
 	// Amount stored in main currency units (e.g., dollars, not cents)
 	// For USD: 12.50 means $12.50
-	Amount         *string              `json:"amount,omitzero"`
-	BillingCadence *TypesBillingCadence `json:"billing_cadence,omitzero"`
-	BillingModel   *TypesBillingModel   `json:"billing_model,omitzero"`
-	BillingPeriod  *TypesBillingPeriod  `json:"billing_period,omitzero"`
+	Amount         *string         `json:"amount,omitzero"`
+	BillingCadence *BillingCadence `json:"billing_cadence,omitzero"`
+	BillingModel   *BillingModel   `json:"billing_model,omitzero"`
+	BillingPeriod  *BillingPeriod  `json:"billing_period,omitzero"`
 	// BillingPeriodCount is the count of the billing period ex 1, 3, 6, 12
 	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// ConversionRate is the conversion rate of the price unit to the fiat currency
@@ -34,15 +34,15 @@ type PricePrice struct {
 	// EndDate is the end date of the price
 	EndDate *string `json:"end_date,omitzero"`
 	// EntityID holds the value of the "entity_id" field.
-	EntityID   *string               `json:"entity_id,omitzero"`
-	EntityType *TypesPriceEntityType `json:"entity_type,omitzero"`
+	EntityID   *string          `json:"entity_id,omitzero"`
+	EntityType *PriceEntityType `json:"entity_type,omitzero"`
 	// EnvironmentID is the environment identifier for the price
 	EnvironmentID *string `json:"environment_id,omitzero"`
 	// GroupID references the group this price belongs to
 	GroupID *string `json:"group_id,omitzero"`
 	// ID uuid identifier for the price
-	ID             *string              `json:"id,omitzero"`
-	InvoiceCadence *TypesInvoiceCadence `json:"invoice_cadence,omitzero"`
+	ID             *string         `json:"id,omitzero"`
+	InvoiceCadence *InvoiceCadence `json:"invoice_cadence,omitzero"`
 	// LookupKey used for looking up the price in the database
 	LookupKey *string           `json:"lookup_key,omitzero"`
 	Metadata  map[string]string `json:"metadata,omitzero"`
@@ -59,21 +59,21 @@ type PricePrice struct {
 	// PriceUnitID is the id of the price unit (for CUSTOM type)
 	PriceUnitID *string `json:"price_unit_id,omitzero"`
 	// PriceUnitTiers are the tiers for the price unit when BillingModel is TIERED
-	PriceUnitTiers []PricePriceTier    `json:"price_unit_tiers,omitzero"`
-	PriceUnitType  *TypesPriceUnitType `json:"price_unit_type,omitzero"`
+	PriceUnitTiers []PricePriceTier `json:"price_unit_tiers,omitzero"`
+	PriceUnitType  *PriceUnitType   `json:"price_unit_type,omitzero"`
 	// StartDate is the start date of the price
 	StartDate         *string                      `json:"start_date,omitzero"`
-	Status            *TypesStatus                 `json:"status,omitzero"`
+	Status            *Status                      `json:"status,omitzero"`
 	TenantID          *string                      `json:"tenant_id,omitzero"`
-	TierMode          *TypesBillingTier            `json:"tier_mode,omitzero"`
+	TierMode          *BillingTier                 `json:"tier_mode,omitzero"`
 	Tiers             []PricePriceTier             `json:"tiers,omitzero"`
 	TransformQuantity *PriceJSONBTransformQuantity `json:"transform_quantity,omitzero"`
 	// TrialPeriod is the number of days for the trial period
 	// Note: This is only applicable for recurring prices (BILLING_CADENCE_RECURRING)
-	TrialPeriod *int64          `json:"trial_period,omitzero"`
-	Type        *TypesPriceType `json:"type,omitzero"`
-	UpdatedAt   *string         `json:"updated_at,omitzero"`
-	UpdatedBy   *string         `json:"updated_by,omitzero"`
+	TrialPeriod *int64     `json:"trial_period,omitzero"`
+	Type        *PriceType `json:"type,omitzero"`
+	UpdatedAt   *string    `json:"updated_at,omitzero"`
+	UpdatedBy   *string    `json:"updated_by,omitzero"`
 }
 
 func (p PricePrice) MarshalJSON() ([]byte, error) {
@@ -94,21 +94,21 @@ func (p *PricePrice) GetAmount() *string {
 	return p.Amount
 }
 
-func (p *PricePrice) GetBillingCadence() *TypesBillingCadence {
+func (p *PricePrice) GetBillingCadence() *BillingCadence {
 	if p == nil {
 		return nil
 	}
 	return p.BillingCadence
 }
 
-func (p *PricePrice) GetBillingModel() *TypesBillingModel {
+func (p *PricePrice) GetBillingModel() *BillingModel {
 	if p == nil {
 		return nil
 	}
 	return p.BillingModel
 }
 
-func (p *PricePrice) GetBillingPeriod() *TypesBillingPeriod {
+func (p *PricePrice) GetBillingPeriod() *BillingPeriod {
 	if p == nil {
 		return nil
 	}
@@ -192,7 +192,7 @@ func (p *PricePrice) GetEntityID() *string {
 	return p.EntityID
 }
 
-func (p *PricePrice) GetEntityType() *TypesPriceEntityType {
+func (p *PricePrice) GetEntityType() *PriceEntityType {
 	if p == nil {
 		return nil
 	}
@@ -220,7 +220,7 @@ func (p *PricePrice) GetID() *string {
 	return p.ID
 }
 
-func (p *PricePrice) GetInvoiceCadence() *TypesInvoiceCadence {
+func (p *PricePrice) GetInvoiceCadence() *InvoiceCadence {
 	if p == nil {
 		return nil
 	}
@@ -290,7 +290,7 @@ func (p *PricePrice) GetPriceUnitTiers() []PricePriceTier {
 	return p.PriceUnitTiers
 }
 
-func (p *PricePrice) GetPriceUnitType() *TypesPriceUnitType {
+func (p *PricePrice) GetPriceUnitType() *PriceUnitType {
 	if p == nil {
 		return nil
 	}
@@ -304,7 +304,7 @@ func (p *PricePrice) GetStartDate() *string {
 	return p.StartDate
 }
 
-func (p *PricePrice) GetStatus() *TypesStatus {
+func (p *PricePrice) GetStatus() *Status {
 	if p == nil {
 		return nil
 	}
@@ -318,7 +318,7 @@ func (p *PricePrice) GetTenantID() *string {
 	return p.TenantID
 }
 
-func (p *PricePrice) GetTierMode() *TypesBillingTier {
+func (p *PricePrice) GetTierMode() *BillingTier {
 	if p == nil {
 		return nil
 	}
@@ -346,7 +346,7 @@ func (p *PricePrice) GetTrialPeriod() *int64 {
 	return p.TrialPeriod
 }
 
-func (p *PricePrice) GetType() *TypesPriceType {
+func (p *PricePrice) GetType() *PriceType {
 	if p == nil {
 		return nil
 	}

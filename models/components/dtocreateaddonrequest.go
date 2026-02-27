@@ -11,7 +11,7 @@ type DtoCreateAddonRequest struct {
 	LookupKey   string         `json:"lookup_key"`
 	Metadata    map[string]any `json:"metadata,omitzero"`
 	Name        string         `json:"name"`
-	Type        TypesAddonType `json:"type"`
+	Type        AddonType      `json:"type"`
 }
 
 func (d DtoCreateAddonRequest) MarshalJSON() ([]byte, error) {
@@ -53,9 +53,9 @@ func (d *DtoCreateAddonRequest) GetName() string {
 	return d.Name
 }
 
-func (d *DtoCreateAddonRequest) GetType() TypesAddonType {
+func (d *DtoCreateAddonRequest) GetType() AddonType {
 	if d == nil {
-		return TypesAddonType("")
+		return AddonType("")
 	}
 	return d.Type
 }

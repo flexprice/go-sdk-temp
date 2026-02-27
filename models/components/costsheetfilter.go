@@ -12,18 +12,18 @@ type CostsheetFilter struct {
 	// EnvironmentID filters by specific environment ID
 	EnvironmentID *string `json:"environmentID,omitzero"`
 	// Filters contains custom filtering conditions
-	Filters []TypesFilterCondition `json:"filters,omitzero"`
+	Filters []FilterCondition `json:"filters,omitzero"`
 	// LookupKey filters by lookup key
 	LookupKey *string `json:"lookupKey,omitzero"`
 	// Name filters by costsheet name
-	Name        *string           `json:"name,omitzero"`
-	QueryFilter *TypesQueryFilter `json:"queryFilter,omitzero"`
+	Name        *string      `json:"name,omitzero"`
+	QueryFilter *QueryFilter `json:"queryFilter,omitzero"`
 	// Sort specifies result ordering preferences
-	Sort   []TypesSortCondition `json:"sort,omitzero"`
-	Status *TypesStatus         `json:"status,omitzero"`
+	Sort   []SortCondition `json:"sort,omitzero"`
+	Status *Status         `json:"status,omitzero"`
 	// TenantID filters by specific tenant ID
-	TenantID        *string               `json:"tenantID,omitzero"`
-	TimeRangeFilter *TypesTimeRangeFilter `json:"timeRangeFilter,omitzero"`
+	TenantID        *string          `json:"tenantID,omitzero"`
+	TimeRangeFilter *TimeRangeFilter `json:"timeRangeFilter,omitzero"`
 }
 
 func (c CostsheetFilter) MarshalJSON() ([]byte, error) {
@@ -51,7 +51,7 @@ func (c *CostsheetFilter) GetEnvironmentID() *string {
 	return c.EnvironmentID
 }
 
-func (c *CostsheetFilter) GetFilters() []TypesFilterCondition {
+func (c *CostsheetFilter) GetFilters() []FilterCondition {
 	if c == nil {
 		return nil
 	}
@@ -72,21 +72,21 @@ func (c *CostsheetFilter) GetName() *string {
 	return c.Name
 }
 
-func (c *CostsheetFilter) GetQueryFilter() *TypesQueryFilter {
+func (c *CostsheetFilter) GetQueryFilter() *QueryFilter {
 	if c == nil {
 		return nil
 	}
 	return c.QueryFilter
 }
 
-func (c *CostsheetFilter) GetSort() []TypesSortCondition {
+func (c *CostsheetFilter) GetSort() []SortCondition {
 	if c == nil {
 		return nil
 	}
 	return c.Sort
 }
 
-func (c *CostsheetFilter) GetStatus() *TypesStatus {
+func (c *CostsheetFilter) GetStatus() *Status {
 	if c == nil {
 		return nil
 	}
@@ -100,7 +100,7 @@ func (c *CostsheetFilter) GetTenantID() *string {
 	return c.TenantID
 }
 
-func (c *CostsheetFilter) GetTimeRangeFilter() *TypesTimeRangeFilter {
+func (c *CostsheetFilter) GetTimeRangeFilter() *TimeRangeFilter {
 	if c == nil {
 		return nil
 	}

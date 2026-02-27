@@ -3,12 +3,12 @@
 package components
 
 type DtoUpdateTaskStatusRequest struct {
-	TaskStatus TypesTaskStatus `json:"task_status"`
+	TaskStatus TaskStatus `json:"task_status"`
 }
 
-func (d *DtoUpdateTaskStatusRequest) GetTaskStatus() TypesTaskStatus {
+func (d *DtoUpdateTaskStatusRequest) GetTaskStatus() TaskStatus {
 	if d == nil {
-		return TypesTaskStatus("")
+		return TaskStatus("")
 	}
 	return d.TaskStatus
 }

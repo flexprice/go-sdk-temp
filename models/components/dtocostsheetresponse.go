@@ -17,7 +17,7 @@ type DtoCostsheetResponse struct {
 	Name          *string           `json:"name,omitzero"`
 	// Associated prices
 	Prices    []DtoPriceResponse `json:"prices,omitzero"`
-	Status    *TypesStatus       `json:"status,omitzero"`
+	Status    *Status            `json:"status,omitzero"`
 	TenantID  *string            `json:"tenant_id,omitzero"`
 	UpdatedAt *string            `json:"updated_at,omitzero"`
 	UpdatedBy *string            `json:"updated_by,omitzero"`
@@ -97,7 +97,7 @@ func (d *DtoCostsheetResponse) GetPrices() []DtoPriceResponse {
 	return d.Prices
 }
 
-func (d *DtoCostsheetResponse) GetStatus() *TypesStatus {
+func (d *DtoCostsheetResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

@@ -12,8 +12,8 @@ type DtoCreateInvoiceRequest struct {
 	// amount_paid is the amount that has been paid towards this invoice
 	AmountPaid *string `json:"amount_paid,omitzero"`
 	// billing_period is the period this invoice covers (e.g., "monthly", "yearly")
-	BillingPeriod *string                    `json:"billing_period,omitzero"`
-	BillingReason *TypesInvoiceBillingReason `json:"billing_reason,omitzero"`
+	BillingPeriod *string               `json:"billing_period,omitzero"`
+	BillingReason *InvoiceBillingReason `json:"billing_reason,omitzero"`
 	// coupons
 	Coupons []string `json:"coupons,omitzero"`
 	// currency is the three-letter ISO currency code (e.g., USD, EUR) for the invoice
@@ -31,15 +31,15 @@ type DtoCreateInvoiceRequest struct {
 	// invoice_number is an optional human-readable identifier for the invoice
 	InvoiceNumber *string `json:"invoice_number,omitzero"`
 	// invoice_pdf_url is the URL where customers can download the PDF version of this invoice
-	InvoicePdfURL *string             `json:"invoice_pdf_url,omitzero"`
-	InvoiceStatus *TypesInvoiceStatus `json:"invoice_status,omitzero"`
-	InvoiceType   *TypesInvoiceType   `json:"invoice_type,omitzero"`
+	InvoicePdfURL *string        `json:"invoice_pdf_url,omitzero"`
+	InvoiceStatus *InvoiceStatus `json:"invoice_status,omitzero"`
+	InvoiceType   *InvoiceType   `json:"invoice_type,omitzero"`
 	// Invoice Line Item Coupons
 	LineItemCoupons []DtoInvoiceLineItemCoupon `json:"line_item_coupons,omitzero"`
 	// line_items contains the individual items that make up this invoice
 	LineItems     []DtoCreateInvoiceLineItemRequest `json:"line_items,omitzero"`
 	Metadata      map[string]string                 `json:"metadata,omitzero"`
-	PaymentStatus *TypesPaymentStatus               `json:"payment_status,omitzero"`
+	PaymentStatus *PaymentStatus                    `json:"payment_status,omitzero"`
 	// period_end is the end date of the billing period
 	PeriodEnd *string `json:"period_end,omitzero"`
 	// period_start is the start date of the billing period
@@ -92,7 +92,7 @@ func (d *DtoCreateInvoiceRequest) GetBillingPeriod() *string {
 	return d.BillingPeriod
 }
 
-func (d *DtoCreateInvoiceRequest) GetBillingReason() *TypesInvoiceBillingReason {
+func (d *DtoCreateInvoiceRequest) GetBillingReason() *InvoiceBillingReason {
 	if d == nil {
 		return nil
 	}
@@ -162,14 +162,14 @@ func (d *DtoCreateInvoiceRequest) GetInvoicePdfURL() *string {
 	return d.InvoicePdfURL
 }
 
-func (d *DtoCreateInvoiceRequest) GetInvoiceStatus() *TypesInvoiceStatus {
+func (d *DtoCreateInvoiceRequest) GetInvoiceStatus() *InvoiceStatus {
 	if d == nil {
 		return nil
 	}
 	return d.InvoiceStatus
 }
 
-func (d *DtoCreateInvoiceRequest) GetInvoiceType() *TypesInvoiceType {
+func (d *DtoCreateInvoiceRequest) GetInvoiceType() *InvoiceType {
 	if d == nil {
 		return nil
 	}
@@ -197,7 +197,7 @@ func (d *DtoCreateInvoiceRequest) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoCreateInvoiceRequest) GetPaymentStatus() *TypesPaymentStatus {
+func (d *DtoCreateInvoiceRequest) GetPaymentStatus() *PaymentStatus {
 	if d == nil {
 		return nil
 	}

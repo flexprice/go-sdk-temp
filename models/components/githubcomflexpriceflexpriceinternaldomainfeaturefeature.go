@@ -7,23 +7,23 @@ import (
 )
 
 type GithubComFlexpriceFlexpriceInternalDomainFeatureFeature struct {
-	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
-	CreatedAt     *string             `json:"created_at,omitzero"`
-	CreatedBy     *string             `json:"created_by,omitzero"`
-	Description   *string             `json:"description,omitzero"`
-	EnvironmentID *string             `json:"environment_id,omitzero"`
-	ID            *string             `json:"id,omitzero"`
-	LookupKey     *string             `json:"lookup_key,omitzero"`
-	Metadata      map[string]string   `json:"metadata,omitzero"`
-	MeterID       *string             `json:"meter_id,omitzero"`
-	Name          *string             `json:"name,omitzero"`
-	Status        *TypesStatus        `json:"status,omitzero"`
-	TenantID      *string             `json:"tenant_id,omitzero"`
-	Type          *TypesFeatureType   `json:"type,omitzero"`
-	UnitPlural    *string             `json:"unit_plural,omitzero"`
-	UnitSingular  *string             `json:"unit_singular,omitzero"`
-	UpdatedAt     *string             `json:"updated_at,omitzero"`
-	UpdatedBy     *string             `json:"updated_by,omitzero"`
+	AlertSettings *AlertSettings    `json:"alert_settings,omitzero"`
+	CreatedAt     *string           `json:"created_at,omitzero"`
+	CreatedBy     *string           `json:"created_by,omitzero"`
+	Description   *string           `json:"description,omitzero"`
+	EnvironmentID *string           `json:"environment_id,omitzero"`
+	ID            *string           `json:"id,omitzero"`
+	LookupKey     *string           `json:"lookup_key,omitzero"`
+	Metadata      map[string]string `json:"metadata,omitzero"`
+	MeterID       *string           `json:"meter_id,omitzero"`
+	Name          *string           `json:"name,omitzero"`
+	Status        *Status           `json:"status,omitzero"`
+	TenantID      *string           `json:"tenant_id,omitzero"`
+	Type          *FeatureType      `json:"type,omitzero"`
+	UnitPlural    *string           `json:"unit_plural,omitzero"`
+	UnitSingular  *string           `json:"unit_singular,omitzero"`
+	UpdatedAt     *string           `json:"updated_at,omitzero"`
+	UpdatedBy     *string           `json:"updated_by,omitzero"`
 }
 
 func (g GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) MarshalJSON() ([]byte, error) {
@@ -37,7 +37,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) UnmarshalJSON(
 	return nil
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetAlertSettings() *TypesAlertSettings {
+func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetAlertSettings() *AlertSettings {
 	if g == nil {
 		return nil
 	}
@@ -107,7 +107,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetName() *str
 	return g.Name
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetStatus() *TypesStatus {
+func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetStatus() *Status {
 	if g == nil {
 		return nil
 	}
@@ -121,7 +121,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetTenantID() 
 	return g.TenantID
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetType() *TypesFeatureType {
+func (g *GithubComFlexpriceFlexpriceInternalDomainFeatureFeature) GetType() *FeatureType {
 	if g == nil {
 		return nil
 	}

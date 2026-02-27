@@ -13,10 +13,10 @@ type DtoSubscriptionResponse struct {
 	// BillingAnchor is the reference point that aligns future billing cycle dates.
 	// It sets the day of week for week intervals, the day of month for month and year intervals,
 	// and the month of year for year intervals. The timestamp is in UTC format.
-	BillingAnchor  *string              `json:"billing_anchor,omitzero"`
-	BillingCadence *TypesBillingCadence `json:"billing_cadence,omitzero"`
-	BillingCycle   *TypesBillingCycle   `json:"billing_cycle,omitzero"`
-	BillingPeriod  *TypesBillingPeriod  `json:"billing_period,omitzero"`
+	BillingAnchor  *string         `json:"billing_anchor,omitzero"`
+	BillingCadence *BillingCadence `json:"billing_cadence,omitzero"`
+	BillingCycle   *BillingCycle   `json:"billing_cycle,omitzero"`
+	BillingPeriod  *BillingPeriod  `json:"billing_period,omitzero"`
 	// BillingPeriodCount is the total number units of the billing period.
 	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// CancelAt is the date the subscription will be canceled
@@ -28,8 +28,8 @@ type DtoSubscriptionResponse struct {
 	// CollectionMethod determines how invoices are collected
 	CollectionMethod *string `json:"collection_method,omitzero"`
 	// CommitmentAmount is the minimum amount a customer commits to paying for a billing period
-	CommitmentAmount   *string             `json:"commitment_amount,omitzero"`
-	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
+	CommitmentAmount   *string        `json:"commitment_amount,omitzero"`
+	CommitmentDuration *BillingPeriod `json:"commitment_duration,omitzero"`
 	// CouponAssociations are the coupon associations for this subscription
 	CouponAssociations []DtoCouponAssociationResponse `json:"coupon_associations,omitzero"`
 	CreatedAt          *string                        `json:"created_at,omitzero"`
@@ -70,22 +70,22 @@ type DtoSubscriptionResponse struct {
 	OverageFactor *string `json:"overage_factor,omitzero"`
 	// ParentSubscriptionID is the parent subscription ID for hierarchy (e.g. child subscription under a parent)
 	ParentSubscriptionID *string                         `json:"parent_subscription_id,omitzero"`
-	PauseStatus          *TypesPauseStatus               `json:"pause_status,omitzero"`
+	PauseStatus          *PauseStatus                    `json:"pause_status,omitzero"`
 	Pauses               []SubscriptionSubscriptionPause `json:"pauses,omitzero"`
 	// PaymentBehavior determines how subscription payments are handled
-	PaymentBehavior *string            `json:"payment_behavior,omitzero"`
-	PaymentTerms    *TypesPaymentTerms `json:"payment_terms,omitzero"`
+	PaymentBehavior *string       `json:"payment_behavior,omitzero"`
+	PaymentTerms    *PaymentTerms `json:"payment_terms,omitzero"`
 	// Phases are the subscription phases for this subscription
 	Phases []DtoSubscriptionPhaseResponse `json:"phases,omitzero"`
 	Plan   *DtoPlanResponse               `json:"plan,omitzero"`
 	// PlanID is the identifier for the plan in our system
-	PlanID            *string                 `json:"plan_id,omitzero"`
-	ProrationBehavior *TypesProrationBehavior `json:"proration_behavior,omitzero"`
+	PlanID            *string            `json:"plan_id,omitzero"`
+	ProrationBehavior *ProrationBehavior `json:"proration_behavior,omitzero"`
 	// StartDate is the start date of the subscription
-	StartDate          *string                  `json:"start_date,omitzero"`
-	Status             *TypesStatus             `json:"status,omitzero"`
-	SubscriptionStatus *TypesSubscriptionStatus `json:"subscription_status,omitzero"`
-	TenantID           *string                  `json:"tenant_id,omitzero"`
+	StartDate          *string             `json:"start_date,omitzero"`
+	Status             *Status             `json:"status,omitzero"`
+	SubscriptionStatus *SubscriptionStatus `json:"subscription_status,omitzero"`
+	TenantID           *string             `json:"tenant_id,omitzero"`
 	// TrialEnd is the end date of the trial period
 	TrialEnd *string `json:"trial_end,omitzero"`
 	// TrialStart is the start date of the trial period
@@ -121,21 +121,21 @@ func (d *DtoSubscriptionResponse) GetBillingAnchor() *string {
 	return d.BillingAnchor
 }
 
-func (d *DtoSubscriptionResponse) GetBillingCadence() *TypesBillingCadence {
+func (d *DtoSubscriptionResponse) GetBillingCadence() *BillingCadence {
 	if d == nil {
 		return nil
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoSubscriptionResponse) GetBillingCycle() *TypesBillingCycle {
+func (d *DtoSubscriptionResponse) GetBillingCycle() *BillingCycle {
 	if d == nil {
 		return nil
 	}
 	return d.BillingCycle
 }
 
-func (d *DtoSubscriptionResponse) GetBillingPeriod() *TypesBillingPeriod {
+func (d *DtoSubscriptionResponse) GetBillingPeriod() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -184,7 +184,7 @@ func (d *DtoSubscriptionResponse) GetCommitmentAmount() *string {
 	return d.CommitmentAmount
 }
 
-func (d *DtoSubscriptionResponse) GetCommitmentDuration() *TypesBillingPeriod {
+func (d *DtoSubscriptionResponse) GetCommitmentDuration() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -345,7 +345,7 @@ func (d *DtoSubscriptionResponse) GetParentSubscriptionID() *string {
 	return d.ParentSubscriptionID
 }
 
-func (d *DtoSubscriptionResponse) GetPauseStatus() *TypesPauseStatus {
+func (d *DtoSubscriptionResponse) GetPauseStatus() *PauseStatus {
 	if d == nil {
 		return nil
 	}
@@ -366,7 +366,7 @@ func (d *DtoSubscriptionResponse) GetPaymentBehavior() *string {
 	return d.PaymentBehavior
 }
 
-func (d *DtoSubscriptionResponse) GetPaymentTerms() *TypesPaymentTerms {
+func (d *DtoSubscriptionResponse) GetPaymentTerms() *PaymentTerms {
 	if d == nil {
 		return nil
 	}
@@ -394,7 +394,7 @@ func (d *DtoSubscriptionResponse) GetPlanID() *string {
 	return d.PlanID
 }
 
-func (d *DtoSubscriptionResponse) GetProrationBehavior() *TypesProrationBehavior {
+func (d *DtoSubscriptionResponse) GetProrationBehavior() *ProrationBehavior {
 	if d == nil {
 		return nil
 	}
@@ -408,14 +408,14 @@ func (d *DtoSubscriptionResponse) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoSubscriptionResponse) GetStatus() *TypesStatus {
+func (d *DtoSubscriptionResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
 	return d.Status
 }
 
-func (d *DtoSubscriptionResponse) GetSubscriptionStatus() *TypesSubscriptionStatus {
+func (d *DtoSubscriptionResponse) GetSubscriptionStatus() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

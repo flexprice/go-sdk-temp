@@ -33,7 +33,7 @@ func newWorkflows(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *
 
 // QueryWorkflow - Query workflows
 // Use when listing or auditing workflow runs (e.g. ops dashboard or debugging). Returns a paginated list; supports filtering by workflow type and status.
-func (s *Workflows) QueryWorkflow(ctx context.Context, request components.TypesWorkflowExecutionFilter, opts ...operations.Option) (*operations.QueryWorkflowResponse, error) {
+func (s *Workflows) QueryWorkflow(ctx context.Context, request components.WorkflowExecutionFilter, opts ...operations.Option) (*operations.QueryWorkflowResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

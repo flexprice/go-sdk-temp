@@ -36,7 +36,7 @@ func main() {
 
     res, err := s.CreditNotes.CreateCreditNote(ctx, components.DtoCreateCreditNoteRequest{
         InvoiceID: "<id>",
-        Reason: components.TypesCreditNoteReasonFraudulent,
+        Reason: components.CreditNoteReasonFraudulent,
     })
     if err != nil {
         log.Fatal(err)

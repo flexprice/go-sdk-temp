@@ -7,13 +7,13 @@ import (
 )
 
 type DtoUpdateFeatureRequest struct {
-	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
-	Description   *string             `json:"description,omitzero"`
-	Filters       []MeterFilter       `json:"filters,omitzero"`
-	Metadata      map[string]string   `json:"metadata,omitzero"`
-	Name          *string             `json:"name,omitzero"`
-	UnitPlural    *string             `json:"unit_plural,omitzero"`
-	UnitSingular  *string             `json:"unit_singular,omitzero"`
+	AlertSettings *AlertSettings    `json:"alert_settings,omitzero"`
+	Description   *string           `json:"description,omitzero"`
+	Filters       []MeterFilter     `json:"filters,omitzero"`
+	Metadata      map[string]string `json:"metadata,omitzero"`
+	Name          *string           `json:"name,omitzero"`
+	UnitPlural    *string           `json:"unit_plural,omitzero"`
+	UnitSingular  *string           `json:"unit_singular,omitzero"`
 }
 
 func (d DtoUpdateFeatureRequest) MarshalJSON() ([]byte, error) {
@@ -27,7 +27,7 @@ func (d *DtoUpdateFeatureRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoUpdateFeatureRequest) GetAlertSettings() *TypesAlertSettings {
+func (d *DtoUpdateFeatureRequest) GetAlertSettings() *AlertSettings {
 	if d == nil {
 		return nil
 	}

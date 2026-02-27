@@ -4,8 +4,8 @@ package components
 
 type DtoUpdatePaymentStatusRequest struct {
 	// amount is the optional payment amount to record
-	Amount        *string            `json:"amount,omitzero"`
-	PaymentStatus TypesPaymentStatus `json:"payment_status"`
+	Amount        *string       `json:"amount,omitzero"`
+	PaymentStatus PaymentStatus `json:"payment_status"`
 }
 
 func (d *DtoUpdatePaymentStatusRequest) GetAmount() *string {
@@ -15,9 +15,9 @@ func (d *DtoUpdatePaymentStatusRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoUpdatePaymentStatusRequest) GetPaymentStatus() TypesPaymentStatus {
+func (d *DtoUpdatePaymentStatusRequest) GetPaymentStatus() PaymentStatus {
 	if d == nil {
-		return TypesPaymentStatus("")
+		return PaymentStatus("")
 	}
 	return d.PaymentStatus
 }

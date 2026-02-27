@@ -8,7 +8,7 @@ import (
 
 type DtoDebugTracker struct {
 	CustomerLookup             *DtoCustomerLookupResult             `json:"customer_lookup,omitzero"`
-	FailurePoint               *TypesFailurePoint                   `json:"failure_point,omitzero"`
+	FailurePoint               *FailurePoint                        `json:"failure_point,omitzero"`
 	MeterMatching              *DtoMeterMatchingResult              `json:"meter_matching,omitzero"`
 	PriceLookup                *DtoPriceLookupResult                `json:"price_lookup,omitzero"`
 	SubscriptionLineItemLookup *DtoSubscriptionLineItemLookupResult `json:"subscription_line_item_lookup,omitzero"`
@@ -32,7 +32,7 @@ func (d *DtoDebugTracker) GetCustomerLookup() *DtoCustomerLookupResult {
 	return d.CustomerLookup
 }
 
-func (d *DtoDebugTracker) GetFailurePoint() *TypesFailurePoint {
+func (d *DtoDebugTracker) GetFailurePoint() *FailurePoint {
 	if d == nil {
 		return nil
 	}

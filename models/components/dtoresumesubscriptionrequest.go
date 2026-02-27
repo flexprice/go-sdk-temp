@@ -16,7 +16,7 @@ type DtoResumeSubscriptionRequest struct {
 	// @Description Optional metadata for storing additional information about the resume operation
 	// @Example {"resumed_by": "admin", "reason": "issue_resolved"}
 	Metadata   map[string]string `json:"metadata,omitzero"`
-	ResumeMode TypesResumeMode   `json:"resume_mode"`
+	ResumeMode ResumeMode        `json:"resume_mode"`
 }
 
 func (d DtoResumeSubscriptionRequest) MarshalJSON() ([]byte, error) {
@@ -44,9 +44,9 @@ func (d *DtoResumeSubscriptionRequest) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoResumeSubscriptionRequest) GetResumeMode() TypesResumeMode {
+func (d *DtoResumeSubscriptionRequest) GetResumeMode() ResumeMode {
 	if d == nil {
-		return TypesResumeMode("")
+		return ResumeMode("")
 	}
 	return d.ResumeMode
 }

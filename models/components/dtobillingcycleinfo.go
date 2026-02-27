@@ -4,9 +4,9 @@ package components
 
 type DtoBillingCycleInfo struct {
 	// billing_anchor is the new billing anchor
-	BillingAnchor  *string              `json:"billing_anchor,omitzero"`
-	BillingCadence *TypesBillingCadence `json:"billing_cadence,omitzero"`
-	BillingPeriod  *TypesBillingPeriod  `json:"billing_period,omitzero"`
+	BillingAnchor  *string         `json:"billing_anchor,omitzero"`
+	BillingCadence *BillingCadence `json:"billing_cadence,omitzero"`
+	BillingPeriod  *BillingPeriod  `json:"billing_period,omitzero"`
 	// billing_period_count is the billing period count
 	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// period_end is the end of the new billing period
@@ -22,14 +22,14 @@ func (d *DtoBillingCycleInfo) GetBillingAnchor() *string {
 	return d.BillingAnchor
 }
 
-func (d *DtoBillingCycleInfo) GetBillingCadence() *TypesBillingCadence {
+func (d *DtoBillingCycleInfo) GetBillingCadence() *BillingCadence {
 	if d == nil {
 		return nil
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoBillingCycleInfo) GetBillingPeriod() *TypesBillingPeriod {
+func (d *DtoBillingCycleInfo) GetBillingPeriod() *BillingPeriod {
 	if d == nil {
 		return nil
 	}

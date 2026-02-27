@@ -19,17 +19,17 @@ type SubscriptionSubscriptionPause struct {
 	// OriginalPeriodStart is the start of the billing period when the pause was created
 	OriginalPeriodStart *string `json:"original_period_start,omitzero"`
 	// PauseEnd is when the pause will end (null for indefinite)
-	PauseEnd  *string         `json:"pause_end,omitzero"`
-	PauseMode *TypesPauseMode `json:"pause_mode,omitzero"`
+	PauseEnd  *string    `json:"pause_end,omitzero"`
+	PauseMode *PauseMode `json:"pause_mode,omitzero"`
 	// PauseStart is when the pause actually started
-	PauseStart  *string           `json:"pause_start,omitzero"`
-	PauseStatus *TypesPauseStatus `json:"pause_status,omitzero"`
+	PauseStart  *string      `json:"pause_start,omitzero"`
+	PauseStatus *PauseStatus `json:"pause_status,omitzero"`
 	// Reason is the reason for pausing
-	Reason     *string          `json:"reason,omitzero"`
-	ResumeMode *TypesResumeMode `json:"resume_mode,omitzero"`
+	Reason     *string     `json:"reason,omitzero"`
+	ResumeMode *ResumeMode `json:"resume_mode,omitzero"`
 	// ResumedAt is when the pause was actually ended (if manually resumed)
-	ResumedAt *string      `json:"resumed_at,omitzero"`
-	Status    *TypesStatus `json:"status,omitzero"`
+	ResumedAt *string `json:"resumed_at,omitzero"`
+	Status    *Status `json:"status,omitzero"`
 	// SubscriptionID is the identifier for the subscription
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 	TenantID       *string `json:"tenant_id,omitzero"`
@@ -104,7 +104,7 @@ func (s *SubscriptionSubscriptionPause) GetPauseEnd() *string {
 	return s.PauseEnd
 }
 
-func (s *SubscriptionSubscriptionPause) GetPauseMode() *TypesPauseMode {
+func (s *SubscriptionSubscriptionPause) GetPauseMode() *PauseMode {
 	if s == nil {
 		return nil
 	}
@@ -118,7 +118,7 @@ func (s *SubscriptionSubscriptionPause) GetPauseStart() *string {
 	return s.PauseStart
 }
 
-func (s *SubscriptionSubscriptionPause) GetPauseStatus() *TypesPauseStatus {
+func (s *SubscriptionSubscriptionPause) GetPauseStatus() *PauseStatus {
 	if s == nil {
 		return nil
 	}
@@ -132,7 +132,7 @@ func (s *SubscriptionSubscriptionPause) GetReason() *string {
 	return s.Reason
 }
 
-func (s *SubscriptionSubscriptionPause) GetResumeMode() *TypesResumeMode {
+func (s *SubscriptionSubscriptionPause) GetResumeMode() *ResumeMode {
 	if s == nil {
 		return nil
 	}
@@ -146,7 +146,7 @@ func (s *SubscriptionSubscriptionPause) GetResumedAt() *string {
 	return s.ResumedAt
 }
 
-func (s *SubscriptionSubscriptionPause) GetStatus() *TypesStatus {
+func (s *SubscriptionSubscriptionPause) GetStatus() *Status {
 	if s == nil {
 		return nil
 	}

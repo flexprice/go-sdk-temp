@@ -8,27 +8,27 @@ import (
 
 type DtoSubscriptionPriceCreateRequest struct {
 	Amount             *string                 `json:"amount,omitzero"`
-	BillingCadence     TypesBillingCadence     `json:"billing_cadence"`
-	BillingModel       TypesBillingModel       `json:"billing_model"`
-	BillingPeriod      TypesBillingPeriod      `json:"billing_period"`
+	BillingCadence     BillingCadence          `json:"billing_cadence"`
+	BillingModel       BillingModel            `json:"billing_model"`
+	BillingPeriod      BillingPeriod           `json:"billing_period"`
 	BillingPeriodCount *int64                  `json:"billing_period_count,omitzero"`
 	Description        *string                 `json:"description,omitzero"`
 	DisplayName        *string                 `json:"display_name,omitzero"`
 	EndDate            *string                 `json:"end_date,omitzero"`
 	FilterValues       map[string][]string     `json:"filter_values,omitzero"`
-	InvoiceCadence     TypesInvoiceCadence     `json:"invoice_cadence"`
+	InvoiceCadence     InvoiceCadence          `json:"invoice_cadence"`
 	LookupKey          *string                 `json:"lookup_key,omitzero"`
 	Metadata           map[string]string       `json:"metadata,omitzero"`
 	MeterID            *string                 `json:"meter_id,omitzero"`
 	MinQuantity        *int64                  `json:"min_quantity,omitzero"`
 	PriceUnitConfig    *DtoPriceUnitConfig     `json:"price_unit_config,omitzero"`
-	PriceUnitType      TypesPriceUnitType      `json:"price_unit_type"`
+	PriceUnitType      PriceUnitType           `json:"price_unit_type"`
 	StartDate          *string                 `json:"start_date,omitzero"`
-	TierMode           *TypesBillingTier       `json:"tier_mode,omitzero"`
+	TierMode           *BillingTier            `json:"tier_mode,omitzero"`
 	Tiers              []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity  *PriceTransformQuantity `json:"transform_quantity,omitzero"`
 	TrialPeriod        *int64                  `json:"trial_period,omitzero"`
-	Type               TypesPriceType          `json:"type"`
+	Type               PriceType               `json:"type"`
 }
 
 func (d DtoSubscriptionPriceCreateRequest) MarshalJSON() ([]byte, error) {
@@ -49,23 +49,23 @@ func (d *DtoSubscriptionPriceCreateRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetBillingCadence() TypesBillingCadence {
+func (d *DtoSubscriptionPriceCreateRequest) GetBillingCadence() BillingCadence {
 	if d == nil {
-		return TypesBillingCadence("")
+		return BillingCadence("")
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetBillingModel() TypesBillingModel {
+func (d *DtoSubscriptionPriceCreateRequest) GetBillingModel() BillingModel {
 	if d == nil {
-		return TypesBillingModel("")
+		return BillingModel("")
 	}
 	return d.BillingModel
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetBillingPeriod() TypesBillingPeriod {
+func (d *DtoSubscriptionPriceCreateRequest) GetBillingPeriod() BillingPeriod {
 	if d == nil {
-		return TypesBillingPeriod("")
+		return BillingPeriod("")
 	}
 	return d.BillingPeriod
 }
@@ -105,9 +105,9 @@ func (d *DtoSubscriptionPriceCreateRequest) GetFilterValues() map[string][]strin
 	return d.FilterValues
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetInvoiceCadence() TypesInvoiceCadence {
+func (d *DtoSubscriptionPriceCreateRequest) GetInvoiceCadence() InvoiceCadence {
 	if d == nil {
-		return TypesInvoiceCadence("")
+		return InvoiceCadence("")
 	}
 	return d.InvoiceCadence
 }
@@ -147,9 +147,9 @@ func (d *DtoSubscriptionPriceCreateRequest) GetPriceUnitConfig() *DtoPriceUnitCo
 	return d.PriceUnitConfig
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetPriceUnitType() TypesPriceUnitType {
+func (d *DtoSubscriptionPriceCreateRequest) GetPriceUnitType() PriceUnitType {
 	if d == nil {
-		return TypesPriceUnitType("")
+		return PriceUnitType("")
 	}
 	return d.PriceUnitType
 }
@@ -161,7 +161,7 @@ func (d *DtoSubscriptionPriceCreateRequest) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetTierMode() *TypesBillingTier {
+func (d *DtoSubscriptionPriceCreateRequest) GetTierMode() *BillingTier {
 	if d == nil {
 		return nil
 	}
@@ -189,9 +189,9 @@ func (d *DtoSubscriptionPriceCreateRequest) GetTrialPeriod() *int64 {
 	return d.TrialPeriod
 }
 
-func (d *DtoSubscriptionPriceCreateRequest) GetType() TypesPriceType {
+func (d *DtoSubscriptionPriceCreateRequest) GetType() PriceType {
 	if d == nil {
-		return TypesPriceType("")
+		return PriceType("")
 	}
 	return d.Type
 }

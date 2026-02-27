@@ -18,9 +18,9 @@ type DtoCreateTaxRateRequest struct {
 	// name is the human-readable name for the tax rate (required)
 	Name string `json:"name"`
 	// percentage_value is the percentage value (0-100) when tax_rate_type is "percentage"
-	PercentageValue *string            `json:"percentage_value,omitzero"`
-	Scope           *TypesTaxRateScope `json:"scope,omitzero"`
-	TaxRateType     *TypesTaxRateType  `json:"tax_rate_type,omitzero"`
+	PercentageValue *string       `json:"percentage_value,omitzero"`
+	Scope           *TaxRateScope `json:"scope,omitzero"`
+	TaxRateType     *TaxRateType  `json:"tax_rate_type,omitzero"`
 }
 
 func (d DtoCreateTaxRateRequest) MarshalJSON() ([]byte, error) {
@@ -76,14 +76,14 @@ func (d *DtoCreateTaxRateRequest) GetPercentageValue() *string {
 	return d.PercentageValue
 }
 
-func (d *DtoCreateTaxRateRequest) GetScope() *TypesTaxRateScope {
+func (d *DtoCreateTaxRateRequest) GetScope() *TaxRateScope {
 	if d == nil {
 		return nil
 	}
 	return d.Scope
 }
 
-func (d *DtoCreateTaxRateRequest) GetTaxRateType() *TypesTaxRateType {
+func (d *DtoCreateTaxRateRequest) GetTaxRateType() *TaxRateType {
 	if d == nil {
 		return nil
 	}

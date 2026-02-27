@@ -39,7 +39,7 @@ func main() {
     res, err := s.Addons.CreateAddon(ctx, components.DtoCreateAddonRequest{
         LookupKey: "<value>",
         Name: "<value>",
-        Type: components.TypesAddonTypeMultipleInstance,
+        Type: components.AddonTypeMultipleInstance,
     })
     if err != nil {
         log.Fatal(err)
@@ -149,7 +149,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Addons.QueryAddon(ctx, components.TypesAddonFilter{})
+    res, err := s.Addons.QueryAddon(ctx, components.AddonFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -161,11 +161,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
-| `request`                                                                  | [components.TypesAddonFilter](../../models/components/typesaddonfilter.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
-| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
+| Parameter                                                        | Type                                                             | Required                                                         | Description                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `ctx`                                                            | [context.Context](https://pkg.go.dev/context#Context)            | :heavy_check_mark:                                               | The context to use for the request.                              |
+| `request`                                                        | [components.AddonFilter](../../models/components/addonfilter.md) | :heavy_check_mark:                                               | The request object to use for the request.                       |
+| `opts`                                                           | [][operations.Option](../../models/operations/option.md)         | :heavy_minus_sign:                                               | The options for this request.                                    |
 
 ### Response
 

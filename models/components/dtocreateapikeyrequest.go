@@ -3,10 +3,10 @@
 package components
 
 type DtoCreateAPIKeyRequest struct {
-	ExpiresAt        *string         `json:"expires_at,omitzero"`
-	Name             string          `json:"name"`
-	ServiceAccountID *string         `json:"service_account_id,omitzero"`
-	Type             TypesSecretType `json:"type"`
+	ExpiresAt        *string    `json:"expires_at,omitzero"`
+	Name             string     `json:"name"`
+	ServiceAccountID *string    `json:"service_account_id,omitzero"`
+	Type             SecretType `json:"type"`
 }
 
 func (d *DtoCreateAPIKeyRequest) GetExpiresAt() *string {
@@ -30,9 +30,9 @@ func (d *DtoCreateAPIKeyRequest) GetServiceAccountID() *string {
 	return d.ServiceAccountID
 }
 
-func (d *DtoCreateAPIKeyRequest) GetType() TypesSecretType {
+func (d *DtoCreateAPIKeyRequest) GetType() SecretType {
 	if d == nil {
-		return TypesSecretType("")
+		return SecretType("")
 	}
 	return d.Type
 }

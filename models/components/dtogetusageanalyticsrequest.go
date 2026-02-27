@@ -18,7 +18,7 @@ type DtoGetUsageAnalyticsRequest struct {
 	PropertyFilters map[string][]string `json:"property_filters,omitzero"`
 	Sources         []string            `json:"sources,omitzero"`
 	StartTime       *string             `json:"start_time,omitzero"`
-	WindowSize      *TypesWindowSize    `json:"window_size,omitzero"`
+	WindowSize      *WindowSize         `json:"window_size,omitzero"`
 }
 
 func (d DtoGetUsageAnalyticsRequest) MarshalJSON() ([]byte, error) {
@@ -88,7 +88,7 @@ func (d *DtoGetUsageAnalyticsRequest) GetStartTime() *string {
 	return d.StartTime
 }
 
-func (d *DtoGetUsageAnalyticsRequest) GetWindowSize() *TypesWindowSize {
+func (d *DtoGetUsageAnalyticsRequest) GetWindowSize() *WindowSize {
 	if d == nil {
 		return nil
 	}

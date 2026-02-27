@@ -34,11 +34,11 @@ type GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer struct {
 	// Name is the name of the customer
 	Name *string `json:"name,omitzero"`
 	// ParentCustomerID is the parent customer identifier for the customer
-	ParentCustomerID *string      `json:"parent_customer_id,omitzero"`
-	Status           *TypesStatus `json:"status,omitzero"`
-	TenantID         *string      `json:"tenant_id,omitzero"`
-	UpdatedAt        *string      `json:"updated_at,omitzero"`
-	UpdatedBy        *string      `json:"updated_by,omitzero"`
+	ParentCustomerID *string `json:"parent_customer_id,omitzero"`
+	Status           *Status `json:"status,omitzero"`
+	TenantID         *string `json:"tenant_id,omitzero"`
+	UpdatedAt        *string `json:"updated_at,omitzero"`
+	UpdatedBy        *string `json:"updated_by,omitzero"`
 }
 
 func (g GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer) MarshalJSON() ([]byte, error) {
@@ -157,7 +157,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer) GetParentCus
 	return g.ParentCustomerID
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer) GetStatus() *TypesStatus {
+func (g *GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer) GetStatus() *Status {
 	if g == nil {
 		return nil
 	}

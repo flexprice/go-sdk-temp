@@ -3,19 +3,19 @@
 package components
 
 type DtoCreateEntitlementRequest struct {
-	EndDate             *string                           `json:"end_date,omitzero"`
-	EntityID            *string                           `json:"entity_id,omitzero"`
-	EntityType          *TypesEntitlementEntityType       `json:"entity_type,omitzero"`
-	FeatureID           string                            `json:"feature_id"`
-	FeatureType         TypesFeatureType                  `json:"feature_type"`
-	IsEnabled           *bool                             `json:"is_enabled,omitzero"`
-	IsSoftLimit         *bool                             `json:"is_soft_limit,omitzero"`
-	ParentEntitlementID *string                           `json:"parent_entitlement_id,omitzero"`
-	PlanID              *string                           `json:"plan_id,omitzero"`
-	StartDate           *string                           `json:"start_date,omitzero"`
-	StaticValue         *string                           `json:"static_value,omitzero"`
-	UsageLimit          *int64                            `json:"usage_limit,omitzero"`
-	UsageResetPeriod    *TypesEntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
+	EndDate             *string                      `json:"end_date,omitzero"`
+	EntityID            *string                      `json:"entity_id,omitzero"`
+	EntityType          *EntitlementEntityType       `json:"entity_type,omitzero"`
+	FeatureID           string                       `json:"feature_id"`
+	FeatureType         FeatureType                  `json:"feature_type"`
+	IsEnabled           *bool                        `json:"is_enabled,omitzero"`
+	IsSoftLimit         *bool                        `json:"is_soft_limit,omitzero"`
+	ParentEntitlementID *string                      `json:"parent_entitlement_id,omitzero"`
+	PlanID              *string                      `json:"plan_id,omitzero"`
+	StartDate           *string                      `json:"start_date,omitzero"`
+	StaticValue         *string                      `json:"static_value,omitzero"`
+	UsageLimit          *int64                       `json:"usage_limit,omitzero"`
+	UsageResetPeriod    *EntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
 }
 
 func (d *DtoCreateEntitlementRequest) GetEndDate() *string {
@@ -32,7 +32,7 @@ func (d *DtoCreateEntitlementRequest) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoCreateEntitlementRequest) GetEntityType() *TypesEntitlementEntityType {
+func (d *DtoCreateEntitlementRequest) GetEntityType() *EntitlementEntityType {
 	if d == nil {
 		return nil
 	}
@@ -46,9 +46,9 @@ func (d *DtoCreateEntitlementRequest) GetFeatureID() string {
 	return d.FeatureID
 }
 
-func (d *DtoCreateEntitlementRequest) GetFeatureType() TypesFeatureType {
+func (d *DtoCreateEntitlementRequest) GetFeatureType() FeatureType {
 	if d == nil {
-		return TypesFeatureType("")
+		return FeatureType("")
 	}
 	return d.FeatureType
 }
@@ -102,7 +102,7 @@ func (d *DtoCreateEntitlementRequest) GetUsageLimit() *int64 {
 	return d.UsageLimit
 }
 
-func (d *DtoCreateEntitlementRequest) GetUsageResetPeriod() *TypesEntitlementUsageResetPeriod {
+func (d *DtoCreateEntitlementRequest) GetUsageResetPeriod() *EntitlementUsageResetPeriod {
 	if d == nil {
 		return nil
 	}

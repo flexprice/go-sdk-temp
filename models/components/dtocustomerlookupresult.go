@@ -9,7 +9,7 @@ import (
 type DtoCustomerLookupResult struct {
 	Customer *GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer `json:"customer,omitzero"`
 	Error    *ErrorsErrorResponse                                       `json:"error,omitzero"`
-	Status   *TypesDebugTrackerStatus                                   `json:"status,omitzero"`
+	Status   *DebugTrackerStatus                                        `json:"status,omitzero"`
 }
 
 func (d DtoCustomerLookupResult) MarshalJSON() ([]byte, error) {
@@ -37,7 +37,7 @@ func (d *DtoCustomerLookupResult) GetError() *ErrorsErrorResponse {
 	return d.Error
 }
 
-func (d *DtoCustomerLookupResult) GetStatus() *TypesDebugTrackerStatus {
+func (d *DtoCustomerLookupResult) GetStatus() *DebugTrackerStatus {
 	if d == nil {
 		return nil
 	}

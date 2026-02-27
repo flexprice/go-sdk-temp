@@ -17,7 +17,7 @@ type CreditnoteCreditNoteLineItem struct {
 	ID                *string           `json:"id,omitzero"`
 	InvoiceLineItemID *string           `json:"invoice_line_item_id,omitzero"`
 	Metadata          map[string]string `json:"metadata,omitzero"`
-	Status            *TypesStatus      `json:"status,omitzero"`
+	Status            *Status           `json:"status,omitzero"`
 	TenantID          *string           `json:"tenant_id,omitzero"`
 	UpdatedAt         *string           `json:"updated_at,omitzero"`
 	UpdatedBy         *string           `json:"updated_by,omitzero"`
@@ -104,7 +104,7 @@ func (c *CreditnoteCreditNoteLineItem) GetMetadata() map[string]string {
 	return c.Metadata
 }
 
-func (c *CreditnoteCreditNoteLineItem) GetStatus() *TypesStatus {
+func (c *CreditnoteCreditNoteLineItem) GetStatus() *Status {
 	if c == nil {
 		return nil
 	}

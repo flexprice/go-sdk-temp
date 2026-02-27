@@ -7,34 +7,34 @@ import (
 )
 
 type DtoCreatePriceRequest struct {
-	Amount             *string              `json:"amount,omitzero"`
-	BillingCadence     TypesBillingCadence  `json:"billing_cadence"`
-	BillingModel       TypesBillingModel    `json:"billing_model"`
-	BillingPeriod      TypesBillingPeriod   `json:"billing_period"`
-	BillingPeriodCount *int64               `json:"billing_period_count,omitzero"`
-	Currency           string               `json:"currency"`
-	Description        *string              `json:"description,omitzero"`
-	DisplayName        *string              `json:"display_name,omitzero"`
-	EndDate            *string              `json:"end_date,omitzero"`
-	EntityID           string               `json:"entity_id"`
-	EntityType         TypesPriceEntityType `json:"entity_type"`
-	FilterValues       map[string][]string  `json:"filter_values,omitzero"`
+	Amount             *string             `json:"amount,omitzero"`
+	BillingCadence     BillingCadence      `json:"billing_cadence"`
+	BillingModel       BillingModel        `json:"billing_model"`
+	BillingPeriod      BillingPeriod       `json:"billing_period"`
+	BillingPeriodCount *int64              `json:"billing_period_count,omitzero"`
+	Currency           string              `json:"currency"`
+	Description        *string             `json:"description,omitzero"`
+	DisplayName        *string             `json:"display_name,omitzero"`
+	EndDate            *string             `json:"end_date,omitzero"`
+	EntityID           string              `json:"entity_id"`
+	EntityType         PriceEntityType     `json:"entity_type"`
+	FilterValues       map[string][]string `json:"filter_values,omitzero"`
 	// GroupID is the id of the group to add the price to
-	GroupID        *string             `json:"group_id,omitzero"`
-	InvoiceCadence TypesInvoiceCadence `json:"invoice_cadence"`
-	LookupKey      *string             `json:"lookup_key,omitzero"`
-	Metadata       map[string]string   `json:"metadata,omitzero"`
-	MeterID        *string             `json:"meter_id,omitzero"`
+	GroupID        *string           `json:"group_id,omitzero"`
+	InvoiceCadence InvoiceCadence    `json:"invoice_cadence"`
+	LookupKey      *string           `json:"lookup_key,omitzero"`
+	Metadata       map[string]string `json:"metadata,omitzero"`
+	MeterID        *string           `json:"meter_id,omitzero"`
 	// MinQuantity is the minimum quantity of the price
 	MinQuantity       *int64                  `json:"min_quantity,omitzero"`
 	PriceUnitConfig   *DtoPriceUnitConfig     `json:"price_unit_config,omitzero"`
-	PriceUnitType     TypesPriceUnitType      `json:"price_unit_type"`
+	PriceUnitType     PriceUnitType           `json:"price_unit_type"`
 	StartDate         *string                 `json:"start_date,omitzero"`
-	TierMode          *TypesBillingTier       `json:"tier_mode,omitzero"`
+	TierMode          *BillingTier            `json:"tier_mode,omitzero"`
 	Tiers             []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity,omitzero"`
 	TrialPeriod       *int64                  `json:"trial_period,omitzero"`
-	Type              TypesPriceType          `json:"type"`
+	Type              PriceType               `json:"type"`
 }
 
 func (d DtoCreatePriceRequest) MarshalJSON() ([]byte, error) {
@@ -55,23 +55,23 @@ func (d *DtoCreatePriceRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoCreatePriceRequest) GetBillingCadence() TypesBillingCadence {
+func (d *DtoCreatePriceRequest) GetBillingCadence() BillingCadence {
 	if d == nil {
-		return TypesBillingCadence("")
+		return BillingCadence("")
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoCreatePriceRequest) GetBillingModel() TypesBillingModel {
+func (d *DtoCreatePriceRequest) GetBillingModel() BillingModel {
 	if d == nil {
-		return TypesBillingModel("")
+		return BillingModel("")
 	}
 	return d.BillingModel
 }
 
-func (d *DtoCreatePriceRequest) GetBillingPeriod() TypesBillingPeriod {
+func (d *DtoCreatePriceRequest) GetBillingPeriod() BillingPeriod {
 	if d == nil {
-		return TypesBillingPeriod("")
+		return BillingPeriod("")
 	}
 	return d.BillingPeriod
 }
@@ -118,9 +118,9 @@ func (d *DtoCreatePriceRequest) GetEntityID() string {
 	return d.EntityID
 }
 
-func (d *DtoCreatePriceRequest) GetEntityType() TypesPriceEntityType {
+func (d *DtoCreatePriceRequest) GetEntityType() PriceEntityType {
 	if d == nil {
-		return TypesPriceEntityType("")
+		return PriceEntityType("")
 	}
 	return d.EntityType
 }
@@ -139,9 +139,9 @@ func (d *DtoCreatePriceRequest) GetGroupID() *string {
 	return d.GroupID
 }
 
-func (d *DtoCreatePriceRequest) GetInvoiceCadence() TypesInvoiceCadence {
+func (d *DtoCreatePriceRequest) GetInvoiceCadence() InvoiceCadence {
 	if d == nil {
-		return TypesInvoiceCadence("")
+		return InvoiceCadence("")
 	}
 	return d.InvoiceCadence
 }
@@ -181,9 +181,9 @@ func (d *DtoCreatePriceRequest) GetPriceUnitConfig() *DtoPriceUnitConfig {
 	return d.PriceUnitConfig
 }
 
-func (d *DtoCreatePriceRequest) GetPriceUnitType() TypesPriceUnitType {
+func (d *DtoCreatePriceRequest) GetPriceUnitType() PriceUnitType {
 	if d == nil {
-		return TypesPriceUnitType("")
+		return PriceUnitType("")
 	}
 	return d.PriceUnitType
 }
@@ -195,7 +195,7 @@ func (d *DtoCreatePriceRequest) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoCreatePriceRequest) GetTierMode() *TypesBillingTier {
+func (d *DtoCreatePriceRequest) GetTierMode() *BillingTier {
 	if d == nil {
 		return nil
 	}
@@ -223,9 +223,9 @@ func (d *DtoCreatePriceRequest) GetTrialPeriod() *int64 {
 	return d.TrialPeriod
 }
 
-func (d *DtoCreatePriceRequest) GetType() TypesPriceType {
+func (d *DtoCreatePriceRequest) GetType() PriceType {
 	if d == nil {
-		return TypesPriceType("")
+		return PriceType("")
 	}
 	return d.Type
 }

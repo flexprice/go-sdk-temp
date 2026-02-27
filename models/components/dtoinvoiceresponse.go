@@ -47,17 +47,17 @@ type DtoInvoiceResponse struct {
 	// invoice_number is the human-readable invoice number displayed to customers (e.g., INV-2024-001)
 	InvoiceNumber *string `json:"invoice_number,omitzero"`
 	// invoice_pdf_url is the URL where customers can download the PDF version of this invoice
-	InvoicePdfURL *string             `json:"invoice_pdf_url,omitzero"`
-	InvoiceStatus *TypesInvoiceStatus `json:"invoice_status,omitzero"`
-	InvoiceType   *TypesInvoiceType   `json:"invoice_type,omitzero"`
+	InvoicePdfURL *string        `json:"invoice_pdf_url,omitzero"`
+	InvoiceStatus *InvoiceStatus `json:"invoice_status,omitzero"`
+	InvoiceType   *InvoiceType   `json:"invoice_type,omitzero"`
 	// line_items contains the individual items that make up this invoice (overrides embedded field)
 	LineItems []DtoInvoiceLineItemResponse `json:"line_items,omitzero"`
 	Metadata  map[string]string            `json:"metadata,omitzero"`
 	// overpaid_amount is the amount overpaid if payment_status is OVERPAID (amount_paid - total)
 	OverpaidAmount *string `json:"overpaid_amount,omitzero"`
 	// paid_at is the timestamp when this invoice was fully paid
-	PaidAt        *string             `json:"paid_at,omitzero"`
-	PaymentStatus *TypesPaymentStatus `json:"payment_status,omitzero"`
+	PaidAt        *string        `json:"paid_at,omitzero"`
+	PaymentStatus *PaymentStatus `json:"payment_status,omitzero"`
 	// period_end is the end date of the billing period covered by this invoice
 	PeriodEnd *string `json:"period_end,omitzero"`
 	// period_start is the start date of the billing period covered by this invoice
@@ -65,7 +65,7 @@ type DtoInvoiceResponse struct {
 	// refunded_amount is the total sum of credit notes of type "refund".
 	// These are actual refunds issued to the customer.
 	RefundedAmount *string                  `json:"refunded_amount,omitzero"`
-	Status         *TypesStatus             `json:"status,omitzero"`
+	Status         *Status                  `json:"status,omitzero"`
 	Subscription   *DtoSubscriptionResponse `json:"subscription,omitzero"`
 	// subscription_id is the ID of the subscription this invoice is associated with (only present for subscription-based invoices)
 	SubscriptionID *string `json:"subscription_id,omitzero"`
@@ -248,14 +248,14 @@ func (d *DtoInvoiceResponse) GetInvoicePdfURL() *string {
 	return d.InvoicePdfURL
 }
 
-func (d *DtoInvoiceResponse) GetInvoiceStatus() *TypesInvoiceStatus {
+func (d *DtoInvoiceResponse) GetInvoiceStatus() *InvoiceStatus {
 	if d == nil {
 		return nil
 	}
 	return d.InvoiceStatus
 }
 
-func (d *DtoInvoiceResponse) GetInvoiceType() *TypesInvoiceType {
+func (d *DtoInvoiceResponse) GetInvoiceType() *InvoiceType {
 	if d == nil {
 		return nil
 	}
@@ -290,7 +290,7 @@ func (d *DtoInvoiceResponse) GetPaidAt() *string {
 	return d.PaidAt
 }
 
-func (d *DtoInvoiceResponse) GetPaymentStatus() *TypesPaymentStatus {
+func (d *DtoInvoiceResponse) GetPaymentStatus() *PaymentStatus {
 	if d == nil {
 		return nil
 	}
@@ -318,7 +318,7 @@ func (d *DtoInvoiceResponse) GetRefundedAmount() *string {
 	return d.RefundedAmount
 }
 
-func (d *DtoInvoiceResponse) GetStatus() *TypesStatus {
+func (d *DtoInvoiceResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

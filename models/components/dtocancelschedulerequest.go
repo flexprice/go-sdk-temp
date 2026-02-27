@@ -5,8 +5,8 @@ package components
 // DtoCancelScheduleRequest - Request to cancel a subscription schedule (supports two modes)
 type DtoCancelScheduleRequest struct {
 	// schedule_id is the ID of the schedule to cancel (optional if subscription_id and schedule_type are provided)
-	ScheduleID   *string                              `json:"schedule_id,omitzero"`
-	ScheduleType *TypesSubscriptionScheduleChangeType `json:"schedule_type,omitzero"`
+	ScheduleID   *string                         `json:"schedule_id,omitzero"`
+	ScheduleType *SubscriptionScheduleChangeType `json:"schedule_type,omitzero"`
 	// subscription_id is the ID of the subscription (required if schedule_id is not provided)
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 }
@@ -18,7 +18,7 @@ func (d *DtoCancelScheduleRequest) GetScheduleID() *string {
 	return d.ScheduleID
 }
 
-func (d *DtoCancelScheduleRequest) GetScheduleType() *TypesSubscriptionScheduleChangeType {
+func (d *DtoCancelScheduleRequest) GetScheduleType() *SubscriptionScheduleChangeType {
 	if d == nil {
 		return nil
 	}

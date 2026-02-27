@@ -7,27 +7,27 @@ import (
 )
 
 type DtoCouponResponse struct {
-	AmountOff         *string             `json:"amount_off,omitzero"`
-	Cadence           *TypesCouponCadence `json:"cadence,omitzero"`
-	CreatedAt         *string             `json:"created_at,omitzero"`
-	CreatedBy         *string             `json:"created_by,omitzero"`
-	Currency          *string             `json:"currency,omitzero"`
-	DurationInPeriods *int64              `json:"duration_in_periods,omitzero"`
-	EnvironmentID     *string             `json:"environment_id,omitzero"`
-	ID                *string             `json:"id,omitzero"`
-	MaxRedemptions    *int64              `json:"max_redemptions,omitzero"`
-	Metadata          map[string]string   `json:"metadata,omitzero"`
-	Name              *string             `json:"name,omitzero"`
-	PercentageOff     *string             `json:"percentage_off,omitzero"`
-	RedeemAfter       *string             `json:"redeem_after,omitzero"`
-	RedeemBefore      *string             `json:"redeem_before,omitzero"`
-	Rules             map[string]any      `json:"rules,omitzero"`
-	Status            *TypesStatus        `json:"status,omitzero"`
-	TenantID          *string             `json:"tenant_id,omitzero"`
-	TotalRedemptions  *int64              `json:"total_redemptions,omitzero"`
-	Type              *TypesCouponType    `json:"type,omitzero"`
-	UpdatedAt         *string             `json:"updated_at,omitzero"`
-	UpdatedBy         *string             `json:"updated_by,omitzero"`
+	AmountOff         *string           `json:"amount_off,omitzero"`
+	Cadence           *CouponCadence    `json:"cadence,omitzero"`
+	CreatedAt         *string           `json:"created_at,omitzero"`
+	CreatedBy         *string           `json:"created_by,omitzero"`
+	Currency          *string           `json:"currency,omitzero"`
+	DurationInPeriods *int64            `json:"duration_in_periods,omitzero"`
+	EnvironmentID     *string           `json:"environment_id,omitzero"`
+	ID                *string           `json:"id,omitzero"`
+	MaxRedemptions    *int64            `json:"max_redemptions,omitzero"`
+	Metadata          map[string]string `json:"metadata,omitzero"`
+	Name              *string           `json:"name,omitzero"`
+	PercentageOff     *string           `json:"percentage_off,omitzero"`
+	RedeemAfter       *string           `json:"redeem_after,omitzero"`
+	RedeemBefore      *string           `json:"redeem_before,omitzero"`
+	Rules             map[string]any    `json:"rules,omitzero"`
+	Status            *Status           `json:"status,omitzero"`
+	TenantID          *string           `json:"tenant_id,omitzero"`
+	TotalRedemptions  *int64            `json:"total_redemptions,omitzero"`
+	Type              *CouponType       `json:"type,omitzero"`
+	UpdatedAt         *string           `json:"updated_at,omitzero"`
+	UpdatedBy         *string           `json:"updated_by,omitzero"`
 }
 
 func (d DtoCouponResponse) MarshalJSON() ([]byte, error) {
@@ -48,7 +48,7 @@ func (d *DtoCouponResponse) GetAmountOff() *string {
 	return d.AmountOff
 }
 
-func (d *DtoCouponResponse) GetCadence() *TypesCouponCadence {
+func (d *DtoCouponResponse) GetCadence() *CouponCadence {
 	if d == nil {
 		return nil
 	}
@@ -146,7 +146,7 @@ func (d *DtoCouponResponse) GetRules() map[string]any {
 	return d.Rules
 }
 
-func (d *DtoCouponResponse) GetStatus() *TypesStatus {
+func (d *DtoCouponResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -167,7 +167,7 @@ func (d *DtoCouponResponse) GetTotalRedemptions() *int64 {
 	return d.TotalRedemptions
 }
 
-func (d *DtoCouponResponse) GetType() *TypesCouponType {
+func (d *DtoCouponResponse) GetType() *CouponType {
 	if d == nil {
 		return nil
 	}

@@ -9,7 +9,7 @@ import (
 type DtoCustomerUsageSummaryResponse struct {
 	CustomerID *string                  `json:"customer_id,omitzero"`
 	Features   []DtoFeatureUsageSummary `json:"features,omitzero"`
-	Pagination *TypesPaginationResponse `json:"pagination,omitzero"`
+	Pagination *PaginationResponse      `json:"pagination,omitzero"`
 	Period     *DtoBillingPeriodInfo    `json:"period,omitzero"`
 }
 
@@ -38,7 +38,7 @@ func (d *DtoCustomerUsageSummaryResponse) GetFeatures() []DtoFeatureUsageSummary
 	return d.Features
 }
 
-func (d *DtoCustomerUsageSummaryResponse) GetPagination() *TypesPaginationResponse {
+func (d *DtoCustomerUsageSummaryResponse) GetPagination() *PaginationResponse {
 	if d == nil {
 		return nil
 	}

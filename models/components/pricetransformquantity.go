@@ -4,8 +4,8 @@ package components
 
 type PriceTransformQuantity struct {
 	// Divide quantity by this number
-	DivideBy *int64          `json:"divide_by,omitzero"`
-	Round    *TypesRoundType `json:"round,omitzero"`
+	DivideBy *int64     `json:"divide_by,omitzero"`
+	Round    *RoundType `json:"round,omitzero"`
 }
 
 func (p *PriceTransformQuantity) GetDivideBy() *int64 {
@@ -15,7 +15,7 @@ func (p *PriceTransformQuantity) GetDivideBy() *int64 {
 	return p.DivideBy
 }
 
-func (p *PriceTransformQuantity) GetRound() *TypesRoundType {
+func (p *PriceTransformQuantity) GetRound() *RoundType {
 	if p == nil {
 		return nil
 	}

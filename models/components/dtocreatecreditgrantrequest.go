@@ -7,26 +7,26 @@ import (
 )
 
 type DtoCreateCreditGrantRequest struct {
-	Cadence TypesCreditGrantCadence `json:"cadence"`
+	Cadence CreditGrantCadence `json:"cadence"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
 	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
-	ConversionRate         *string                             `json:"conversion_rate,omitzero"`
-	Credits                string                              `json:"credits"`
-	EndDate                *string                             `json:"end_date,omitzero"`
-	ExpirationDuration     *int64                              `json:"expiration_duration,omitzero"`
-	ExpirationDurationUnit *TypesCreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
-	ExpirationType         *TypesCreditGrantExpiryType         `json:"expiration_type,omitzero"`
-	Metadata               map[string]string                   `json:"metadata,omitzero"`
-	Name                   string                              `json:"name"`
-	Period                 *TypesCreditGrantPeriod             `json:"period,omitzero"`
-	PeriodCount            *int64                              `json:"period_count,omitzero"`
-	PlanID                 *string                             `json:"plan_id,omitzero"`
-	Priority               *int64                              `json:"priority,omitzero"`
-	Scope                  TypesCreditGrantScope               `json:"scope"`
-	StartDate              *string                             `json:"start_date,omitzero"`
-	SubscriptionID         *string                             `json:"subscription_id,omitzero"`
+	ConversionRate         *string                        `json:"conversion_rate,omitzero"`
+	Credits                string                         `json:"credits"`
+	EndDate                *string                        `json:"end_date,omitzero"`
+	ExpirationDuration     *int64                         `json:"expiration_duration,omitzero"`
+	ExpirationDurationUnit *CreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
+	ExpirationType         *CreditGrantExpiryType         `json:"expiration_type,omitzero"`
+	Metadata               map[string]string              `json:"metadata,omitzero"`
+	Name                   string                         `json:"name"`
+	Period                 *CreditGrantPeriod             `json:"period,omitzero"`
+	PeriodCount            *int64                         `json:"period_count,omitzero"`
+	PlanID                 *string                        `json:"plan_id,omitzero"`
+	Priority               *int64                         `json:"priority,omitzero"`
+	Scope                  CreditGrantScope               `json:"scope"`
+	StartDate              *string                        `json:"start_date,omitzero"`
+	SubscriptionID         *string                        `json:"subscription_id,omitzero"`
 	// topup_conversion_rate is the conversion rate for the topup to the currency
 	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
 	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
@@ -45,9 +45,9 @@ func (d *DtoCreateCreditGrantRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreateCreditGrantRequest) GetCadence() TypesCreditGrantCadence {
+func (d *DtoCreateCreditGrantRequest) GetCadence() CreditGrantCadence {
 	if d == nil {
-		return TypesCreditGrantCadence("")
+		return CreditGrantCadence("")
 	}
 	return d.Cadence
 }
@@ -80,14 +80,14 @@ func (d *DtoCreateCreditGrantRequest) GetExpirationDuration() *int64 {
 	return d.ExpirationDuration
 }
 
-func (d *DtoCreateCreditGrantRequest) GetExpirationDurationUnit() *TypesCreditGrantExpiryDurationUnit {
+func (d *DtoCreateCreditGrantRequest) GetExpirationDurationUnit() *CreditGrantExpiryDurationUnit {
 	if d == nil {
 		return nil
 	}
 	return d.ExpirationDurationUnit
 }
 
-func (d *DtoCreateCreditGrantRequest) GetExpirationType() *TypesCreditGrantExpiryType {
+func (d *DtoCreateCreditGrantRequest) GetExpirationType() *CreditGrantExpiryType {
 	if d == nil {
 		return nil
 	}
@@ -108,7 +108,7 @@ func (d *DtoCreateCreditGrantRequest) GetName() string {
 	return d.Name
 }
 
-func (d *DtoCreateCreditGrantRequest) GetPeriod() *TypesCreditGrantPeriod {
+func (d *DtoCreateCreditGrantRequest) GetPeriod() *CreditGrantPeriod {
 	if d == nil {
 		return nil
 	}
@@ -136,9 +136,9 @@ func (d *DtoCreateCreditGrantRequest) GetPriority() *int64 {
 	return d.Priority
 }
 
-func (d *DtoCreateCreditGrantRequest) GetScope() TypesCreditGrantScope {
+func (d *DtoCreateCreditGrantRequest) GetScope() CreditGrantScope {
 	if d == nil {
-		return TypesCreditGrantScope("")
+		return CreditGrantScope("")
 	}
 	return d.Scope
 }

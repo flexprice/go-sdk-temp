@@ -11,7 +11,7 @@ type DtoCreateMeterRequest struct {
 	EventName   string           `json:"event_name"`
 	Filters     []MeterFilter    `json:"filters,omitzero"`
 	Name        string           `json:"name"`
-	ResetUsage  TypesResetUsage  `json:"reset_usage"`
+	ResetUsage  ResetUsage       `json:"reset_usage"`
 }
 
 func (d DtoCreateMeterRequest) MarshalJSON() ([]byte, error) {
@@ -53,9 +53,9 @@ func (d *DtoCreateMeterRequest) GetName() string {
 	return d.Name
 }
 
-func (d *DtoCreateMeterRequest) GetResetUsage() TypesResetUsage {
+func (d *DtoCreateMeterRequest) GetResetUsage() ResetUsage {
 	if d == nil {
-		return TypesResetUsage("")
+		return ResetUsage("")
 	}
 	return d.ResetUsage
 }

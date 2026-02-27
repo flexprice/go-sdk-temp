@@ -20,17 +20,17 @@ type DtoSubscriptionPauseResponse struct {
 	// OriginalPeriodStart is the start of the billing period when the pause was created
 	OriginalPeriodStart *string `json:"original_period_start,omitzero"`
 	// PauseEnd is when the pause will end (null for indefinite)
-	PauseEnd  *string         `json:"pause_end,omitzero"`
-	PauseMode *TypesPauseMode `json:"pause_mode,omitzero"`
+	PauseEnd  *string    `json:"pause_end,omitzero"`
+	PauseMode *PauseMode `json:"pause_mode,omitzero"`
 	// PauseStart is when the pause actually started
-	PauseStart  *string           `json:"pause_start,omitzero"`
-	PauseStatus *TypesPauseStatus `json:"pause_status,omitzero"`
+	PauseStart  *string      `json:"pause_start,omitzero"`
+	PauseStatus *PauseStatus `json:"pause_status,omitzero"`
 	// Reason is the reason for pausing
-	Reason     *string          `json:"reason,omitzero"`
-	ResumeMode *TypesResumeMode `json:"resume_mode,omitzero"`
+	Reason     *string     `json:"reason,omitzero"`
+	ResumeMode *ResumeMode `json:"resume_mode,omitzero"`
 	// ResumedAt is when the pause was actually ended (if manually resumed)
-	ResumedAt *string      `json:"resumed_at,omitzero"`
-	Status    *TypesStatus `json:"status,omitzero"`
+	ResumedAt *string `json:"resumed_at,omitzero"`
+	Status    *Status `json:"status,omitzero"`
 	// SubscriptionID is the identifier for the subscription
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 	TenantID       *string `json:"tenant_id,omitzero"`
@@ -105,7 +105,7 @@ func (d *DtoSubscriptionPauseResponse) GetPauseEnd() *string {
 	return d.PauseEnd
 }
 
-func (d *DtoSubscriptionPauseResponse) GetPauseMode() *TypesPauseMode {
+func (d *DtoSubscriptionPauseResponse) GetPauseMode() *PauseMode {
 	if d == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (d *DtoSubscriptionPauseResponse) GetPauseStart() *string {
 	return d.PauseStart
 }
 
-func (d *DtoSubscriptionPauseResponse) GetPauseStatus() *TypesPauseStatus {
+func (d *DtoSubscriptionPauseResponse) GetPauseStatus() *PauseStatus {
 	if d == nil {
 		return nil
 	}
@@ -133,7 +133,7 @@ func (d *DtoSubscriptionPauseResponse) GetReason() *string {
 	return d.Reason
 }
 
-func (d *DtoSubscriptionPauseResponse) GetResumeMode() *TypesResumeMode {
+func (d *DtoSubscriptionPauseResponse) GetResumeMode() *ResumeMode {
 	if d == nil {
 		return nil
 	}
@@ -147,7 +147,7 @@ func (d *DtoSubscriptionPauseResponse) GetResumedAt() *string {
 	return d.ResumedAt
 }
 
-func (d *DtoSubscriptionPauseResponse) GetStatus() *TypesStatus {
+func (d *DtoSubscriptionPauseResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

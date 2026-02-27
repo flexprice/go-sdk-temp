@@ -7,19 +7,19 @@ import (
 )
 
 type GithubComFlexpriceFlexpriceInternalDomainAddonAddon struct {
-	CreatedAt     *string         `json:"created_at,omitzero"`
-	CreatedBy     *string         `json:"created_by,omitzero"`
-	Description   *string         `json:"description,omitzero"`
-	EnvironmentID *string         `json:"environment_id,omitzero"`
-	ID            *string         `json:"id,omitzero"`
-	LookupKey     *string         `json:"lookup_key,omitzero"`
-	Metadata      map[string]any  `json:"metadata,omitzero"`
-	Name          *string         `json:"name,omitzero"`
-	Status        *TypesStatus    `json:"status,omitzero"`
-	TenantID      *string         `json:"tenant_id,omitzero"`
-	Type          *TypesAddonType `json:"type,omitzero"`
-	UpdatedAt     *string         `json:"updated_at,omitzero"`
-	UpdatedBy     *string         `json:"updated_by,omitzero"`
+	CreatedAt     *string        `json:"created_at,omitzero"`
+	CreatedBy     *string        `json:"created_by,omitzero"`
+	Description   *string        `json:"description,omitzero"`
+	EnvironmentID *string        `json:"environment_id,omitzero"`
+	ID            *string        `json:"id,omitzero"`
+	LookupKey     *string        `json:"lookup_key,omitzero"`
+	Metadata      map[string]any `json:"metadata,omitzero"`
+	Name          *string        `json:"name,omitzero"`
+	Status        *Status        `json:"status,omitzero"`
+	TenantID      *string        `json:"tenant_id,omitzero"`
+	Type          *AddonType     `json:"type,omitzero"`
+	UpdatedAt     *string        `json:"updated_at,omitzero"`
+	UpdatedBy     *string        `json:"updated_by,omitzero"`
 }
 
 func (g GithubComFlexpriceFlexpriceInternalDomainAddonAddon) MarshalJSON() ([]byte, error) {
@@ -89,7 +89,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetName() *string 
 	return g.Name
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetStatus() *TypesStatus {
+func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetStatus() *Status {
 	if g == nil {
 		return nil
 	}
@@ -103,7 +103,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetTenantID() *str
 	return g.TenantID
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetType() *TypesAddonType {
+func (g *GithubComFlexpriceFlexpriceInternalDomainAddonAddon) GetType() *AddonType {
 	if g == nil {
 		return nil
 	}

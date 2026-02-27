@@ -38,15 +38,15 @@ func main() {
     )
 
     res, err := s.Prices.CreatePrice(ctx, components.DtoCreatePriceRequest{
-        BillingCadence: components.TypesBillingCadenceRecurring,
-        BillingModel: components.TypesBillingModelPackage,
-        BillingPeriod: components.TypesBillingPeriodHalfYearly,
+        BillingCadence: components.BillingCadenceRecurring,
+        BillingModel: components.BillingModelPackage,
+        BillingPeriod: components.BillingPeriodHalfYearly,
         Currency: "Serbian Dinar",
         EntityID: "<id>",
-        EntityType: components.TypesPriceEntityTypePrice,
-        InvoiceCadence: components.TypesInvoiceCadenceArrear,
-        PriceUnitType: components.TypesPriceUnitTypeCustom,
-        Type: components.TypesPriceTypeUsage,
+        EntityType: components.PriceEntityTypePrice,
+        InvoiceCadence: components.InvoiceCadenceArrear,
+        PriceUnitType: components.PriceUnitTypeCustom,
+        Type: components.PriceTypeUsage,
     })
     if err != nil {
         log.Fatal(err)
@@ -213,7 +213,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Prices.QueryPrice(ctx, components.TypesPriceFilter{})
+    res, err := s.Prices.QueryPrice(ctx, components.PriceFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -225,11 +225,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `ctx`                                                                      | [context.Context](https://pkg.go.dev/context#Context)                      | :heavy_check_mark:                                                         | The context to use for the request.                                        |
-| `request`                                                                  | [components.TypesPriceFilter](../../models/components/typespricefilter.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
-| `opts`                                                                     | [][operations.Option](../../models/operations/option.md)                   | :heavy_minus_sign:                                                         | The options for this request.                                              |
+| Parameter                                                        | Type                                                             | Required                                                         | Description                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `ctx`                                                            | [context.Context](https://pkg.go.dev/context#Context)            | :heavy_check_mark:                                               | The context to use for the request.                              |
+| `request`                                                        | [components.PriceFilter](../../models/components/pricefilter.md) | :heavy_check_mark:                                               | The request object to use for the request.                       |
+| `opts`                                                           | [][operations.Option](../../models/operations/option.md)         | :heavy_minus_sign:                                               | The options for this request.                                    |
 
 ### Response
 

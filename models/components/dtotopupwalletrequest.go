@@ -27,8 +27,8 @@ type DtoTopUpWalletRequest struct {
 	// priority is the priority of the transaction
 	// lower number means higher priority
 	// default is nil which means no priority at all
-	Priority          *int64                 `json:"priority,omitzero"`
-	TransactionReason TypesTransactionReason `json:"transaction_reason"`
+	Priority          *int64            `json:"priority,omitzero"`
+	TransactionReason TransactionReason `json:"transaction_reason"`
 }
 
 func (d DtoTopUpWalletRequest) MarshalJSON() ([]byte, error) {
@@ -91,9 +91,9 @@ func (d *DtoTopUpWalletRequest) GetPriority() *int64 {
 	return d.Priority
 }
 
-func (d *DtoTopUpWalletRequest) GetTransactionReason() TypesTransactionReason {
+func (d *DtoTopUpWalletRequest) GetTransactionReason() TransactionReason {
 	if d == nil {
-		return TypesTransactionReason("")
+		return TransactionReason("")
 	}
 	return d.TransactionReason
 }

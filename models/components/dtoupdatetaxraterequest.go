@@ -14,8 +14,8 @@ type DtoUpdateTaxRateRequest struct {
 	// metadata contains updated key-value pairs that will replace existing metadata
 	Metadata map[string]string `json:"metadata,omitzero"`
 	// name is the updated human-readable name for the tax rate
-	Name          *string             `json:"name,omitzero"`
-	TaxRateStatus *TypesTaxRateStatus `json:"tax_rate_status,omitzero"`
+	Name          *string        `json:"name,omitzero"`
+	TaxRateStatus *TaxRateStatus `json:"tax_rate_status,omitzero"`
 }
 
 func (d DtoUpdateTaxRateRequest) MarshalJSON() ([]byte, error) {
@@ -57,7 +57,7 @@ func (d *DtoUpdateTaxRateRequest) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoUpdateTaxRateRequest) GetTaxRateStatus() *TypesTaxRateStatus {
+func (d *DtoUpdateTaxRateRequest) GetTaxRateStatus() *TaxRateStatus {
 	if d == nil {
 		return nil
 	}

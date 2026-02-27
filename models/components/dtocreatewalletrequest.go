@@ -7,8 +7,8 @@ import (
 )
 
 type DtoCreateWalletRequest struct {
-	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
-	AutoTopup     *TypesAutoTopup     `json:"auto_topup,omitzero"`
+	AlertSettings *AlertSettings `json:"alert_settings,omitzero"`
+	AutoTopup     *AutoTopup     `json:"auto_topup,omitzero"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
@@ -40,8 +40,8 @@ type DtoCreateWalletRequest struct {
 	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
 	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
 	// ex if topup_conversion_rate is 0.5, then 1 USD = 2 credits
-	TopupConversionRate *string          `json:"topup_conversion_rate,omitzero"`
-	WalletType          *TypesWalletType `json:"wallet_type,omitzero"`
+	TopupConversionRate *string     `json:"topup_conversion_rate,omitzero"`
+	WalletType          *WalletType `json:"wallet_type,omitzero"`
 }
 
 func (d DtoCreateWalletRequest) MarshalJSON() ([]byte, error) {
@@ -55,14 +55,14 @@ func (d *DtoCreateWalletRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreateWalletRequest) GetAlertSettings() *TypesAlertSettings {
+func (d *DtoCreateWalletRequest) GetAlertSettings() *AlertSettings {
 	if d == nil {
 		return nil
 	}
 	return d.AlertSettings
 }
 
-func (d *DtoCreateWalletRequest) GetAutoTopup() *TypesAutoTopup {
+func (d *DtoCreateWalletRequest) GetAutoTopup() *AutoTopup {
 	if d == nil {
 		return nil
 	}
@@ -146,7 +146,7 @@ func (d *DtoCreateWalletRequest) GetTopupConversionRate() *string {
 	return d.TopupConversionRate
 }
 
-func (d *DtoCreateWalletRequest) GetWalletType() *TypesWalletType {
+func (d *DtoCreateWalletRequest) GetWalletType() *WalletType {
 	if d == nil {
 		return nil
 	}

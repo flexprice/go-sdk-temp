@@ -7,9 +7,9 @@ import (
 )
 
 type DtoMeterMatchingResult struct {
-	Error         *ErrorsErrorResponse     `json:"error,omitzero"`
-	MatchedMeters []DtoMatchedMeter        `json:"matched_meters,omitzero"`
-	Status        *TypesDebugTrackerStatus `json:"status,omitzero"`
+	Error         *ErrorsErrorResponse `json:"error,omitzero"`
+	MatchedMeters []DtoMatchedMeter    `json:"matched_meters,omitzero"`
+	Status        *DebugTrackerStatus  `json:"status,omitzero"`
 }
 
 func (d DtoMeterMatchingResult) MarshalJSON() ([]byte, error) {
@@ -37,7 +37,7 @@ func (d *DtoMeterMatchingResult) GetMatchedMeters() []DtoMatchedMeter {
 	return d.MatchedMeters
 }
 
-func (d *DtoMeterMatchingResult) GetStatus() *TypesDebugTrackerStatus {
+func (d *DtoMeterMatchingResult) GetStatus() *DebugTrackerStatus {
 	if d == nil {
 		return nil
 	}

@@ -20,7 +20,7 @@ type DtoPlanResponse struct {
 	Name          *string                  `json:"name,omitzero"`
 	// TODO: Add inline addons
 	Prices    []DtoPriceResponse `json:"prices,omitzero"`
-	Status    *TypesStatus       `json:"status,omitzero"`
+	Status    *Status            `json:"status,omitzero"`
 	TenantID  *string            `json:"tenant_id,omitzero"`
 	UpdatedAt *string            `json:"updated_at,omitzero"`
 	UpdatedBy *string            `json:"updated_by,omitzero"`
@@ -121,7 +121,7 @@ func (d *DtoPlanResponse) GetPrices() []DtoPriceResponse {
 	return d.Prices
 }
 
-func (d *DtoPlanResponse) GetStatus() *TypesStatus {
+func (d *DtoPlanResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

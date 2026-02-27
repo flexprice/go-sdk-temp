@@ -9,8 +9,8 @@ import (
 type DtoUsageAnalyticItem struct {
 	AddOnID         *string                                              `json:"add_on_id,omitzero"`
 	Addon           *GithubComFlexpriceFlexpriceInternalDomainAddonAddon `json:"addon,omitzero"`
-	AggregationType *TypesAggregationType                                `json:"aggregation_type,omitzero"`
-	CommitmentInfo  *TypesCommitmentInfo                                 `json:"commitment_info,omitzero"`
+	AggregationType *AggregationType                                     `json:"aggregation_type,omitzero"`
+	CommitmentInfo  *CommitmentInfo                                      `json:"commitment_info,omitzero"`
 	Currency        *string                                              `json:"currency,omitzero"`
 	// Number of events that contributed to this aggregation
 	EventCount *int64                                                   `json:"event_count,omitzero"`
@@ -41,7 +41,7 @@ type DtoUsageAnalyticItem struct {
 	TotalUsage           *string                           `json:"total_usage,omitzero"`
 	Unit                 *string                           `json:"unit,omitzero"`
 	UnitPlural           *string                           `json:"unit_plural,omitzero"`
-	WindowSize           *TypesWindowSize                  `json:"window_size,omitzero"`
+	WindowSize           *WindowSize                       `json:"window_size,omitzero"`
 }
 
 func (d DtoUsageAnalyticItem) MarshalJSON() ([]byte, error) {
@@ -69,14 +69,14 @@ func (d *DtoUsageAnalyticItem) GetAddon() *GithubComFlexpriceFlexpriceInternalDo
 	return d.Addon
 }
 
-func (d *DtoUsageAnalyticItem) GetAggregationType() *TypesAggregationType {
+func (d *DtoUsageAnalyticItem) GetAggregationType() *AggregationType {
 	if d == nil {
 		return nil
 	}
 	return d.AggregationType
 }
 
-func (d *DtoUsageAnalyticItem) GetCommitmentInfo() *TypesCommitmentInfo {
+func (d *DtoUsageAnalyticItem) GetCommitmentInfo() *CommitmentInfo {
 	if d == nil {
 		return nil
 	}
@@ -244,7 +244,7 @@ func (d *DtoUsageAnalyticItem) GetUnitPlural() *string {
 	return d.UnitPlural
 }
 
-func (d *DtoUsageAnalyticItem) GetWindowSize() *TypesWindowSize {
+func (d *DtoUsageAnalyticItem) GetWindowSize() *WindowSize {
 	if d == nil {
 		return nil
 	}

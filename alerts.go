@@ -33,7 +33,7 @@ func newAlerts(rootSDK *Flexprice, sdkConfig config.SDKConfiguration, hooks *hoo
 
 // QueryAlertLog - Query alert logs
 // Use when viewing or searching alert history (e.g. support triage or customer-facing alert log). Returns a paginated list; supports filtering by type, customer, subscription.
-func (s *Alerts) QueryAlertLog(ctx context.Context, request components.TypesAlertLogFilter, opts ...operations.Option) (*operations.QueryAlertLogResponse, error) {
+func (s *Alerts) QueryAlertLog(ctx context.Context, request components.AlertLogFilter, opts ...operations.Option) (*operations.QueryAlertLogResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

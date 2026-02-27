@@ -7,12 +7,12 @@ import (
 )
 
 type DtoCreateTaskRequest struct {
-	EntityType TypesEntityType `json:"entity_type"`
-	FileName   *string         `json:"file_name,omitzero"`
-	FileType   TypesFileType   `json:"file_type"`
-	FileURL    string          `json:"file_url"`
-	Metadata   map[string]any  `json:"metadata,omitzero"`
-	TaskType   TypesTaskType   `json:"task_type"`
+	EntityType EntityType     `json:"entity_type"`
+	FileName   *string        `json:"file_name,omitzero"`
+	FileType   FileType       `json:"file_type"`
+	FileURL    string         `json:"file_url"`
+	Metadata   map[string]any `json:"metadata,omitzero"`
+	TaskType   TaskType       `json:"task_type"`
 }
 
 func (d DtoCreateTaskRequest) MarshalJSON() ([]byte, error) {
@@ -26,9 +26,9 @@ func (d *DtoCreateTaskRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreateTaskRequest) GetEntityType() TypesEntityType {
+func (d *DtoCreateTaskRequest) GetEntityType() EntityType {
 	if d == nil {
-		return TypesEntityType("")
+		return EntityType("")
 	}
 	return d.EntityType
 }
@@ -40,9 +40,9 @@ func (d *DtoCreateTaskRequest) GetFileName() *string {
 	return d.FileName
 }
 
-func (d *DtoCreateTaskRequest) GetFileType() TypesFileType {
+func (d *DtoCreateTaskRequest) GetFileType() FileType {
 	if d == nil {
-		return TypesFileType("")
+		return FileType("")
 	}
 	return d.FileType
 }
@@ -61,9 +61,9 @@ func (d *DtoCreateTaskRequest) GetMetadata() map[string]any {
 	return d.Metadata
 }
 
-func (d *DtoCreateTaskRequest) GetTaskType() TypesTaskType {
+func (d *DtoCreateTaskRequest) GetTaskType() TaskType {
 	if d == nil {
-		return TypesTaskType("")
+		return TaskType("")
 	}
 	return d.TaskType
 }

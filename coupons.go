@@ -302,7 +302,7 @@ func (s *Coupons) CreateCoupon(ctx context.Context, request components.DtoCreate
 
 // QueryCoupon - Query coupons
 // Use when listing or searching coupons (e.g. promo management). Returns a paginated list; supports filtering and sorting.
-func (s *Coupons) QueryCoupon(ctx context.Context, request components.TypesCouponFilter, opts ...operations.Option) (*operations.QueryCouponResponse, error) {
+func (s *Coupons) QueryCoupon(ctx context.Context, request components.CouponFilter, opts ...operations.Option) (*operations.QueryCouponResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

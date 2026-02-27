@@ -7,7 +7,7 @@ import (
 )
 
 type DtoGetUsageRequest struct {
-	AggregationType TypesAggregationType `json:"aggregation_type"`
+	AggregationType AggregationType `json:"aggregation_type"`
 	// BillingAnchor enables custom monthly billing periods for usage aggregation.
 	//
 	// When to use:
@@ -24,7 +24,7 @@ type DtoGetUsageRequest struct {
 	// - "2024-01-15T00:00:00Z" (15th of each month at midnight)
 	// - "2024-02-29T12:00:00Z" (29th of each month at noon - handles leap years)
 	BillingAnchor      *string             `json:"billing_anchor,omitzero"`
-	BucketSize         *TypesWindowSize    `json:"bucket_size,omitzero"`
+	BucketSize         *WindowSize         `json:"bucket_size,omitzero"`
 	CustomerID         *string             `json:"customer_id,omitzero"`
 	EndTime            *string             `json:"end_time,omitzero"`
 	EventName          string              `json:"event_name"`
@@ -36,9 +36,9 @@ type DtoGetUsageRequest struct {
 	GroupByProperty *string `json:"group_by_property,omitzero"`
 	Multiplier      *string `json:"multiplier,omitzero"`
 	// will be empty/ignored in case of COUNT
-	PropertyName *string          `json:"property_name,omitzero"`
-	StartTime    *string          `json:"start_time,omitzero"`
-	WindowSize   *TypesWindowSize `json:"window_size,omitzero"`
+	PropertyName *string     `json:"property_name,omitzero"`
+	StartTime    *string     `json:"start_time,omitzero"`
+	WindowSize   *WindowSize `json:"window_size,omitzero"`
 }
 
 func (d DtoGetUsageRequest) MarshalJSON() ([]byte, error) {
@@ -52,9 +52,9 @@ func (d *DtoGetUsageRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoGetUsageRequest) GetAggregationType() TypesAggregationType {
+func (d *DtoGetUsageRequest) GetAggregationType() AggregationType {
 	if d == nil {
-		return TypesAggregationType("")
+		return AggregationType("")
 	}
 	return d.AggregationType
 }
@@ -66,7 +66,7 @@ func (d *DtoGetUsageRequest) GetBillingAnchor() *string {
 	return d.BillingAnchor
 }
 
-func (d *DtoGetUsageRequest) GetBucketSize() *TypesWindowSize {
+func (d *DtoGetUsageRequest) GetBucketSize() *WindowSize {
 	if d == nil {
 		return nil
 	}
@@ -136,7 +136,7 @@ func (d *DtoGetUsageRequest) GetStartTime() *string {
 	return d.StartTime
 }
 
-func (d *DtoGetUsageRequest) GetWindowSize() *TypesWindowSize {
+func (d *DtoGetUsageRequest) GetWindowSize() *WindowSize {
 	if d == nil {
 		return nil
 	}

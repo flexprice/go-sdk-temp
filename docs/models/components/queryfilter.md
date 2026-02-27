@@ -1,0 +1,13 @@
+# QueryFilter
+
+
+## Fields
+
+| Field                                                                       | Type                                                                        | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `Expand`                                                                    | **string*                                                                   | :heavy_minus_sign:                                                          | N/A                                                                         |
+| `Limit`                                                                     | **int64*                                                                    | :heavy_minus_sign:                                                          | N/A                                                                         |
+| `Offset`                                                                    | **int64*                                                                    | :heavy_minus_sign:                                                          | N/A                                                                         |
+| `Order`                                                                     | [*components.QueryFilterOrder](../../models/components/queryfilterorder.md) | :heavy_minus_sign:                                                          | N/A                                                                         |
+| `Sort`                                                                      | **string*                                                                   | :heavy_minus_sign:                                                          | N/A                                                                         |
+| `Status`                                                                    | [*components.Status](../../models/components/status.md)                     | :heavy_minus_sign:                                                          | N/A                                                                         |

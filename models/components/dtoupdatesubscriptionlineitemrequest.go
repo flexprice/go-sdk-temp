@@ -8,21 +8,21 @@ import (
 
 type DtoUpdateSubscriptionLineItemRequest struct {
 	// Amount is the new price amount that overrides the original price
-	Amount       *string            `json:"amount,omitzero"`
-	BillingModel *TypesBillingModel `json:"billing_model,omitzero"`
+	Amount       *string       `json:"amount,omitzero"`
+	BillingModel *BillingModel `json:"billing_model,omitzero"`
 	// Commitment fields
-	CommitmentAmount        *float64             `json:"commitment_amount,omitzero"`
-	CommitmentDuration      *TypesBillingPeriod  `json:"commitment_duration,omitzero"`
-	CommitmentOverageFactor *float64             `json:"commitment_overage_factor,omitzero"`
-	CommitmentQuantity      *float64             `json:"commitment_quantity,omitzero"`
-	CommitmentTrueUpEnabled *bool                `json:"commitment_true_up_enabled,omitzero"`
-	CommitmentType          *TypesCommitmentType `json:"commitment_type,omitzero"`
-	CommitmentWindowed      *bool                `json:"commitment_windowed,omitzero"`
+	CommitmentAmount        *float64        `json:"commitment_amount,omitzero"`
+	CommitmentDuration      *BillingPeriod  `json:"commitment_duration,omitzero"`
+	CommitmentOverageFactor *float64        `json:"commitment_overage_factor,omitzero"`
+	CommitmentQuantity      *float64        `json:"commitment_quantity,omitzero"`
+	CommitmentTrueUpEnabled *bool           `json:"commitment_true_up_enabled,omitzero"`
+	CommitmentType          *CommitmentType `json:"commitment_type,omitzero"`
+	CommitmentWindowed      *bool           `json:"commitment_windowed,omitzero"`
 	// EffectiveFrom for the existing line item (if not provided, defaults to now)
 	EffectiveFrom *string `json:"effective_from,omitzero"`
 	// Metadata for the new line item
 	Metadata map[string]string `json:"metadata,omitzero"`
-	TierMode *TypesBillingTier `json:"tier_mode,omitzero"`
+	TierMode *BillingTier      `json:"tier_mode,omitzero"`
 	// Tiers determines the pricing tiers for this line item
 	Tiers             []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity,omitzero"`
@@ -46,7 +46,7 @@ func (d *DtoUpdateSubscriptionLineItemRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoUpdateSubscriptionLineItemRequest) GetBillingModel() *TypesBillingModel {
+func (d *DtoUpdateSubscriptionLineItemRequest) GetBillingModel() *BillingModel {
 	if d == nil {
 		return nil
 	}
@@ -60,7 +60,7 @@ func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentAmount() *float64 {
 	return d.CommitmentAmount
 }
 
-func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentDuration() *TypesBillingPeriod {
+func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentDuration() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -88,7 +88,7 @@ func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentTrueUpEnabled() *boo
 	return d.CommitmentTrueUpEnabled
 }
 
-func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentType() *TypesCommitmentType {
+func (d *DtoUpdateSubscriptionLineItemRequest) GetCommitmentType() *CommitmentType {
 	if d == nil {
 		return nil
 	}
@@ -116,7 +116,7 @@ func (d *DtoUpdateSubscriptionLineItemRequest) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoUpdateSubscriptionLineItemRequest) GetTierMode() *TypesBillingTier {
+func (d *DtoUpdateSubscriptionLineItemRequest) GetTierMode() *BillingTier {
 	if d == nil {
 		return nil
 	}

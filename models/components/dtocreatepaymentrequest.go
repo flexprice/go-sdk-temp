@@ -7,19 +7,19 @@ import (
 )
 
 type DtoCreatePaymentRequest struct {
-	Amount                 string                      `json:"amount"`
-	CancelURL              *string                     `json:"cancel_url,omitzero"`
-	Currency               string                      `json:"currency"`
-	DestinationID          string                      `json:"destination_id"`
-	DestinationType        TypesPaymentDestinationType `json:"destination_type"`
-	IdempotencyKey         *string                     `json:"idempotency_key,omitzero"`
-	Metadata               map[string]string           `json:"metadata,omitzero"`
-	PaymentGateway         *TypesPaymentGatewayType    `json:"payment_gateway,omitzero"`
-	PaymentMethodID        *string                     `json:"payment_method_id,omitzero"`
-	PaymentMethodType      TypesPaymentMethodType      `json:"payment_method_type"`
-	ProcessPayment         *bool                       `default:"true" json:"process_payment"`
-	SaveCardAndMakeDefault *bool                       `default:"false" json:"save_card_and_make_default"`
-	SuccessURL             *string                     `json:"success_url,omitzero"`
+	Amount                 string                 `json:"amount"`
+	CancelURL              *string                `json:"cancel_url,omitzero"`
+	Currency               string                 `json:"currency"`
+	DestinationID          string                 `json:"destination_id"`
+	DestinationType        PaymentDestinationType `json:"destination_type"`
+	IdempotencyKey         *string                `json:"idempotency_key,omitzero"`
+	Metadata               map[string]string      `json:"metadata,omitzero"`
+	PaymentGateway         *PaymentGatewayType    `json:"payment_gateway,omitzero"`
+	PaymentMethodID        *string                `json:"payment_method_id,omitzero"`
+	PaymentMethodType      PaymentMethodType      `json:"payment_method_type"`
+	ProcessPayment         *bool                  `default:"true" json:"process_payment"`
+	SaveCardAndMakeDefault *bool                  `default:"false" json:"save_card_and_make_default"`
+	SuccessURL             *string                `json:"success_url,omitzero"`
 }
 
 func (d DtoCreatePaymentRequest) MarshalJSON() ([]byte, error) {
@@ -61,9 +61,9 @@ func (d *DtoCreatePaymentRequest) GetDestinationID() string {
 	return d.DestinationID
 }
 
-func (d *DtoCreatePaymentRequest) GetDestinationType() TypesPaymentDestinationType {
+func (d *DtoCreatePaymentRequest) GetDestinationType() PaymentDestinationType {
 	if d == nil {
-		return TypesPaymentDestinationType("")
+		return PaymentDestinationType("")
 	}
 	return d.DestinationType
 }
@@ -82,7 +82,7 @@ func (d *DtoCreatePaymentRequest) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoCreatePaymentRequest) GetPaymentGateway() *TypesPaymentGatewayType {
+func (d *DtoCreatePaymentRequest) GetPaymentGateway() *PaymentGatewayType {
 	if d == nil {
 		return nil
 	}
@@ -96,9 +96,9 @@ func (d *DtoCreatePaymentRequest) GetPaymentMethodID() *string {
 	return d.PaymentMethodID
 }
 
-func (d *DtoCreatePaymentRequest) GetPaymentMethodType() TypesPaymentMethodType {
+func (d *DtoCreatePaymentRequest) GetPaymentMethodType() PaymentMethodType {
 	if d == nil {
-		return TypesPaymentMethodType("")
+		return PaymentMethodType("")
 	}
 	return d.PaymentMethodType
 }

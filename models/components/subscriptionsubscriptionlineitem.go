@@ -7,46 +7,46 @@ import (
 )
 
 type SubscriptionSubscriptionLineItem struct {
-	BillingPeriod *TypesBillingPeriod `json:"billing_period,omitzero"`
+	BillingPeriod *BillingPeriod `json:"billing_period,omitzero"`
 	// from price at create; default 1
 	BillingPeriodCount *int64 `json:"billing_period_count,omitzero"`
 	// Commitment fields
-	CommitmentAmount        *string                              `json:"commitment_amount,omitzero"`
-	CommitmentDuration      *TypesBillingPeriod                  `json:"commitment_duration,omitzero"`
-	CommitmentOverageFactor *string                              `json:"commitment_overage_factor,omitzero"`
-	CommitmentQuantity      *string                              `json:"commitment_quantity,omitzero"`
-	CommitmentTrueUpEnabled *bool                                `json:"commitment_true_up_enabled,omitzero"`
-	CommitmentType          *TypesCommitmentType                 `json:"commitment_type,omitzero"`
-	CommitmentWindowed      *bool                                `json:"commitment_windowed,omitzero"`
-	CreatedAt               *string                              `json:"created_at,omitzero"`
-	CreatedBy               *string                              `json:"created_by,omitzero"`
-	Currency                *string                              `json:"currency,omitzero"`
-	CustomerID              *string                              `json:"customer_id,omitzero"`
-	DisplayName             *string                              `json:"display_name,omitzero"`
-	EndDate                 *string                              `json:"end_date,omitzero"`
-	EntityID                *string                              `json:"entity_id,omitzero"`
-	EntityType              *TypesSubscriptionLineItemEntityType `json:"entity_type,omitzero"`
-	EnvironmentID           *string                              `json:"environment_id,omitzero"`
-	ID                      *string                              `json:"id,omitzero"`
-	InvoiceCadence          *TypesInvoiceCadence                 `json:"invoice_cadence,omitzero"`
-	Metadata                map[string]string                    `json:"metadata,omitzero"`
-	MeterDisplayName        *string                              `json:"meter_display_name,omitzero"`
-	MeterID                 *string                              `json:"meter_id,omitzero"`
-	PlanDisplayName         *string                              `json:"plan_display_name,omitzero"`
-	Price                   *PricePrice                          `json:"price,omitzero"`
-	PriceID                 *string                              `json:"price_id,omitzero"`
-	PriceType               *TypesPriceType                      `json:"price_type,omitzero"`
-	PriceUnit               *string                              `json:"price_unit,omitzero"`
-	PriceUnitID             *string                              `json:"price_unit_id,omitzero"`
-	Quantity                *string                              `json:"quantity,omitzero"`
-	StartDate               *string                              `json:"start_date,omitzero"`
-	Status                  *TypesStatus                         `json:"status,omitzero"`
-	SubscriptionID          *string                              `json:"subscription_id,omitzero"`
-	SubscriptionPhaseID     *string                              `json:"subscription_phase_id,omitzero"`
-	TenantID                *string                              `json:"tenant_id,omitzero"`
-	TrialPeriod             *int64                               `json:"trial_period,omitzero"`
-	UpdatedAt               *string                              `json:"updated_at,omitzero"`
-	UpdatedBy               *string                              `json:"updated_by,omitzero"`
+	CommitmentAmount        *string                         `json:"commitment_amount,omitzero"`
+	CommitmentDuration      *BillingPeriod                  `json:"commitment_duration,omitzero"`
+	CommitmentOverageFactor *string                         `json:"commitment_overage_factor,omitzero"`
+	CommitmentQuantity      *string                         `json:"commitment_quantity,omitzero"`
+	CommitmentTrueUpEnabled *bool                           `json:"commitment_true_up_enabled,omitzero"`
+	CommitmentType          *CommitmentType                 `json:"commitment_type,omitzero"`
+	CommitmentWindowed      *bool                           `json:"commitment_windowed,omitzero"`
+	CreatedAt               *string                         `json:"created_at,omitzero"`
+	CreatedBy               *string                         `json:"created_by,omitzero"`
+	Currency                *string                         `json:"currency,omitzero"`
+	CustomerID              *string                         `json:"customer_id,omitzero"`
+	DisplayName             *string                         `json:"display_name,omitzero"`
+	EndDate                 *string                         `json:"end_date,omitzero"`
+	EntityID                *string                         `json:"entity_id,omitzero"`
+	EntityType              *SubscriptionLineItemEntityType `json:"entity_type,omitzero"`
+	EnvironmentID           *string                         `json:"environment_id,omitzero"`
+	ID                      *string                         `json:"id,omitzero"`
+	InvoiceCadence          *InvoiceCadence                 `json:"invoice_cadence,omitzero"`
+	Metadata                map[string]string               `json:"metadata,omitzero"`
+	MeterDisplayName        *string                         `json:"meter_display_name,omitzero"`
+	MeterID                 *string                         `json:"meter_id,omitzero"`
+	PlanDisplayName         *string                         `json:"plan_display_name,omitzero"`
+	Price                   *PricePrice                     `json:"price,omitzero"`
+	PriceID                 *string                         `json:"price_id,omitzero"`
+	PriceType               *PriceType                      `json:"price_type,omitzero"`
+	PriceUnit               *string                         `json:"price_unit,omitzero"`
+	PriceUnitID             *string                         `json:"price_unit_id,omitzero"`
+	Quantity                *string                         `json:"quantity,omitzero"`
+	StartDate               *string                         `json:"start_date,omitzero"`
+	Status                  *Status                         `json:"status,omitzero"`
+	SubscriptionID          *string                         `json:"subscription_id,omitzero"`
+	SubscriptionPhaseID     *string                         `json:"subscription_phase_id,omitzero"`
+	TenantID                *string                         `json:"tenant_id,omitzero"`
+	TrialPeriod             *int64                          `json:"trial_period,omitzero"`
+	UpdatedAt               *string                         `json:"updated_at,omitzero"`
+	UpdatedBy               *string                         `json:"updated_by,omitzero"`
 }
 
 func (s SubscriptionSubscriptionLineItem) MarshalJSON() ([]byte, error) {
@@ -60,7 +60,7 @@ func (s *SubscriptionSubscriptionLineItem) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetBillingPeriod() *TypesBillingPeriod {
+func (s *SubscriptionSubscriptionLineItem) GetBillingPeriod() *BillingPeriod {
 	if s == nil {
 		return nil
 	}
@@ -81,7 +81,7 @@ func (s *SubscriptionSubscriptionLineItem) GetCommitmentAmount() *string {
 	return s.CommitmentAmount
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetCommitmentDuration() *TypesBillingPeriod {
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentDuration() *BillingPeriod {
 	if s == nil {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (s *SubscriptionSubscriptionLineItem) GetCommitmentTrueUpEnabled() *bool {
 	return s.CommitmentTrueUpEnabled
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetCommitmentType() *TypesCommitmentType {
+func (s *SubscriptionSubscriptionLineItem) GetCommitmentType() *CommitmentType {
 	if s == nil {
 		return nil
 	}
@@ -172,7 +172,7 @@ func (s *SubscriptionSubscriptionLineItem) GetEntityID() *string {
 	return s.EntityID
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetEntityType() *TypesSubscriptionLineItemEntityType {
+func (s *SubscriptionSubscriptionLineItem) GetEntityType() *SubscriptionLineItemEntityType {
 	if s == nil {
 		return nil
 	}
@@ -193,7 +193,7 @@ func (s *SubscriptionSubscriptionLineItem) GetID() *string {
 	return s.ID
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetInvoiceCadence() *TypesInvoiceCadence {
+func (s *SubscriptionSubscriptionLineItem) GetInvoiceCadence() *InvoiceCadence {
 	if s == nil {
 		return nil
 	}
@@ -242,7 +242,7 @@ func (s *SubscriptionSubscriptionLineItem) GetPriceID() *string {
 	return s.PriceID
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetPriceType() *TypesPriceType {
+func (s *SubscriptionSubscriptionLineItem) GetPriceType() *PriceType {
 	if s == nil {
 		return nil
 	}
@@ -277,7 +277,7 @@ func (s *SubscriptionSubscriptionLineItem) GetStartDate() *string {
 	return s.StartDate
 }
 
-func (s *SubscriptionSubscriptionLineItem) GetStatus() *TypesStatus {
+func (s *SubscriptionSubscriptionLineItem) GetStatus() *Status {
 	if s == nil {
 		return nil
 	}

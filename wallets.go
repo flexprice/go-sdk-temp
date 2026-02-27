@@ -818,7 +818,7 @@ func (s *Wallets) CreateWallet(ctx context.Context, request components.DtoCreate
 
 // QueryWallet - Query wallets
 // Use when listing or searching wallets (e.g. admin view or reporting). Returns a paginated list; supports filtering by customer and status.
-func (s *Wallets) QueryWallet(ctx context.Context, request components.TypesWalletFilter, opts ...operations.Option) (*operations.QueryWalletResponse, error) {
+func (s *Wallets) QueryWallet(ctx context.Context, request components.WalletFilter, opts ...operations.Option) (*operations.QueryWalletResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -992,12 +992,12 @@ func (s *Wallets) QueryWallet(ctx context.Context, request components.TypesWalle
 				return nil, err
 			}
 
-			var out components.TypesListResponseDtoWalletResponse
+			var out components.ListResponseDtoWalletResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.TypesListResponseDtoWalletResponse = &out
+			res.ListResponseDtoWalletResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -1081,7 +1081,7 @@ func (s *Wallets) QueryWallet(ctx context.Context, request components.TypesWalle
 
 // QueryWalletTransaction - Query wallet transactions
 // Use when searching or reporting on wallet transactions (e.g. cross-wallet history or reconciliation). Returns a paginated list; supports filtering by wallet, customer, type, date range.
-func (s *Wallets) QueryWalletTransaction(ctx context.Context, request components.TypesWalletTransactionFilter, opts ...operations.Option) (*operations.QueryWalletTransactionResponse, error) {
+func (s *Wallets) QueryWalletTransaction(ctx context.Context, request components.WalletTransactionFilter, opts ...operations.Option) (*operations.QueryWalletTransactionResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

@@ -14,8 +14,8 @@ type DtoTaxAssociationResponse struct {
 	// Currency
 	Currency *string `json:"currency,omitzero"`
 	// ID of the entity this tax rate applies to
-	EntityID   *string                 `json:"entity_id,omitzero"`
-	EntityType *TypesTaxRateEntityType `json:"entity_type,omitzero"`
+	EntityID   *string            `json:"entity_id,omitzero"`
+	EntityType *TaxRateEntityType `json:"entity_type,omitzero"`
 	// EnvironmentID is the ID of the environment this tax rate config belongs to
 	EnvironmentID *string `json:"environment_id,omitzero"`
 	// ID of the ent.
@@ -24,7 +24,7 @@ type DtoTaxAssociationResponse struct {
 	Metadata map[string]string `json:"metadata,omitzero"`
 	// Priority for tax resolution (lower number = higher priority)
 	Priority *int64              `json:"priority,omitzero"`
-	Status   *TypesStatus        `json:"status,omitzero"`
+	Status   *Status             `json:"status,omitzero"`
 	TaxRate  *DtoTaxRateResponse `json:"tax_rate,omitzero"`
 	// Reference to the TaxRate entity
 	TaxRateID *string `json:"tax_rate_id,omitzero"`
@@ -79,7 +79,7 @@ func (d *DtoTaxAssociationResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoTaxAssociationResponse) GetEntityType() *TypesTaxRateEntityType {
+func (d *DtoTaxAssociationResponse) GetEntityType() *TaxRateEntityType {
 	if d == nil {
 		return nil
 	}
@@ -114,7 +114,7 @@ func (d *DtoTaxAssociationResponse) GetPriority() *int64 {
 	return d.Priority
 }
 
-func (d *DtoTaxAssociationResponse) GetStatus() *TypesStatus {
+func (d *DtoTaxAssociationResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

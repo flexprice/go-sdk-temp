@@ -35,7 +35,7 @@ func main() {
 
     res, err := s.Users.CreateUser(ctx, components.DtoCreateUserRequest{
         Roles: []string{},
-        Type: components.TypesUserTypeUser,
+        Type: components.UserTypeUser,
     })
     if err != nil {
         log.Fatal(err)
@@ -144,7 +144,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Users.QueryUser(ctx, components.TypesUserFilter{})
+    res, err := s.Users.QueryUser(ctx, components.UserFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -156,11 +156,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `ctx`                                                                    | [context.Context](https://pkg.go.dev/context#Context)                    | :heavy_check_mark:                                                       | The context to use for the request.                                      |
-| `request`                                                                | [components.TypesUserFilter](../../models/components/typesuserfilter.md) | :heavy_check_mark:                                                       | The request object to use for the request.                               |
-| `opts`                                                                   | [][operations.Option](../../models/operations/option.md)                 | :heavy_minus_sign:                                                       | The options for this request.                                            |
+| Parameter                                                      | Type                                                           | Required                                                       | Description                                                    |
+| -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
+| `ctx`                                                          | [context.Context](https://pkg.go.dev/context#Context)          | :heavy_check_mark:                                             | The context to use for the request.                            |
+| `request`                                                      | [components.UserFilter](../../models/components/userfilter.md) | :heavy_check_mark:                                             | The request object to use for the request.                     |
+| `opts`                                                         | [][operations.Option](../../models/operations/option.md)       | :heavy_minus_sign:                                             | The options for this request.                                  |
 
 ### Response
 

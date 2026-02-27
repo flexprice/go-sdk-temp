@@ -7,28 +7,28 @@ import (
 )
 
 type DtoCreditGrantApplicationResponse struct {
-	ApplicationReason               *TypesCreditGrantApplicationReason `json:"application_reason,omitzero"`
-	ApplicationStatus               *TypesApplicationStatus            `json:"application_status,omitzero"`
-	AppliedAt                       *string                            `json:"applied_at,omitzero"`
-	CreatedAt                       *string                            `json:"created_at,omitzero"`
-	CreatedBy                       *string                            `json:"created_by,omitzero"`
-	CreditGrantID                   *string                            `json:"credit_grant_id,omitzero"`
-	Credits                         *float64                           `json:"credits,omitzero"`
-	EnvironmentID                   *string                            `json:"environment_id,omitzero"`
-	FailureReason                   *string                            `json:"failure_reason,omitzero"`
-	ID                              *string                            `json:"id,omitzero"`
-	IdempotencyKey                  *string                            `json:"idempotency_key,omitzero"`
-	Metadata                        map[string]string                  `json:"metadata,omitzero"`
-	PeriodEnd                       *string                            `json:"period_end,omitzero"`
-	PeriodStart                     *string                            `json:"period_start,omitzero"`
-	RetryCount                      *int64                             `json:"retry_count,omitzero"`
-	ScheduledFor                    *string                            `json:"scheduled_for,omitzero"`
-	Status                          *TypesStatus                       `json:"status,omitzero"`
-	SubscriptionID                  *string                            `json:"subscription_id,omitzero"`
-	SubscriptionStatusAtApplication *TypesSubscriptionStatus           `json:"subscription_status_at_application,omitzero"`
-	TenantID                        *string                            `json:"tenant_id,omitzero"`
-	UpdatedAt                       *string                            `json:"updated_at,omitzero"`
-	UpdatedBy                       *string                            `json:"updated_by,omitzero"`
+	ApplicationReason               *CreditGrantApplicationReason `json:"application_reason,omitzero"`
+	ApplicationStatus               *ApplicationStatus            `json:"application_status,omitzero"`
+	AppliedAt                       *string                       `json:"applied_at,omitzero"`
+	CreatedAt                       *string                       `json:"created_at,omitzero"`
+	CreatedBy                       *string                       `json:"created_by,omitzero"`
+	CreditGrantID                   *string                       `json:"credit_grant_id,omitzero"`
+	Credits                         *float64                      `json:"credits,omitzero"`
+	EnvironmentID                   *string                       `json:"environment_id,omitzero"`
+	FailureReason                   *string                       `json:"failure_reason,omitzero"`
+	ID                              *string                       `json:"id,omitzero"`
+	IdempotencyKey                  *string                       `json:"idempotency_key,omitzero"`
+	Metadata                        map[string]string             `json:"metadata,omitzero"`
+	PeriodEnd                       *string                       `json:"period_end,omitzero"`
+	PeriodStart                     *string                       `json:"period_start,omitzero"`
+	RetryCount                      *int64                        `json:"retry_count,omitzero"`
+	ScheduledFor                    *string                       `json:"scheduled_for,omitzero"`
+	Status                          *Status                       `json:"status,omitzero"`
+	SubscriptionID                  *string                       `json:"subscription_id,omitzero"`
+	SubscriptionStatusAtApplication *SubscriptionStatus           `json:"subscription_status_at_application,omitzero"`
+	TenantID                        *string                       `json:"tenant_id,omitzero"`
+	UpdatedAt                       *string                       `json:"updated_at,omitzero"`
+	UpdatedBy                       *string                       `json:"updated_by,omitzero"`
 }
 
 func (d DtoCreditGrantApplicationResponse) MarshalJSON() ([]byte, error) {
@@ -42,14 +42,14 @@ func (d *DtoCreditGrantApplicationResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreditGrantApplicationResponse) GetApplicationReason() *TypesCreditGrantApplicationReason {
+func (d *DtoCreditGrantApplicationResponse) GetApplicationReason() *CreditGrantApplicationReason {
 	if d == nil {
 		return nil
 	}
 	return d.ApplicationReason
 }
 
-func (d *DtoCreditGrantApplicationResponse) GetApplicationStatus() *TypesApplicationStatus {
+func (d *DtoCreditGrantApplicationResponse) GetApplicationStatus() *ApplicationStatus {
 	if d == nil {
 		return nil
 	}
@@ -154,7 +154,7 @@ func (d *DtoCreditGrantApplicationResponse) GetScheduledFor() *string {
 	return d.ScheduledFor
 }
 
-func (d *DtoCreditGrantApplicationResponse) GetStatus() *TypesStatus {
+func (d *DtoCreditGrantApplicationResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -168,7 +168,7 @@ func (d *DtoCreditGrantApplicationResponse) GetSubscriptionID() *string {
 	return d.SubscriptionID
 }
 
-func (d *DtoCreditGrantApplicationResponse) GetSubscriptionStatusAtApplication() *TypesSubscriptionStatus {
+func (d *DtoCreditGrantApplicationResponse) GetSubscriptionStatusAtApplication() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

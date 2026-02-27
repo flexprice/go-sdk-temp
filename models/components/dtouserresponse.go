@@ -12,7 +12,7 @@ type DtoUserResponse struct {
 	ID     *string            `json:"id,omitzero"`
 	Roles  []string           `json:"roles,omitzero"`
 	Tenant *DtoTenantResponse `json:"tenant,omitzero"`
-	Type   *TypesUserType     `json:"type,omitzero"`
+	Type   *UserType          `json:"type,omitzero"`
 }
 
 func (d DtoUserResponse) MarshalJSON() ([]byte, error) {
@@ -54,7 +54,7 @@ func (d *DtoUserResponse) GetTenant() *DtoTenantResponse {
 	return d.Tenant
 }
 
-func (d *DtoUserResponse) GetType() *TypesUserType {
+func (d *DtoUserResponse) GetType() *UserType {
 	if d == nil {
 		return nil
 	}

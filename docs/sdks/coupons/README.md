@@ -36,9 +36,9 @@ func main() {
     )
 
     res, err := s.Coupons.CreateCoupon(ctx, components.DtoCreateCouponRequest{
-        Cadence: components.TypesCouponCadenceRepeated,
+        Cadence: components.CouponCadenceRepeated,
         Name: "<value>",
-        Type: components.TypesCouponTypePercentage,
+        Type: components.CouponTypePercentage,
     })
     if err != nil {
         log.Fatal(err)
@@ -94,7 +94,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Coupons.QueryCoupon(ctx, components.TypesCouponFilter{})
+    res, err := s.Coupons.QueryCoupon(ctx, components.CouponFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -106,11 +106,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
-| `request`                                                                    | [components.TypesCouponFilter](../../models/components/typescouponfilter.md) | :heavy_check_mark:                                                           | The request object to use for the request.                                   |
-| `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
+| Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `ctx`                                                              | [context.Context](https://pkg.go.dev/context#Context)              | :heavy_check_mark:                                                 | The context to use for the request.                                |
+| `request`                                                          | [components.CouponFilter](../../models/components/couponfilter.md) | :heavy_check_mark:                                                 | The request object to use for the request.                         |
+| `opts`                                                             | [][operations.Option](../../models/operations/option.md)           | :heavy_minus_sign:                                                 | The options for this request.                                      |
 
 ### Response
 

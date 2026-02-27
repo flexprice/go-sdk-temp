@@ -818,7 +818,7 @@ func (s *PriceUnits) GetPriceUnitByCode(ctx context.Context, code string, opts .
 
 // QueryPriceUnit - Query price units
 // Use when searching or listing price units (e.g. admin catalog). Returns a paginated list; supports filtering and sorting.
-func (s *PriceUnits) QueryPriceUnit(ctx context.Context, request components.TypesPriceUnitFilter, opts ...operations.Option) (*operations.QueryPriceUnitResponse, error) {
+func (s *PriceUnits) QueryPriceUnit(ctx context.Context, request components.PriceUnitFilter, opts ...operations.Option) (*operations.QueryPriceUnitResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

@@ -7,24 +7,24 @@ import (
 )
 
 type DtoFeatureResponse struct {
-	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
-	CreatedAt     *string             `json:"created_at,omitzero"`
-	CreatedBy     *string             `json:"created_by,omitzero"`
-	Description   *string             `json:"description,omitzero"`
-	EnvironmentID *string             `json:"environment_id,omitzero"`
-	ID            *string             `json:"id,omitzero"`
-	LookupKey     *string             `json:"lookup_key,omitzero"`
-	Metadata      map[string]string   `json:"metadata,omitzero"`
-	Meter         *DtoMeterResponse   `json:"meter,omitzero"`
-	MeterID       *string             `json:"meter_id,omitzero"`
-	Name          *string             `json:"name,omitzero"`
-	Status        *TypesStatus        `json:"status,omitzero"`
-	TenantID      *string             `json:"tenant_id,omitzero"`
-	Type          *TypesFeatureType   `json:"type,omitzero"`
-	UnitPlural    *string             `json:"unit_plural,omitzero"`
-	UnitSingular  *string             `json:"unit_singular,omitzero"`
-	UpdatedAt     *string             `json:"updated_at,omitzero"`
-	UpdatedBy     *string             `json:"updated_by,omitzero"`
+	AlertSettings *AlertSettings    `json:"alert_settings,omitzero"`
+	CreatedAt     *string           `json:"created_at,omitzero"`
+	CreatedBy     *string           `json:"created_by,omitzero"`
+	Description   *string           `json:"description,omitzero"`
+	EnvironmentID *string           `json:"environment_id,omitzero"`
+	ID            *string           `json:"id,omitzero"`
+	LookupKey     *string           `json:"lookup_key,omitzero"`
+	Metadata      map[string]string `json:"metadata,omitzero"`
+	Meter         *DtoMeterResponse `json:"meter,omitzero"`
+	MeterID       *string           `json:"meter_id,omitzero"`
+	Name          *string           `json:"name,omitzero"`
+	Status        *Status           `json:"status,omitzero"`
+	TenantID      *string           `json:"tenant_id,omitzero"`
+	Type          *FeatureType      `json:"type,omitzero"`
+	UnitPlural    *string           `json:"unit_plural,omitzero"`
+	UnitSingular  *string           `json:"unit_singular,omitzero"`
+	UpdatedAt     *string           `json:"updated_at,omitzero"`
+	UpdatedBy     *string           `json:"updated_by,omitzero"`
 }
 
 func (d DtoFeatureResponse) MarshalJSON() ([]byte, error) {
@@ -38,7 +38,7 @@ func (d *DtoFeatureResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoFeatureResponse) GetAlertSettings() *TypesAlertSettings {
+func (d *DtoFeatureResponse) GetAlertSettings() *AlertSettings {
 	if d == nil {
 		return nil
 	}
@@ -115,7 +115,7 @@ func (d *DtoFeatureResponse) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoFeatureResponse) GetStatus() *TypesStatus {
+func (d *DtoFeatureResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -129,7 +129,7 @@ func (d *DtoFeatureResponse) GetTenantID() *string {
 	return d.TenantID
 }
 
-func (d *DtoFeatureResponse) GetType() *TypesFeatureType {
+func (d *DtoFeatureResponse) GetType() *FeatureType {
 	if d == nil {
 		return nil
 	}

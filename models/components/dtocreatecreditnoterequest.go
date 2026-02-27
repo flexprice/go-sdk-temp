@@ -19,8 +19,8 @@ type DtoCreateCreditNoteRequest struct {
 	Memo     *string           `json:"memo,omitzero"`
 	Metadata map[string]string `json:"metadata,omitzero"`
 	// process_credit_note is a flag to process the credit note after creation
-	ProcessCreditNote *bool                 `default:"true" json:"process_credit_note"`
-	Reason            TypesCreditNoteReason `json:"reason"`
+	ProcessCreditNote *bool            `default:"true" json:"process_credit_note"`
+	Reason            CreditNoteReason `json:"reason"`
 }
 
 func (d DtoCreateCreditNoteRequest) MarshalJSON() ([]byte, error) {
@@ -83,9 +83,9 @@ func (d *DtoCreateCreditNoteRequest) GetProcessCreditNote() *bool {
 	return d.ProcessCreditNote
 }
 
-func (d *DtoCreateCreditNoteRequest) GetReason() TypesCreditNoteReason {
+func (d *DtoCreateCreditNoteRequest) GetReason() CreditNoteReason {
 	if d == nil {
-		return TypesCreditNoteReason("")
+		return CreditNoteReason("")
 	}
 	return d.Reason
 }

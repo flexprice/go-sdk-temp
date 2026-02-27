@@ -7,32 +7,32 @@ import (
 )
 
 type DtoEntitlementResponse struct {
-	Addon               *DtoAddonResponse           `json:"addon,omitzero"`
-	CreatedAt           *string                     `json:"created_at,omitzero"`
-	CreatedBy           *string                     `json:"created_by,omitzero"`
-	DisplayOrder        *int64                      `json:"display_order,omitzero"`
-	EndDate             *string                     `json:"end_date,omitzero"`
-	EntityID            *string                     `json:"entity_id,omitzero"`
-	EntityType          *TypesEntitlementEntityType `json:"entity_type,omitzero"`
-	EnvironmentID       *string                     `json:"environment_id,omitzero"`
-	Feature             *DtoFeatureResponse         `json:"feature,omitzero"`
-	FeatureID           *string                     `json:"feature_id,omitzero"`
-	FeatureType         *TypesFeatureType           `json:"feature_type,omitzero"`
-	ID                  *string                     `json:"id,omitzero"`
-	IsEnabled           *bool                       `json:"is_enabled,omitzero"`
-	IsSoftLimit         *bool                       `json:"is_soft_limit,omitzero"`
-	ParentEntitlementID *string                     `json:"parent_entitlement_id,omitzero"`
-	Plan                *DtoPlanResponse            `json:"plan,omitzero"`
+	Addon               *DtoAddonResponse      `json:"addon,omitzero"`
+	CreatedAt           *string                `json:"created_at,omitzero"`
+	CreatedBy           *string                `json:"created_by,omitzero"`
+	DisplayOrder        *int64                 `json:"display_order,omitzero"`
+	EndDate             *string                `json:"end_date,omitzero"`
+	EntityID            *string                `json:"entity_id,omitzero"`
+	EntityType          *EntitlementEntityType `json:"entity_type,omitzero"`
+	EnvironmentID       *string                `json:"environment_id,omitzero"`
+	Feature             *DtoFeatureResponse    `json:"feature,omitzero"`
+	FeatureID           *string                `json:"feature_id,omitzero"`
+	FeatureType         *FeatureType           `json:"feature_type,omitzero"`
+	ID                  *string                `json:"id,omitzero"`
+	IsEnabled           *bool                  `json:"is_enabled,omitzero"`
+	IsSoftLimit         *bool                  `json:"is_soft_limit,omitzero"`
+	ParentEntitlementID *string                `json:"parent_entitlement_id,omitzero"`
+	Plan                *DtoPlanResponse       `json:"plan,omitzero"`
 	// TODO: Remove this once we have a proper entitlement entity type
-	PlanID           *string                           `json:"plan_id,omitzero"`
-	StartDate        *string                           `json:"start_date,omitzero"`
-	StaticValue      *string                           `json:"static_value,omitzero"`
-	Status           *TypesStatus                      `json:"status,omitzero"`
-	TenantID         *string                           `json:"tenant_id,omitzero"`
-	UpdatedAt        *string                           `json:"updated_at,omitzero"`
-	UpdatedBy        *string                           `json:"updated_by,omitzero"`
-	UsageLimit       *int64                            `json:"usage_limit,omitzero"`
-	UsageResetPeriod *TypesEntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
+	PlanID           *string                      `json:"plan_id,omitzero"`
+	StartDate        *string                      `json:"start_date,omitzero"`
+	StaticValue      *string                      `json:"static_value,omitzero"`
+	Status           *Status                      `json:"status,omitzero"`
+	TenantID         *string                      `json:"tenant_id,omitzero"`
+	UpdatedAt        *string                      `json:"updated_at,omitzero"`
+	UpdatedBy        *string                      `json:"updated_by,omitzero"`
+	UsageLimit       *int64                       `json:"usage_limit,omitzero"`
+	UsageResetPeriod *EntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
 }
 
 func (d DtoEntitlementResponse) MarshalJSON() ([]byte, error) {
@@ -88,7 +88,7 @@ func (d *DtoEntitlementResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoEntitlementResponse) GetEntityType() *TypesEntitlementEntityType {
+func (d *DtoEntitlementResponse) GetEntityType() *EntitlementEntityType {
 	if d == nil {
 		return nil
 	}
@@ -116,7 +116,7 @@ func (d *DtoEntitlementResponse) GetFeatureID() *string {
 	return d.FeatureID
 }
 
-func (d *DtoEntitlementResponse) GetFeatureType() *TypesFeatureType {
+func (d *DtoEntitlementResponse) GetFeatureType() *FeatureType {
 	if d == nil {
 		return nil
 	}
@@ -179,7 +179,7 @@ func (d *DtoEntitlementResponse) GetStaticValue() *string {
 	return d.StaticValue
 }
 
-func (d *DtoEntitlementResponse) GetStatus() *TypesStatus {
+func (d *DtoEntitlementResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -214,7 +214,7 @@ func (d *DtoEntitlementResponse) GetUsageLimit() *int64 {
 	return d.UsageLimit
 }
 
-func (d *DtoEntitlementResponse) GetUsageResetPeriod() *TypesEntitlementUsageResetPeriod {
+func (d *DtoEntitlementResponse) GetUsageResetPeriod() *EntitlementUsageResetPeriod {
 	if d == nil {
 		return nil
 	}

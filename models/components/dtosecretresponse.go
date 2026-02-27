@@ -7,19 +7,19 @@ import (
 )
 
 type DtoSecretResponse struct {
-	CreatedAt  *string              `json:"created_at,omitzero"`
-	DisplayID  *string              `json:"display_id,omitzero"`
-	ExpiresAt  *string              `json:"expires_at,omitzero"`
-	ID         *string              `json:"id,omitzero"`
-	LastUsedAt *string              `json:"last_used_at,omitzero"`
-	Name       *string              `json:"name,omitzero"`
-	Provider   *TypesSecretProvider `json:"provider,omitzero"`
+	CreatedAt  *string         `json:"created_at,omitzero"`
+	DisplayID  *string         `json:"display_id,omitzero"`
+	ExpiresAt  *string         `json:"expires_at,omitzero"`
+	ID         *string         `json:"id,omitzero"`
+	LastUsedAt *string         `json:"last_used_at,omitzero"`
+	Name       *string         `json:"name,omitzero"`
+	Provider   *SecretProvider `json:"provider,omitzero"`
 	// RBAC roles
-	Roles     []string         `json:"roles,omitzero"`
-	Status    *TypesStatus     `json:"status,omitzero"`
-	Type      *TypesSecretType `json:"type,omitzero"`
-	UpdatedAt *string          `json:"updated_at,omitzero"`
-	UserType  *TypesUserType   `json:"user_type,omitzero"`
+	Roles     []string    `json:"roles,omitzero"`
+	Status    *Status     `json:"status,omitzero"`
+	Type      *SecretType `json:"type,omitzero"`
+	UpdatedAt *string     `json:"updated_at,omitzero"`
+	UserType  *UserType   `json:"user_type,omitzero"`
 }
 
 func (d DtoSecretResponse) MarshalJSON() ([]byte, error) {
@@ -75,7 +75,7 @@ func (d *DtoSecretResponse) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoSecretResponse) GetProvider() *TypesSecretProvider {
+func (d *DtoSecretResponse) GetProvider() *SecretProvider {
 	if d == nil {
 		return nil
 	}
@@ -89,14 +89,14 @@ func (d *DtoSecretResponse) GetRoles() []string {
 	return d.Roles
 }
 
-func (d *DtoSecretResponse) GetStatus() *TypesStatus {
+func (d *DtoSecretResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
 	return d.Status
 }
 
-func (d *DtoSecretResponse) GetType() *TypesSecretType {
+func (d *DtoSecretResponse) GetType() *SecretType {
 	if d == nil {
 		return nil
 	}
@@ -110,7 +110,7 @@ func (d *DtoSecretResponse) GetUpdatedAt() *string {
 	return d.UpdatedAt
 }
 
-func (d *DtoSecretResponse) GetUserType() *TypesUserType {
+func (d *DtoSecretResponse) GetUserType() *UserType {
 	if d == nil {
 		return nil
 	}

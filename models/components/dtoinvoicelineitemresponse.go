@@ -7,18 +7,18 @@ import (
 )
 
 type DtoInvoiceLineItemResponse struct {
-	Amount         *string              `json:"amount,omitzero"`
-	CommitmentInfo *TypesCommitmentInfo `json:"commitment_info,omitzero"`
-	CreatedAt      *string              `json:"created_at,omitzero"`
-	CreatedBy      *string              `json:"created_by,omitzero"`
-	Currency       *string              `json:"currency,omitzero"`
-	CustomerID     *string              `json:"customer_id,omitzero"`
-	DisplayName    *string              `json:"display_name,omitzero"`
-	EntityID       *string              `json:"entity_id,omitzero"`
-	EntityType     *string              `json:"entity_type,omitzero"`
-	EnvironmentID  *string              `json:"environment_id,omitzero"`
-	ID             *string              `json:"id,omitzero"`
-	InvoiceID      *string              `json:"invoice_id,omitzero"`
+	Amount         *string         `json:"amount,omitzero"`
+	CommitmentInfo *CommitmentInfo `json:"commitment_info,omitzero"`
+	CreatedAt      *string         `json:"created_at,omitzero"`
+	CreatedBy      *string         `json:"created_by,omitzero"`
+	Currency       *string         `json:"currency,omitzero"`
+	CustomerID     *string         `json:"customer_id,omitzero"`
+	DisplayName    *string         `json:"display_name,omitzero"`
+	EntityID       *string         `json:"entity_id,omitzero"`
+	EntityType     *string         `json:"entity_type,omitzero"`
+	EnvironmentID  *string         `json:"environment_id,omitzero"`
+	ID             *string         `json:"id,omitzero"`
+	InvoiceID      *string         `json:"invoice_id,omitzero"`
 	// invoice_level_discount is the discount amount in invoice currency applied to all line items on the invoice.
 	InvoiceLevelDiscount *string `json:"invoice_level_discount,omitzero"`
 	// line_item_discount is the discount amount in invoice currency applied directly to this line item.
@@ -30,18 +30,18 @@ type DtoInvoiceLineItemResponse struct {
 	PeriodStart      *string           `json:"period_start,omitzero"`
 	PlanDisplayName  *string           `json:"plan_display_name,omitzero"`
 	// prepaid_credits_applied is the amount in invoice currency reduced from this line item due to prepaid credits application.
-	PrepaidCreditsApplied *string      `json:"prepaid_credits_applied,omitzero"`
-	PriceID               *string      `json:"price_id,omitzero"`
-	PriceType             *string      `json:"price_type,omitzero"`
-	PriceUnit             *string      `json:"price_unit,omitzero"`
-	PriceUnitAmount       *string      `json:"price_unit_amount,omitzero"`
-	PriceUnitID           *string      `json:"price_unit_id,omitzero"`
-	Quantity              *string      `json:"quantity,omitzero"`
-	Status                *TypesStatus `json:"status,omitzero"`
-	SubscriptionID        *string      `json:"subscription_id,omitzero"`
-	TenantID              *string      `json:"tenant_id,omitzero"`
-	UpdatedAt             *string      `json:"updated_at,omitzero"`
-	UpdatedBy             *string      `json:"updated_by,omitzero"`
+	PrepaidCreditsApplied *string `json:"prepaid_credits_applied,omitzero"`
+	PriceID               *string `json:"price_id,omitzero"`
+	PriceType             *string `json:"price_type,omitzero"`
+	PriceUnit             *string `json:"price_unit,omitzero"`
+	PriceUnitAmount       *string `json:"price_unit_amount,omitzero"`
+	PriceUnitID           *string `json:"price_unit_id,omitzero"`
+	Quantity              *string `json:"quantity,omitzero"`
+	Status                *Status `json:"status,omitzero"`
+	SubscriptionID        *string `json:"subscription_id,omitzero"`
+	TenantID              *string `json:"tenant_id,omitzero"`
+	UpdatedAt             *string `json:"updated_at,omitzero"`
+	UpdatedBy             *string `json:"updated_by,omitzero"`
 	// usage_analytics contains usage analytics for this line item (legacy - grouped by source)
 	UsageAnalytics []DtoSourceUsageItem `json:"usage_analytics,omitzero"`
 	// usage_breakdown contains flexible usage breakdown for this line item (supports any grouping)
@@ -66,7 +66,7 @@ func (d *DtoInvoiceLineItemResponse) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoInvoiceLineItemResponse) GetCommitmentInfo() *TypesCommitmentInfo {
+func (d *DtoInvoiceLineItemResponse) GetCommitmentInfo() *CommitmentInfo {
 	if d == nil {
 		return nil
 	}
@@ -248,7 +248,7 @@ func (d *DtoInvoiceLineItemResponse) GetQuantity() *string {
 	return d.Quantity
 }
 
-func (d *DtoInvoiceLineItemResponse) GetStatus() *TypesStatus {
+func (d *DtoInvoiceLineItemResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

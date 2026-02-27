@@ -17,7 +17,7 @@ type DtoCouponAssociationResponse struct {
 	ID            *string           `json:"id,omitzero"`
 	Metadata      map[string]string `json:"metadata,omitzero"`
 	StartDate     *string           `json:"start_date,omitzero"`
-	Status        *TypesStatus      `json:"status,omitzero"`
+	Status        *Status           `json:"status,omitzero"`
 	// Mandatory
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 	// Optional
@@ -103,7 +103,7 @@ func (d *DtoCouponAssociationResponse) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoCouponAssociationResponse) GetStatus() *TypesStatus {
+func (d *DtoCouponAssociationResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

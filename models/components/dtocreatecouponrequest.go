@@ -7,18 +7,18 @@ import (
 )
 
 type DtoCreateCouponRequest struct {
-	AmountOff         *string            `json:"amount_off,omitzero"`
-	Cadence           TypesCouponCadence `json:"cadence"`
-	Currency          *string            `json:"currency,omitzero"`
-	DurationInPeriods *int64             `json:"duration_in_periods,omitzero"`
-	MaxRedemptions    *int64             `json:"max_redemptions,omitzero"`
-	Metadata          map[string]string  `json:"metadata,omitzero"`
-	Name              string             `json:"name"`
-	PercentageOff     *string            `json:"percentage_off,omitzero"`
-	RedeemAfter       *string            `json:"redeem_after,omitzero"`
-	RedeemBefore      *string            `json:"redeem_before,omitzero"`
-	Rules             map[string]any     `json:"rules,omitzero"`
-	Type              TypesCouponType    `json:"type"`
+	AmountOff         *string           `json:"amount_off,omitzero"`
+	Cadence           CouponCadence     `json:"cadence"`
+	Currency          *string           `json:"currency,omitzero"`
+	DurationInPeriods *int64            `json:"duration_in_periods,omitzero"`
+	MaxRedemptions    *int64            `json:"max_redemptions,omitzero"`
+	Metadata          map[string]string `json:"metadata,omitzero"`
+	Name              string            `json:"name"`
+	PercentageOff     *string           `json:"percentage_off,omitzero"`
+	RedeemAfter       *string           `json:"redeem_after,omitzero"`
+	RedeemBefore      *string           `json:"redeem_before,omitzero"`
+	Rules             map[string]any    `json:"rules,omitzero"`
+	Type              CouponType        `json:"type"`
 }
 
 func (d DtoCreateCouponRequest) MarshalJSON() ([]byte, error) {
@@ -39,9 +39,9 @@ func (d *DtoCreateCouponRequest) GetAmountOff() *string {
 	return d.AmountOff
 }
 
-func (d *DtoCreateCouponRequest) GetCadence() TypesCouponCadence {
+func (d *DtoCreateCouponRequest) GetCadence() CouponCadence {
 	if d == nil {
-		return TypesCouponCadence("")
+		return CouponCadence("")
 	}
 	return d.Cadence
 }
@@ -109,9 +109,9 @@ func (d *DtoCreateCouponRequest) GetRules() map[string]any {
 	return d.Rules
 }
 
-func (d *DtoCreateCouponRequest) GetType() TypesCouponType {
+func (d *DtoCreateCouponRequest) GetType() CouponType {
 	if d == nil {
-		return TypesCouponType("")
+		return CouponType("")
 	}
 	return d.Type
 }

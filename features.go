@@ -296,7 +296,7 @@ func (s *Features) CreateFeature(ctx context.Context, request components.DtoCrea
 
 // QueryFeature - Query features
 // Use when listing or searching features (e.g. catalog or entitlement setup). Returns a paginated list; supports filtering and sorting.
-func (s *Features) QueryFeature(ctx context.Context, request components.TypesFeatureFilter, opts ...operations.Option) (*operations.QueryFeatureResponse, error) {
+func (s *Features) QueryFeature(ctx context.Context, request components.FeatureFilter, opts ...operations.Option) (*operations.QueryFeatureResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

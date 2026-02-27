@@ -8,8 +8,8 @@ import (
 
 // DtoSubscriptionChangePreviewResponse - Response showing the financial impact of a subscription plan change
 type DtoSubscriptionChangePreviewResponse struct {
-	ChangeType  *TypesSubscriptionChangeType `json:"change_type,omitzero"`
-	CurrentPlan *DtoPlanSummary              `json:"current_plan,omitzero"`
+	ChangeType  *SubscriptionChangeType `json:"change_type,omitzero"`
+	CurrentPlan *DtoPlanSummary         `json:"current_plan,omitzero"`
 	// effective_date is when the change would take effect
 	EffectiveDate *string `json:"effective_date,omitzero"`
 	// metadata from the request
@@ -35,7 +35,7 @@ func (d *DtoSubscriptionChangePreviewResponse) UnmarshalJSON(data []byte) error 
 	return nil
 }
 
-func (d *DtoSubscriptionChangePreviewResponse) GetChangeType() *TypesSubscriptionChangeType {
+func (d *DtoSubscriptionChangePreviewResponse) GetChangeType() *SubscriptionChangeType {
 	if d == nil {
 		return nil
 	}

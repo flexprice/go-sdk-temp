@@ -8,8 +8,8 @@ import (
 
 type DtoCreateInvoiceLineItemRequest struct {
 	// amount is the monetary amount for this line item
-	Amount         string               `json:"amount"`
-	CommitmentInfo *TypesCommitmentInfo `json:"commitment_info,omitzero"`
+	Amount         string          `json:"amount"`
+	CommitmentInfo *CommitmentInfo `json:"commitment_info,omitzero"`
 	// display_name is the optional human-readable name for this line item
 	DisplayName *string `json:"display_name,omitzero"`
 	// entity_id is the optional unique identifier of the entity associated with this line item
@@ -66,7 +66,7 @@ func (d *DtoCreateInvoiceLineItemRequest) GetAmount() string {
 	return d.Amount
 }
 
-func (d *DtoCreateInvoiceLineItemRequest) GetCommitmentInfo() *TypesCommitmentInfo {
+func (d *DtoCreateInvoiceLineItemRequest) GetCommitmentInfo() *CommitmentInfo {
 	if d == nil {
 		return nil
 	}

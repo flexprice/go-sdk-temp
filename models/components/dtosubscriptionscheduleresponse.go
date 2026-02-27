@@ -35,11 +35,11 @@ type DtoSubscriptionScheduleResponse struct {
 	// id of the schedule
 	ID *string `json:"id,omitzero"`
 	// metadata from the schedule
-	Metadata     map[string]string                    `json:"metadata,omitzero"`
-	ScheduleType *TypesSubscriptionScheduleChangeType `json:"schedule_type,omitzero"`
+	Metadata     map[string]string               `json:"metadata,omitzero"`
+	ScheduleType *SubscriptionScheduleChangeType `json:"schedule_type,omitzero"`
 	// scheduled_at is when the schedule will execute
-	ScheduledAt *string              `json:"scheduled_at,omitzero"`
-	Status      *TypesScheduleStatus `json:"status,omitzero"`
+	ScheduledAt *string         `json:"scheduled_at,omitzero"`
+	Status      *ScheduleStatus `json:"status,omitzero"`
 	// subscription_id is the ID of the subscription
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 	// updated_at timestamp
@@ -127,7 +127,7 @@ func (d *DtoSubscriptionScheduleResponse) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoSubscriptionScheduleResponse) GetScheduleType() *TypesSubscriptionScheduleChangeType {
+func (d *DtoSubscriptionScheduleResponse) GetScheduleType() *SubscriptionScheduleChangeType {
 	if d == nil {
 		return nil
 	}
@@ -141,7 +141,7 @@ func (d *DtoSubscriptionScheduleResponse) GetScheduledAt() *string {
 	return d.ScheduledAt
 }
 
-func (d *DtoSubscriptionScheduleResponse) GetStatus() *TypesScheduleStatus {
+func (d *DtoSubscriptionScheduleResponse) GetStatus() *ScheduleStatus {
 	if d == nil {
 		return nil
 	}

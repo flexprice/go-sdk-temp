@@ -831,7 +831,7 @@ func (s *Customers) GetCustomerByExternalID(ctx context.Context, externalID stri
 
 // QueryCustomer - Query customers
 // Use when listing or searching customers (e.g. admin CRM or reporting). Returns a paginated list; supports filtering and sorting.
-func (s *Customers) QueryCustomer(ctx context.Context, request components.TypesCustomerFilter, opts ...operations.Option) (*operations.QueryCustomerResponse, error) {
+func (s *Customers) QueryCustomer(ctx context.Context, request components.CustomerFilter, opts ...operations.Option) (*operations.QueryCustomerResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

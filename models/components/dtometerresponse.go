@@ -13,7 +13,7 @@ type DtoMeterResponse struct {
 	Filters     []MeterFilter     `json:"filters,omitzero"`
 	ID          *string           `json:"id,omitzero"`
 	Name        *string           `json:"name,omitzero"`
-	ResetUsage  *TypesResetUsage  `json:"reset_usage,omitzero"`
+	ResetUsage  *ResetUsage       `json:"reset_usage,omitzero"`
 	Status      *string           `json:"status,omitzero"`
 	TenantID    *string           `json:"tenant_id,omitzero"`
 	UpdatedAt   *string           `json:"updated_at,omitzero"`
@@ -72,7 +72,7 @@ func (d *DtoMeterResponse) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoMeterResponse) GetResetUsage() *TypesResetUsage {
+func (d *DtoMeterResponse) GetResetUsage() *ResetUsage {
 	if d == nil {
 		return nil
 	}

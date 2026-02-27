@@ -7,31 +7,31 @@ import (
 )
 
 type DtoTaskResponse struct {
-	CompletedAt       *string          `json:"completed_at,omitzero"`
-	CreatedAt         *string          `json:"created_at,omitzero"`
-	CreatedBy         *string          `json:"created_by,omitzero"`
-	EntityType        *TypesEntityType `json:"entity_type,omitzero"`
-	EnvironmentID     *string          `json:"environment_id,omitzero"`
-	ErrorSummary      *string          `json:"error_summary,omitzero"`
-	FailedAt          *string          `json:"failed_at,omitzero"`
-	FailedRecords     *int64           `json:"failed_records,omitzero"`
-	FileName          *string          `json:"file_name,omitzero"`
-	FileType          *TypesFileType   `json:"file_type,omitzero"`
-	FileURL           *string          `json:"file_url,omitzero"`
-	ID                *string          `json:"id,omitzero"`
-	Metadata          map[string]any   `json:"metadata,omitzero"`
-	ProcessedRecords  *int64           `json:"processed_records,omitzero"`
-	ScheduledTaskID   *string          `json:"scheduled_task_id,omitzero"`
-	StartedAt         *string          `json:"started_at,omitzero"`
-	Status            *TypesStatus     `json:"status,omitzero"`
-	SuccessfulRecords *int64           `json:"successful_records,omitzero"`
-	TaskStatus        *TypesTaskStatus `json:"task_status,omitzero"`
-	TaskType          *TypesTaskType   `json:"task_type,omitzero"`
-	TenantID          *string          `json:"tenant_id,omitzero"`
-	TotalRecords      *int64           `json:"total_records,omitzero"`
-	UpdatedAt         *string          `json:"updated_at,omitzero"`
-	UpdatedBy         *string          `json:"updated_by,omitzero"`
-	WorkflowID        *string          `json:"workflow_id,omitzero"`
+	CompletedAt       *string        `json:"completed_at,omitzero"`
+	CreatedAt         *string        `json:"created_at,omitzero"`
+	CreatedBy         *string        `json:"created_by,omitzero"`
+	EntityType        *EntityType    `json:"entity_type,omitzero"`
+	EnvironmentID     *string        `json:"environment_id,omitzero"`
+	ErrorSummary      *string        `json:"error_summary,omitzero"`
+	FailedAt          *string        `json:"failed_at,omitzero"`
+	FailedRecords     *int64         `json:"failed_records,omitzero"`
+	FileName          *string        `json:"file_name,omitzero"`
+	FileType          *FileType      `json:"file_type,omitzero"`
+	FileURL           *string        `json:"file_url,omitzero"`
+	ID                *string        `json:"id,omitzero"`
+	Metadata          map[string]any `json:"metadata,omitzero"`
+	ProcessedRecords  *int64         `json:"processed_records,omitzero"`
+	ScheduledTaskID   *string        `json:"scheduled_task_id,omitzero"`
+	StartedAt         *string        `json:"started_at,omitzero"`
+	Status            *Status        `json:"status,omitzero"`
+	SuccessfulRecords *int64         `json:"successful_records,omitzero"`
+	TaskStatus        *TaskStatus    `json:"task_status,omitzero"`
+	TaskType          *TaskType      `json:"task_type,omitzero"`
+	TenantID          *string        `json:"tenant_id,omitzero"`
+	TotalRecords      *int64         `json:"total_records,omitzero"`
+	UpdatedAt         *string        `json:"updated_at,omitzero"`
+	UpdatedBy         *string        `json:"updated_by,omitzero"`
+	WorkflowID        *string        `json:"workflow_id,omitzero"`
 }
 
 func (d DtoTaskResponse) MarshalJSON() ([]byte, error) {
@@ -66,7 +66,7 @@ func (d *DtoTaskResponse) GetCreatedBy() *string {
 	return d.CreatedBy
 }
 
-func (d *DtoTaskResponse) GetEntityType() *TypesEntityType {
+func (d *DtoTaskResponse) GetEntityType() *EntityType {
 	if d == nil {
 		return nil
 	}
@@ -108,7 +108,7 @@ func (d *DtoTaskResponse) GetFileName() *string {
 	return d.FileName
 }
 
-func (d *DtoTaskResponse) GetFileType() *TypesFileType {
+func (d *DtoTaskResponse) GetFileType() *FileType {
 	if d == nil {
 		return nil
 	}
@@ -157,7 +157,7 @@ func (d *DtoTaskResponse) GetStartedAt() *string {
 	return d.StartedAt
 }
 
-func (d *DtoTaskResponse) GetStatus() *TypesStatus {
+func (d *DtoTaskResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -171,14 +171,14 @@ func (d *DtoTaskResponse) GetSuccessfulRecords() *int64 {
 	return d.SuccessfulRecords
 }
 
-func (d *DtoTaskResponse) GetTaskStatus() *TypesTaskStatus {
+func (d *DtoTaskResponse) GetTaskStatus() *TaskStatus {
 	if d == nil {
 		return nil
 	}
 	return d.TaskStatus
 }
 
-func (d *DtoTaskResponse) GetTaskType() *TypesTaskType {
+func (d *DtoTaskResponse) GetTaskType() *TaskType {
 	if d == nil {
 		return nil
 	}

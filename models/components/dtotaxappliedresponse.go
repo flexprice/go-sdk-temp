@@ -7,25 +7,25 @@ import (
 )
 
 type DtoTaxAppliedResponse struct {
-	AppliedAt        *string                 `json:"applied_at,omitzero"`
-	CreatedAt        *string                 `json:"created_at,omitzero"`
-	CreatedBy        *string                 `json:"created_by,omitzero"`
-	Currency         *string                 `json:"currency,omitzero"`
-	EntityID         *string                 `json:"entity_id,omitzero"`
-	EntityType       *TypesTaxRateEntityType `json:"entity_type,omitzero"`
-	EnvironmentID    *string                 `json:"environment_id,omitzero"`
-	ID               *string                 `json:"id,omitzero"`
-	IdempotencyKey   *string                 `json:"idempotency_key,omitzero"`
-	Metadata         map[string]string       `json:"metadata,omitzero"`
-	Status           *TypesStatus            `json:"status,omitzero"`
-	TaxAmount        *string                 `json:"tax_amount,omitzero"`
-	TaxAssociationID *string                 `json:"tax_association_id,omitzero"`
-	TaxRate          *DtoTaxRateResponse     `json:"tax_rate,omitzero"`
-	TaxRateID        *string                 `json:"tax_rate_id,omitzero"`
-	TaxableAmount    *string                 `json:"taxable_amount,omitzero"`
-	TenantID         *string                 `json:"tenant_id,omitzero"`
-	UpdatedAt        *string                 `json:"updated_at,omitzero"`
-	UpdatedBy        *string                 `json:"updated_by,omitzero"`
+	AppliedAt        *string             `json:"applied_at,omitzero"`
+	CreatedAt        *string             `json:"created_at,omitzero"`
+	CreatedBy        *string             `json:"created_by,omitzero"`
+	Currency         *string             `json:"currency,omitzero"`
+	EntityID         *string             `json:"entity_id,omitzero"`
+	EntityType       *TaxRateEntityType  `json:"entity_type,omitzero"`
+	EnvironmentID    *string             `json:"environment_id,omitzero"`
+	ID               *string             `json:"id,omitzero"`
+	IdempotencyKey   *string             `json:"idempotency_key,omitzero"`
+	Metadata         map[string]string   `json:"metadata,omitzero"`
+	Status           *Status             `json:"status,omitzero"`
+	TaxAmount        *string             `json:"tax_amount,omitzero"`
+	TaxAssociationID *string             `json:"tax_association_id,omitzero"`
+	TaxRate          *DtoTaxRateResponse `json:"tax_rate,omitzero"`
+	TaxRateID        *string             `json:"tax_rate_id,omitzero"`
+	TaxableAmount    *string             `json:"taxable_amount,omitzero"`
+	TenantID         *string             `json:"tenant_id,omitzero"`
+	UpdatedAt        *string             `json:"updated_at,omitzero"`
+	UpdatedBy        *string             `json:"updated_by,omitzero"`
 }
 
 func (d DtoTaxAppliedResponse) MarshalJSON() ([]byte, error) {
@@ -74,7 +74,7 @@ func (d *DtoTaxAppliedResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoTaxAppliedResponse) GetEntityType() *TypesTaxRateEntityType {
+func (d *DtoTaxAppliedResponse) GetEntityType() *TaxRateEntityType {
 	if d == nil {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (d *DtoTaxAppliedResponse) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoTaxAppliedResponse) GetStatus() *TypesStatus {
+func (d *DtoTaxAppliedResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

@@ -8,15 +8,15 @@ import (
 
 // DtoSubscriptionChangeRequest - Request object for changing a subscription plan (upgrade/downgrade)
 type DtoSubscriptionChangeRequest struct {
-	BillingCadence TypesBillingCadence `json:"billing_cadence"`
-	BillingCycle   TypesBillingCycle   `json:"billing_cycle"`
-	BillingPeriod  TypesBillingPeriod  `json:"billing_period"`
+	BillingCadence BillingCadence `json:"billing_cadence"`
+	BillingCycle   BillingCycle   `json:"billing_cycle"`
+	BillingPeriod  BillingPeriod  `json:"billing_period"`
 	// billing_period_count is the billing period count for the new subscription
-	BillingPeriodCount *int64             `json:"billing_period_count,omitzero"`
-	ChangeAt           *TypesScheduleType `json:"change_at,omitzero"`
+	BillingPeriodCount *int64        `json:"billing_period_count,omitzero"`
+	ChangeAt           *ScheduleType `json:"change_at,omitzero"`
 	// metadata contains additional key-value pairs for storing extra information
-	Metadata          map[string]string      `json:"metadata,omitzero"`
-	ProrationBehavior TypesProrationBehavior `json:"proration_behavior"`
+	Metadata          map[string]string `json:"metadata,omitzero"`
+	ProrationBehavior ProrationBehavior `json:"proration_behavior"`
 	// target_plan_id is the ID of the new plan to change to (required)
 	TargetPlanID string `json:"target_plan_id"`
 }
@@ -32,23 +32,23 @@ func (d *DtoSubscriptionChangeRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoSubscriptionChangeRequest) GetBillingCadence() TypesBillingCadence {
+func (d *DtoSubscriptionChangeRequest) GetBillingCadence() BillingCadence {
 	if d == nil {
-		return TypesBillingCadence("")
+		return BillingCadence("")
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoSubscriptionChangeRequest) GetBillingCycle() TypesBillingCycle {
+func (d *DtoSubscriptionChangeRequest) GetBillingCycle() BillingCycle {
 	if d == nil {
-		return TypesBillingCycle("")
+		return BillingCycle("")
 	}
 	return d.BillingCycle
 }
 
-func (d *DtoSubscriptionChangeRequest) GetBillingPeriod() TypesBillingPeriod {
+func (d *DtoSubscriptionChangeRequest) GetBillingPeriod() BillingPeriod {
 	if d == nil {
-		return TypesBillingPeriod("")
+		return BillingPeriod("")
 	}
 	return d.BillingPeriod
 }
@@ -60,7 +60,7 @@ func (d *DtoSubscriptionChangeRequest) GetBillingPeriodCount() *int64 {
 	return d.BillingPeriodCount
 }
 
-func (d *DtoSubscriptionChangeRequest) GetChangeAt() *TypesScheduleType {
+func (d *DtoSubscriptionChangeRequest) GetChangeAt() *ScheduleType {
 	if d == nil {
 		return nil
 	}
@@ -74,9 +74,9 @@ func (d *DtoSubscriptionChangeRequest) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoSubscriptionChangeRequest) GetProrationBehavior() TypesProrationBehavior {
+func (d *DtoSubscriptionChangeRequest) GetProrationBehavior() ProrationBehavior {
 	if d == nil {
-		return TypesProrationBehavior("")
+		return ProrationBehavior("")
 	}
 	return d.ProrationBehavior
 }

@@ -296,7 +296,7 @@ func (s *Plans) CreatePlan(ctx context.Context, request components.DtoCreatePlan
 
 // QueryPlan - Query plans
 // Use when listing or searching plans (e.g. plan picker or admin catalog). Returns a paginated list; supports filtering and sorting.
-func (s *Plans) QueryPlan(ctx context.Context, request components.TypesPlanFilter, opts ...operations.Option) (*operations.QueryPlanResponse, error) {
+func (s *Plans) QueryPlan(ctx context.Context, request components.PlanFilter, opts ...operations.Option) (*operations.QueryPlanResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

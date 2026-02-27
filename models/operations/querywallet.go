@@ -10,7 +10,7 @@ import (
 type QueryWalletResponse struct {
 	HTTPMeta components.HTTPMetadata `json:"-"`
 	// OK
-	TypesListResponseDtoWalletResponse *components.TypesListResponseDtoWalletResponse
+	ListResponseDtoWalletResponse *components.ListResponseDtoWalletResponse
 }
 
 func (q QueryWalletResponse) MarshalJSON() ([]byte, error) {
@@ -31,9 +31,9 @@ func (q *QueryWalletResponse) GetHTTPMeta() components.HTTPMetadata {
 	return q.HTTPMeta
 }
 
-func (q *QueryWalletResponse) GetTypesListResponseDtoWalletResponse() *components.TypesListResponseDtoWalletResponse {
+func (q *QueryWalletResponse) GetListResponseDtoWalletResponse() *components.ListResponseDtoWalletResponse {
 	if q == nil {
 		return nil
 	}
-	return q.TypesListResponseDtoWalletResponse
+	return q.ListResponseDtoWalletResponse
 }

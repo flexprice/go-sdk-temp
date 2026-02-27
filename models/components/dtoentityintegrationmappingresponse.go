@@ -3,18 +3,18 @@
 package components
 
 type DtoEntityIntegrationMappingResponse struct {
-	CreatedAt        *string                     `json:"created_at,omitzero"`
-	CreatedBy        *string                     `json:"created_by,omitzero"`
-	EntityID         *string                     `json:"entity_id,omitzero"`
-	EntityType       *TypesIntegrationEntityType `json:"entity_type,omitzero"`
-	EnvironmentID    *string                     `json:"environment_id,omitzero"`
-	ID               *string                     `json:"id,omitzero"`
-	ProviderEntityID *string                     `json:"provider_entity_id,omitzero"`
-	ProviderType     *string                     `json:"provider_type,omitzero"`
-	Status           *TypesStatus                `json:"status,omitzero"`
-	TenantID         *string                     `json:"tenant_id,omitzero"`
-	UpdatedAt        *string                     `json:"updated_at,omitzero"`
-	UpdatedBy        *string                     `json:"updated_by,omitzero"`
+	CreatedAt        *string                `json:"created_at,omitzero"`
+	CreatedBy        *string                `json:"created_by,omitzero"`
+	EntityID         *string                `json:"entity_id,omitzero"`
+	EntityType       *IntegrationEntityType `json:"entity_type,omitzero"`
+	EnvironmentID    *string                `json:"environment_id,omitzero"`
+	ID               *string                `json:"id,omitzero"`
+	ProviderEntityID *string                `json:"provider_entity_id,omitzero"`
+	ProviderType     *string                `json:"provider_type,omitzero"`
+	Status           *Status                `json:"status,omitzero"`
+	TenantID         *string                `json:"tenant_id,omitzero"`
+	UpdatedAt        *string                `json:"updated_at,omitzero"`
+	UpdatedBy        *string                `json:"updated_by,omitzero"`
 }
 
 func (d *DtoEntityIntegrationMappingResponse) GetCreatedAt() *string {
@@ -38,7 +38,7 @@ func (d *DtoEntityIntegrationMappingResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoEntityIntegrationMappingResponse) GetEntityType() *TypesIntegrationEntityType {
+func (d *DtoEntityIntegrationMappingResponse) GetEntityType() *IntegrationEntityType {
 	if d == nil {
 		return nil
 	}
@@ -73,7 +73,7 @@ func (d *DtoEntityIntegrationMappingResponse) GetProviderType() *string {
 	return d.ProviderType
 }
 
-func (d *DtoEntityIntegrationMappingResponse) GetStatus() *TypesStatus {
+func (d *DtoEntityIntegrationMappingResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

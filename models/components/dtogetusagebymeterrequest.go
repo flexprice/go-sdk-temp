@@ -24,14 +24,14 @@ type DtoGetUsageByMeterRequest struct {
 	//   - March period: 2024-03-05 14:30:45 to 2024-04-05 14:30:45
 	//   - April period: 2024-04-05 14:30:45 to 2024-05-05 14:30:45
 	BillingAnchor      *string             `json:"billing_anchor,omitzero"`
-	BucketSize         *TypesWindowSize    `json:"bucket_size,omitzero"`
+	BucketSize         *WindowSize         `json:"bucket_size,omitzero"`
 	CustomerID         *string             `json:"customer_id,omitzero"`
 	EndTime            *string             `json:"end_time,omitzero"`
 	ExternalCustomerID *string             `json:"external_customer_id,omitzero"`
 	Filters            map[string][]string `json:"filters,omitzero"`
 	MeterID            string              `json:"meter_id"`
 	StartTime          *string             `json:"start_time,omitzero"`
-	WindowSize         *TypesWindowSize    `json:"window_size,omitzero"`
+	WindowSize         *WindowSize         `json:"window_size,omitzero"`
 }
 
 func (d DtoGetUsageByMeterRequest) MarshalJSON() ([]byte, error) {
@@ -52,7 +52,7 @@ func (d *DtoGetUsageByMeterRequest) GetBillingAnchor() *string {
 	return d.BillingAnchor
 }
 
-func (d *DtoGetUsageByMeterRequest) GetBucketSize() *TypesWindowSize {
+func (d *DtoGetUsageByMeterRequest) GetBucketSize() *WindowSize {
 	if d == nil {
 		return nil
 	}
@@ -101,7 +101,7 @@ func (d *DtoGetUsageByMeterRequest) GetStartTime() *string {
 	return d.StartTime
 }
 
-func (d *DtoGetUsageByMeterRequest) GetWindowSize() *TypesWindowSize {
+func (d *DtoGetUsageByMeterRequest) GetWindowSize() *WindowSize {
 	if d == nil {
 		return nil
 	}

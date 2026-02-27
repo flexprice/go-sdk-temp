@@ -7,11 +7,11 @@ import (
 )
 
 type DtoCreateEntityIntegrationMappingRequest struct {
-	EntityID         string                     `json:"entity_id"`
-	EntityType       TypesIntegrationEntityType `json:"entity_type"`
-	Metadata         map[string]any             `json:"metadata,omitzero"`
-	ProviderEntityID string                     `json:"provider_entity_id"`
-	ProviderType     string                     `json:"provider_type"`
+	EntityID         string                `json:"entity_id"`
+	EntityType       IntegrationEntityType `json:"entity_type"`
+	Metadata         map[string]any        `json:"metadata,omitzero"`
+	ProviderEntityID string                `json:"provider_entity_id"`
+	ProviderType     string                `json:"provider_type"`
 }
 
 func (d DtoCreateEntityIntegrationMappingRequest) MarshalJSON() ([]byte, error) {
@@ -32,9 +32,9 @@ func (d *DtoCreateEntityIntegrationMappingRequest) GetEntityID() string {
 	return d.EntityID
 }
 
-func (d *DtoCreateEntityIntegrationMappingRequest) GetEntityType() TypesIntegrationEntityType {
+func (d *DtoCreateEntityIntegrationMappingRequest) GetEntityType() IntegrationEntityType {
 	if d == nil {
-		return TypesIntegrationEntityType("")
+		return IntegrationEntityType("")
 	}
 	return d.EntityType
 }

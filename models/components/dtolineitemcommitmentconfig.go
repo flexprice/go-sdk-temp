@@ -4,11 +4,11 @@ package components
 
 type DtoLineItemCommitmentConfig struct {
 	// CommitmentAmount is the minimum amount committed for this line item
-	CommitmentAmount   *float64            `json:"commitment_amount,omitzero"`
-	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
+	CommitmentAmount   *float64       `json:"commitment_amount,omitzero"`
+	CommitmentDuration *BillingPeriod `json:"commitment_duration,omitzero"`
 	// CommitmentQuantity is the minimum quantity committed for this line item
-	CommitmentQuantity *float64             `json:"commitment_quantity,omitzero"`
-	CommitmentType     *TypesCommitmentType `json:"commitment_type,omitzero"`
+	CommitmentQuantity *float64        `json:"commitment_quantity,omitzero"`
+	CommitmentType     *CommitmentType `json:"commitment_type,omitzero"`
 	// EnableTrueUp determines if true-up fee should be applied when usage is below commitment
 	EnableTrueUp *bool `json:"enable_true_up,omitzero"`
 	// IsWindowCommitment determines if commitment is applied per window (e.g., per day) rather than per billing period
@@ -24,7 +24,7 @@ func (d *DtoLineItemCommitmentConfig) GetCommitmentAmount() *float64 {
 	return d.CommitmentAmount
 }
 
-func (d *DtoLineItemCommitmentConfig) GetCommitmentDuration() *TypesBillingPeriod {
+func (d *DtoLineItemCommitmentConfig) GetCommitmentDuration() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -38,7 +38,7 @@ func (d *DtoLineItemCommitmentConfig) GetCommitmentQuantity() *float64 {
 	return d.CommitmentQuantity
 }
 
-func (d *DtoLineItemCommitmentConfig) GetCommitmentType() *TypesCommitmentType {
+func (d *DtoLineItemCommitmentConfig) GetCommitmentType() *CommitmentType {
 	if d == nil {
 		return nil
 	}

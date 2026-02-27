@@ -9,15 +9,15 @@ import (
 type DtoCreateSubscriptionRequest struct {
 	// Addons represents addons to be added to the subscription during creation
 	Addons             []DtoAddAddonToSubscriptionRequest `json:"addons,omitzero"`
-	BillingCadence     TypesBillingCadence                `json:"billing_cadence"`
-	BillingCycle       *TypesBillingCycle                 `json:"billing_cycle,omitzero"`
-	BillingPeriod      TypesBillingPeriod                 `json:"billing_period"`
+	BillingCadence     BillingCadence                     `json:"billing_cadence"`
+	BillingCycle       *BillingCycle                      `json:"billing_cycle,omitzero"`
+	BillingPeriod      BillingPeriod                      `json:"billing_period"`
 	BillingPeriodCount *int64                             `json:"billing_period_count,omitzero"`
-	CollectionMethod   *TypesCollectionMethod             `json:"collection_method,omitzero"`
+	CollectionMethod   *CollectionMethod                  `json:"collection_method,omitzero"`
 	// CommitmentAmount is the minimum amount a customer commits to paying for a billing period
-	CommitmentAmount   *string             `json:"commitment_amount,omitzero"`
-	CommitmentDuration *TypesBillingPeriod `json:"commitment_duration,omitzero"`
-	Coupons            []string            `json:"coupons,omitzero"`
+	CommitmentAmount   *string        `json:"commitment_amount,omitzero"`
+	CommitmentDuration *BillingPeriod `json:"commitment_duration,omitzero"`
+	Coupons            []string       `json:"coupons,omitzero"`
 	// Credit grants to be applied when subscription is created
 	CreditGrants []DtoCreateCreditGrantRequest `json:"credit_grants,omitzero"`
 	Currency     string                        `json:"currency"`
@@ -32,9 +32,9 @@ type DtoCreateSubscriptionRequest struct {
 	EndDate      *string `json:"end_date,omitzero"`
 	// external_customer_id is the customer id in your DB
 	// and must be same as what you provided as external_id while creating the customer in flexprice.
-	ExternalCustomerID     *string              `json:"external_customer_id,omitzero"`
-	GatewayPaymentMethodID *string              `json:"gateway_payment_method_id,omitzero"`
-	InvoiceBilling         *TypesInvoiceBilling `json:"invoice_billing,omitzero"`
+	ExternalCustomerID     *string         `json:"external_customer_id,omitzero"`
+	GatewayPaymentMethodID *string         `json:"gateway_payment_method_id,omitzero"`
+	InvoiceBilling         *InvoiceBilling `json:"invoice_billing,omitzero"`
 	// LineItemCommitments allows setting commitment configuration per line item (keyed by price_id)
 	LineItemCommitments map[string]DtoLineItemCommitmentConfig `json:"line_item_commitments,omitzero"`
 	LineItemCoupons     map[string][]string                    `json:"line_item_coupons,omitzero"`
@@ -49,15 +49,15 @@ type DtoCreateSubscriptionRequest struct {
 	// OverrideLineItems allows customizing specific prices for this subscription
 	OverrideLineItems []DtoOverrideLineItemRequest `json:"override_line_items,omitzero"`
 	// ParentSubscriptionID is the parent subscription ID for hierarchy (e.g. child subscription under a parent)
-	ParentSubscriptionID *string               `json:"parent_subscription_id,omitzero"`
-	PaymentBehavior      *TypesPaymentBehavior `json:"payment_behavior,omitzero"`
-	PaymentTerms         *TypesPaymentTerms    `json:"payment_terms,omitzero"`
+	ParentSubscriptionID *string          `json:"parent_subscription_id,omitzero"`
+	PaymentBehavior      *PaymentBehavior `json:"payment_behavior,omitzero"`
+	PaymentTerms         *PaymentTerms    `json:"payment_terms,omitzero"`
 	// Phases represents subscription phases to be created with the subscription
 	Phases             []DtoSubscriptionPhaseCreateRequest `json:"phases,omitzero"`
 	PlanID             string                              `json:"plan_id"`
-	ProrationBehavior  *TypesProrationBehavior             `json:"proration_behavior,omitzero"`
+	ProrationBehavior  *ProrationBehavior                  `json:"proration_behavior,omitzero"`
 	StartDate          *string                             `json:"start_date,omitzero"`
-	SubscriptionStatus *TypesSubscriptionStatus            `json:"subscription_status,omitzero"`
+	SubscriptionStatus *SubscriptionStatus                 `json:"subscription_status,omitzero"`
 	// tax_rate_overrides is the tax rate overrides	to be applied to the subscription
 	TaxRateOverrides []DtoTaxRateOverride `json:"tax_rate_overrides,omitzero"`
 	TrialEnd         *string              `json:"trial_end,omitzero"`
@@ -82,23 +82,23 @@ func (d *DtoCreateSubscriptionRequest) GetAddons() []DtoAddAddonToSubscriptionRe
 	return d.Addons
 }
 
-func (d *DtoCreateSubscriptionRequest) GetBillingCadence() TypesBillingCadence {
+func (d *DtoCreateSubscriptionRequest) GetBillingCadence() BillingCadence {
 	if d == nil {
-		return TypesBillingCadence("")
+		return BillingCadence("")
 	}
 	return d.BillingCadence
 }
 
-func (d *DtoCreateSubscriptionRequest) GetBillingCycle() *TypesBillingCycle {
+func (d *DtoCreateSubscriptionRequest) GetBillingCycle() *BillingCycle {
 	if d == nil {
 		return nil
 	}
 	return d.BillingCycle
 }
 
-func (d *DtoCreateSubscriptionRequest) GetBillingPeriod() TypesBillingPeriod {
+func (d *DtoCreateSubscriptionRequest) GetBillingPeriod() BillingPeriod {
 	if d == nil {
-		return TypesBillingPeriod("")
+		return BillingPeriod("")
 	}
 	return d.BillingPeriod
 }
@@ -110,7 +110,7 @@ func (d *DtoCreateSubscriptionRequest) GetBillingPeriodCount() *int64 {
 	return d.BillingPeriodCount
 }
 
-func (d *DtoCreateSubscriptionRequest) GetCollectionMethod() *TypesCollectionMethod {
+func (d *DtoCreateSubscriptionRequest) GetCollectionMethod() *CollectionMethod {
 	if d == nil {
 		return nil
 	}
@@ -124,7 +124,7 @@ func (d *DtoCreateSubscriptionRequest) GetCommitmentAmount() *string {
 	return d.CommitmentAmount
 }
 
-func (d *DtoCreateSubscriptionRequest) GetCommitmentDuration() *TypesBillingPeriod {
+func (d *DtoCreateSubscriptionRequest) GetCommitmentDuration() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -194,7 +194,7 @@ func (d *DtoCreateSubscriptionRequest) GetGatewayPaymentMethodID() *string {
 	return d.GatewayPaymentMethodID
 }
 
-func (d *DtoCreateSubscriptionRequest) GetInvoiceBilling() *TypesInvoiceBilling {
+func (d *DtoCreateSubscriptionRequest) GetInvoiceBilling() *InvoiceBilling {
 	if d == nil {
 		return nil
 	}
@@ -264,14 +264,14 @@ func (d *DtoCreateSubscriptionRequest) GetParentSubscriptionID() *string {
 	return d.ParentSubscriptionID
 }
 
-func (d *DtoCreateSubscriptionRequest) GetPaymentBehavior() *TypesPaymentBehavior {
+func (d *DtoCreateSubscriptionRequest) GetPaymentBehavior() *PaymentBehavior {
 	if d == nil {
 		return nil
 	}
 	return d.PaymentBehavior
 }
 
-func (d *DtoCreateSubscriptionRequest) GetPaymentTerms() *TypesPaymentTerms {
+func (d *DtoCreateSubscriptionRequest) GetPaymentTerms() *PaymentTerms {
 	if d == nil {
 		return nil
 	}
@@ -292,7 +292,7 @@ func (d *DtoCreateSubscriptionRequest) GetPlanID() string {
 	return d.PlanID
 }
 
-func (d *DtoCreateSubscriptionRequest) GetProrationBehavior() *TypesProrationBehavior {
+func (d *DtoCreateSubscriptionRequest) GetProrationBehavior() *ProrationBehavior {
 	if d == nil {
 		return nil
 	}
@@ -306,7 +306,7 @@ func (d *DtoCreateSubscriptionRequest) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoCreateSubscriptionRequest) GetSubscriptionStatus() *TypesSubscriptionStatus {
+func (d *DtoCreateSubscriptionRequest) GetSubscriptionStatus() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

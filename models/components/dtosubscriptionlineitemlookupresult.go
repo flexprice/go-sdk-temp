@@ -9,7 +9,7 @@ import (
 type DtoSubscriptionLineItemLookupResult struct {
 	Error            *ErrorsErrorResponse             `json:"error,omitzero"`
 	MatchedLineItems []DtoMatchedSubscriptionLineItem `json:"matched_line_items,omitzero"`
-	Status           *TypesDebugTrackerStatus         `json:"status,omitzero"`
+	Status           *DebugTrackerStatus              `json:"status,omitzero"`
 }
 
 func (d DtoSubscriptionLineItemLookupResult) MarshalJSON() ([]byte, error) {
@@ -37,7 +37,7 @@ func (d *DtoSubscriptionLineItemLookupResult) GetMatchedLineItems() []DtoMatched
 	return d.MatchedLineItems
 }
 
-func (d *DtoSubscriptionLineItemLookupResult) GetStatus() *TypesDebugTrackerStatus {
+func (d *DtoSubscriptionLineItemLookupResult) GetStatus() *DebugTrackerStatus {
 	if d == nil {
 		return nil
 	}

@@ -7,12 +7,12 @@ import (
 )
 
 type DtoUpdateWalletRequest struct {
-	AlertSettings *TypesAlertSettings `json:"alert_settings,omitzero"`
-	AutoTopup     *TypesAutoTopup     `json:"auto_topup,omitzero"`
-	Config        *TypesWalletConfig  `json:"config,omitzero"`
-	Description   *string             `json:"description,omitzero"`
-	Metadata      map[string]string   `json:"metadata,omitzero"`
-	Name          *string             `json:"name,omitzero"`
+	AlertSettings *AlertSettings    `json:"alert_settings,omitzero"`
+	AutoTopup     *AutoTopup        `json:"auto_topup,omitzero"`
+	Config        *WalletConfig     `json:"config,omitzero"`
+	Description   *string           `json:"description,omitzero"`
+	Metadata      map[string]string `json:"metadata,omitzero"`
+	Name          *string           `json:"name,omitzero"`
 }
 
 func (d DtoUpdateWalletRequest) MarshalJSON() ([]byte, error) {
@@ -26,21 +26,21 @@ func (d *DtoUpdateWalletRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoUpdateWalletRequest) GetAlertSettings() *TypesAlertSettings {
+func (d *DtoUpdateWalletRequest) GetAlertSettings() *AlertSettings {
 	if d == nil {
 		return nil
 	}
 	return d.AlertSettings
 }
 
-func (d *DtoUpdateWalletRequest) GetAutoTopup() *TypesAutoTopup {
+func (d *DtoUpdateWalletRequest) GetAutoTopup() *AutoTopup {
 	if d == nil {
 		return nil
 	}
 	return d.AutoTopup
 }
 
-func (d *DtoUpdateWalletRequest) GetConfig() *TypesWalletConfig {
+func (d *DtoUpdateWalletRequest) GetConfig() *WalletConfig {
 	if d == nil {
 		return nil
 	}

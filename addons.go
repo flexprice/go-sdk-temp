@@ -556,7 +556,7 @@ func (s *Addons) GetAddonByLookupKey(ctx context.Context, lookupKey string, opts
 
 // QueryAddon - Query addons
 // Use when listing or searching addons (e.g. catalog or subscription builder). Returns a paginated list; supports filtering and sorting.
-func (s *Addons) QueryAddon(ctx context.Context, request components.TypesAddonFilter, opts ...operations.Option) (*operations.QueryAddonResponse, error) {
+func (s *Addons) QueryAddon(ctx context.Context, request components.AddonFilter, opts ...operations.Option) (*operations.QueryAddonResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

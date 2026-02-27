@@ -10,9 +10,9 @@ type DtoCreditNoteResponse struct {
 	CreatedAt *string `json:"created_at,omitzero"`
 	CreatedBy *string `json:"created_by,omitzero"`
 	// credit_note_number is the unique identifier for credit notes
-	CreditNoteNumber *string                `json:"credit_note_number,omitzero"`
-	CreditNoteStatus *TypesCreditNoteStatus `json:"credit_note_status,omitzero"`
-	CreditNoteType   *TypesCreditNoteType   `json:"credit_note_type,omitzero"`
+	CreditNoteNumber *string           `json:"credit_note_number,omitzero"`
+	CreditNoteStatus *CreditNoteStatus `json:"credit_note_status,omitzero"`
+	CreditNoteType   *CreditNoteType   `json:"credit_note_type,omitzero"`
 	// currency is the three-letter ISO currency code (e.g., USD, EUR) for the credit note
 	Currency *string                                                    `json:"currency,omitzero"`
 	Customer *GithubComFlexpriceFlexpriceInternalDomainCustomerCustomer `json:"customer,omitzero"`
@@ -34,9 +34,9 @@ type DtoCreditNoteResponse struct {
 	// memo is an optional memo supplied on the credit note
 	Memo         *string                  `json:"memo,omitzero"`
 	Metadata     map[string]string        `json:"metadata,omitzero"`
-	Reason       *TypesCreditNoteReason   `json:"reason,omitzero"`
-	RefundStatus *TypesPaymentStatus      `json:"refund_status,omitzero"`
-	Status       *TypesStatus             `json:"status,omitzero"`
+	Reason       *CreditNoteReason        `json:"reason,omitzero"`
+	RefundStatus *PaymentStatus           `json:"refund_status,omitzero"`
+	Status       *Status                  `json:"status,omitzero"`
 	Subscription *DtoSubscriptionResponse `json:"subscription,omitzero"`
 	// subscription_id is the optional unique identifier of the subscription related to this credit note
 	SubscriptionID *string `json:"subscription_id,omitzero"`
@@ -81,14 +81,14 @@ func (d *DtoCreditNoteResponse) GetCreditNoteNumber() *string {
 	return d.CreditNoteNumber
 }
 
-func (d *DtoCreditNoteResponse) GetCreditNoteStatus() *TypesCreditNoteStatus {
+func (d *DtoCreditNoteResponse) GetCreditNoteStatus() *CreditNoteStatus {
 	if d == nil {
 		return nil
 	}
 	return d.CreditNoteStatus
 }
 
-func (d *DtoCreditNoteResponse) GetCreditNoteType() *TypesCreditNoteType {
+func (d *DtoCreditNoteResponse) GetCreditNoteType() *CreditNoteType {
 	if d == nil {
 		return nil
 	}
@@ -179,21 +179,21 @@ func (d *DtoCreditNoteResponse) GetMetadata() map[string]string {
 	return d.Metadata
 }
 
-func (d *DtoCreditNoteResponse) GetReason() *TypesCreditNoteReason {
+func (d *DtoCreditNoteResponse) GetReason() *CreditNoteReason {
 	if d == nil {
 		return nil
 	}
 	return d.Reason
 }
 
-func (d *DtoCreditNoteResponse) GetRefundStatus() *TypesPaymentStatus {
+func (d *DtoCreditNoteResponse) GetRefundStatus() *PaymentStatus {
 	if d == nil {
 		return nil
 	}
 	return d.RefundStatus
 }
 
-func (d *DtoCreditNoteResponse) GetStatus() *TypesStatus {
+func (d *DtoCreditNoteResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

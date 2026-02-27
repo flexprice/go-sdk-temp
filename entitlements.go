@@ -821,7 +821,7 @@ func (s *Entitlements) CreateEntitlementsBulk(ctx context.Context, request compo
 
 // QueryEntitlement - Query entitlements
 // Use when listing or searching entitlements (e.g. plan editor or audit). Returns a paginated list; supports filtering by plan, addon, feature.
-func (s *Entitlements) QueryEntitlement(ctx context.Context, request components.TypesEntitlementFilter, opts ...operations.Option) (*operations.QueryEntitlementResponse, error) {
+func (s *Entitlements) QueryEntitlement(ctx context.Context, request components.EntitlementFilter, opts ...operations.Option) (*operations.QueryEntitlementResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

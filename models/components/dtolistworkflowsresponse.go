@@ -8,7 +8,7 @@ import (
 
 type DtoListWorkflowsResponse struct {
 	Items      []DTOWorkflowExecutionDTO `json:"items,omitzero"`
-	Pagination *TypesPaginationResponse  `json:"pagination,omitzero"`
+	Pagination *PaginationResponse       `json:"pagination,omitzero"`
 }
 
 func (d DtoListWorkflowsResponse) MarshalJSON() ([]byte, error) {
@@ -29,7 +29,7 @@ func (d *DtoListWorkflowsResponse) GetItems() []DTOWorkflowExecutionDTO {
 	return d.Items
 }
 
-func (d *DtoListWorkflowsResponse) GetPagination() *TypesPaginationResponse {
+func (d *DtoListWorkflowsResponse) GetPagination() *PaginationResponse {
 	if d == nil {
 		return nil
 	}

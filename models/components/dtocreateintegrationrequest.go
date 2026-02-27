@@ -3,9 +3,9 @@
 package components
 
 type DtoCreateIntegrationRequest struct {
-	Credentials map[string]string   `json:"credentials"`
-	Name        string              `json:"name"`
-	Provider    TypesSecretProvider `json:"provider"`
+	Credentials map[string]string `json:"credentials"`
+	Name        string            `json:"name"`
+	Provider    SecretProvider    `json:"provider"`
 }
 
 func (d *DtoCreateIntegrationRequest) GetCredentials() map[string]string {
@@ -22,9 +22,9 @@ func (d *DtoCreateIntegrationRequest) GetName() string {
 	return d.Name
 }
 
-func (d *DtoCreateIntegrationRequest) GetProvider() TypesSecretProvider {
+func (d *DtoCreateIntegrationRequest) GetProvider() SecretProvider {
 	if d == nil {
-		return TypesSecretProvider("")
+		return SecretProvider("")
 	}
 	return d.Provider
 }

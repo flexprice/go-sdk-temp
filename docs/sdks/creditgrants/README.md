@@ -36,10 +36,10 @@ func main() {
     )
 
     res, err := s.CreditGrants.CreateCreditGrant(ctx, components.DtoCreateCreditGrantRequest{
-        Cadence: components.TypesCreditGrantCadenceOnetime,
+        Cadence: components.CreditGrantCadenceOnetime,
         Credits: "<value>",
         Name: "<value>",
-        Scope: components.TypesCreditGrantScopePlan,
+        Scope: components.CreditGrantScopePlan,
     })
     if err != nil {
         log.Fatal(err)

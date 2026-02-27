@@ -92,10 +92,10 @@ func main() {
     )
 
     res, err := s.Tasks.CreateTask(ctx, components.DtoCreateTaskRequest{
-        EntityType: components.TypesEntityTypeFeatures,
-        FileType: components.TypesFileTypeJSON,
+        EntityType: components.EntityTypeFeatures,
+        FileType: components.FileTypeJSON,
         FileURL: "https://rural-typeface.org",
-        TaskType: components.TypesTaskTypeImport,
+        TaskType: components.TaskTypeImport,
     })
     if err != nil {
         log.Fatal(err)
@@ -314,7 +314,7 @@ func main() {
     )
 
     res, err := s.Tasks.UpdateTaskStatus(ctx, "<id>", components.DtoUpdateTaskStatusRequest{
-        TaskStatus: components.TypesTaskStatusProcessing,
+        TaskStatus: components.TaskStatusProcessing,
     })
     if err != nil {
         log.Fatal(err)

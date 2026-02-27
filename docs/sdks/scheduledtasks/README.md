@@ -94,9 +94,9 @@ func main() {
 
     res, err := s.ScheduledTasks.CreateScheduledTask(ctx, components.DtoCreateScheduledTaskRequest{
         ConnectionID: "<id>",
-        EntityType: components.TypesScheduledTaskEntityTypeCreditTopups,
-        Interval: components.TypesScheduledTaskIntervalHourly,
-        JobConfig: components.TypesS3JobConfig{},
+        EntityType: components.ScheduledTaskEntityTypeCreditTopups,
+        Interval: components.ScheduledTaskIntervalHourly,
+        JobConfig: components.S3JobConfig{},
     })
     if err != nil {
         log.Fatal(err)

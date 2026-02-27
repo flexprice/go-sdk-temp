@@ -9,11 +9,11 @@ import (
 type DtoCreateSubscriptionLineItemRequest struct {
 	// Commitment fields
 	CommitmentAmount        *float64                           `json:"commitment_amount,omitzero"`
-	CommitmentDuration      *TypesBillingPeriod                `json:"commitment_duration,omitzero"`
+	CommitmentDuration      *BillingPeriod                     `json:"commitment_duration,omitzero"`
 	CommitmentOverageFactor *float64                           `json:"commitment_overage_factor,omitzero"`
 	CommitmentQuantity      *float64                           `json:"commitment_quantity,omitzero"`
 	CommitmentTrueUpEnabled *bool                              `json:"commitment_true_up_enabled,omitzero"`
-	CommitmentType          *TypesCommitmentType               `json:"commitment_type,omitzero"`
+	CommitmentType          *CommitmentType                    `json:"commitment_type,omitzero"`
 	CommitmentWindowed      *bool                              `json:"commitment_windowed,omitzero"`
 	DisplayName             *string                            `json:"display_name,omitzero"`
 	EndDate                 *string                            `json:"end_date,omitzero"`
@@ -44,7 +44,7 @@ func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentAmount() *float64 {
 	return d.CommitmentAmount
 }
 
-func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentDuration() *TypesBillingPeriod {
+func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentDuration() *BillingPeriod {
 	if d == nil {
 		return nil
 	}
@@ -72,7 +72,7 @@ func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentTrueUpEnabled() *boo
 	return d.CommitmentTrueUpEnabled
 }
 
-func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentType() *TypesCommitmentType {
+func (d *DtoCreateSubscriptionLineItemRequest) GetCommitmentType() *CommitmentType {
 	if d == nil {
 		return nil
 	}

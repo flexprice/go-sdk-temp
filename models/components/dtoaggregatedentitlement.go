@@ -10,9 +10,9 @@ type DtoAggregatedEntitlement struct {
 	IsEnabled   *bool `json:"is_enabled,omitzero"`
 	IsSoftLimit *bool `json:"is_soft_limit,omitzero"`
 	// For static/SLA features
-	StaticValues     []string                          `json:"static_values,omitzero"`
-	UsageLimit       *int64                            `json:"usage_limit,omitzero"`
-	UsageResetPeriod *TypesEntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
+	StaticValues     []string                     `json:"static_values,omitzero"`
+	UsageLimit       *int64                       `json:"usage_limit,omitzero"`
+	UsageResetPeriod *EntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
 }
 
 func (d DtoAggregatedEntitlement) MarshalJSON() ([]byte, error) {
@@ -54,7 +54,7 @@ func (d *DtoAggregatedEntitlement) GetUsageLimit() *int64 {
 	return d.UsageLimit
 }
 
-func (d *DtoAggregatedEntitlement) GetUsageResetPeriod() *TypesEntitlementUsageResetPeriod {
+func (d *DtoAggregatedEntitlement) GetUsageResetPeriod() *EntitlementUsageResetPeriod {
 	if d == nil {
 		return nil
 	}

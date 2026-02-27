@@ -15,7 +15,7 @@ type DtoCouponApplicationResponse struct {
 	CreatedBy           *string           `json:"created_by,omitzero"`
 	Currency            *string           `json:"currency,omitzero"`
 	DiscountPercentage  *string           `json:"discount_percentage,omitzero"`
-	DiscountType        *TypesCouponType  `json:"discount_type,omitzero"`
+	DiscountType        *CouponType       `json:"discount_type,omitzero"`
 	DiscountedAmount    *string           `json:"discounted_amount,omitzero"`
 	EnvironmentID       *string           `json:"environment_id,omitzero"`
 	FinalPrice          *string           `json:"final_price,omitzero"`
@@ -24,7 +24,7 @@ type DtoCouponApplicationResponse struct {
 	InvoiceLineItemID   *string           `json:"invoice_line_item_id,omitzero"`
 	Metadata            map[string]string `json:"metadata,omitzero"`
 	OriginalPrice       *string           `json:"original_price,omitzero"`
-	Status              *TypesStatus      `json:"status,omitzero"`
+	Status              *Status           `json:"status,omitzero"`
 	SubscriptionID      *string           `json:"subscription_id,omitzero"`
 	TenantID            *string           `json:"tenant_id,omitzero"`
 	UpdatedAt           *string           `json:"updated_at,omitzero"`
@@ -98,7 +98,7 @@ func (d *DtoCouponApplicationResponse) GetDiscountPercentage() *string {
 	return d.DiscountPercentage
 }
 
-func (d *DtoCouponApplicationResponse) GetDiscountType() *TypesCouponType {
+func (d *DtoCouponApplicationResponse) GetDiscountType() *CouponType {
 	if d == nil {
 		return nil
 	}
@@ -161,7 +161,7 @@ func (d *DtoCouponApplicationResponse) GetOriginalPrice() *string {
 	return d.OriginalPrice
 }
 
-func (d *DtoCouponApplicationResponse) GetStatus() *TypesStatus {
+func (d *DtoCouponApplicationResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

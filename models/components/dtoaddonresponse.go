@@ -18,9 +18,9 @@ type DtoAddonResponse struct {
 	Name          *string                  `json:"name,omitzero"`
 	// Optional expanded fields
 	Prices    []DtoPriceResponse `json:"prices,omitzero"`
-	Status    *TypesStatus       `json:"status,omitzero"`
+	Status    *Status            `json:"status,omitzero"`
 	TenantID  *string            `json:"tenant_id,omitzero"`
-	Type      *TypesAddonType    `json:"type,omitzero"`
+	Type      *AddonType         `json:"type,omitzero"`
 	UpdatedAt *string            `json:"updated_at,omitzero"`
 	UpdatedBy *string            `json:"updated_by,omitzero"`
 }
@@ -106,7 +106,7 @@ func (d *DtoAddonResponse) GetPrices() []DtoPriceResponse {
 	return d.Prices
 }
 
-func (d *DtoAddonResponse) GetStatus() *TypesStatus {
+func (d *DtoAddonResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (d *DtoAddonResponse) GetTenantID() *string {
 	return d.TenantID
 }
 
-func (d *DtoAddonResponse) GetType() *TypesAddonType {
+func (d *DtoAddonResponse) GetType() *AddonType {
 	if d == nil {
 		return nil
 	}

@@ -7,10 +7,10 @@ import (
 )
 
 type DtoGetEventByIDResponse struct {
-	DebugTracker    *DtoDebugTracker                `json:"debug_tracker,omitzero"`
-	Event           *DtoEvent                       `json:"event,omitzero"`
-	ProcessedEvents []DtoFeatureUsageInfo           `json:"processed_events,omitzero"`
-	Status          *TypesEventProcessingStatusType `json:"status,omitzero"`
+	DebugTracker    *DtoDebugTracker           `json:"debug_tracker,omitzero"`
+	Event           *DtoEvent                  `json:"event,omitzero"`
+	ProcessedEvents []DtoFeatureUsageInfo      `json:"processed_events,omitzero"`
+	Status          *EventProcessingStatusType `json:"status,omitzero"`
 }
 
 func (d DtoGetEventByIDResponse) MarshalJSON() ([]byte, error) {
@@ -45,7 +45,7 @@ func (d *DtoGetEventByIDResponse) GetProcessedEvents() []DtoFeatureUsageInfo {
 	return d.ProcessedEvents
 }
 
-func (d *DtoGetEventByIDResponse) GetStatus() *TypesEventProcessingStatusType {
+func (d *DtoGetEventByIDResponse) GetStatus() *EventProcessingStatusType {
 	if d == nil {
 		return nil
 	}

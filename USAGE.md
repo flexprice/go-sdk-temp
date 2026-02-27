@@ -20,7 +20,7 @@ func main() {
 	res, err := s.Addons.CreateAddon(ctx, components.DtoCreateAddonRequest{
 		LookupKey: "<value>",
 		Name:      "<value>",
-		Type:      components.TypesAddonTypeMultipleInstance,
+		Type:      components.AddonTypeMultipleInstance,
 	})
 	if err != nil {
 		log.Fatal(err)

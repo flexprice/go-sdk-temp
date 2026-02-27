@@ -95,8 +95,8 @@ func main() {
         Amount: "883.46",
         Currency: "CFP Franc",
         DestinationID: "<id>",
-        DestinationType: components.TypesPaymentDestinationTypeInvoice,
-        PaymentMethodType: components.TypesPaymentMethodTypeOffline,
+        DestinationType: components.PaymentDestinationTypeInvoice,
+        PaymentMethodType: components.PaymentMethodTypeOffline,
     })
     if err != nil {
         log.Fatal(err)

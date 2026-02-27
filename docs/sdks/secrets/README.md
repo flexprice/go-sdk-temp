@@ -91,7 +91,7 @@ func main() {
 
     res, err := s.Secrets.CreateAPIKey(ctx, components.DtoCreateAPIKeyRequest{
         Name: "<value>",
-        Type: components.TypesSecretTypePublishableKey,
+        Type: components.SecretTypePublishableKey,
     })
     if err != nil {
         log.Fatal(err)

@@ -7,26 +7,26 @@ import (
 )
 
 type DtoAlertLogResponse struct {
-	AlertInfo   *TypesAlertInfo  `json:"alert_info,omitzero"`
-	AlertStatus *TypesAlertState `json:"alert_status,omitzero"`
-	AlertType   *TypesAlertType  `json:"alert_type,omitzero"`
-	CreatedAt   *string          `json:"created_at,omitzero"`
-	CreatedBy   *string          `json:"created_by,omitzero"`
+	AlertInfo   *AlertInfo  `json:"alert_info,omitzero"`
+	AlertStatus *AlertState `json:"alert_status,omitzero"`
+	AlertType   *AlertType  `json:"alert_type,omitzero"`
+	CreatedAt   *string     `json:"created_at,omitzero"`
+	CreatedBy   *string     `json:"created_by,omitzero"`
 	// Customer response object containing all customer information
-	Customer         *DtoCustomerResponse  `json:"customer,omitzero"`
-	CustomerID       *string               `json:"customer_id,omitzero"`
-	EntityID         *string               `json:"entity_id,omitzero"`
-	EntityType       *TypesAlertEntityType `json:"entity_type,omitzero"`
-	EnvironmentID    *string               `json:"environment_id,omitzero"`
-	Feature          *DtoFeatureResponse   `json:"feature,omitzero"`
-	ID               *string               `json:"id,omitzero"`
-	ParentEntityID   *string               `json:"parent_entity_id,omitzero"`
-	ParentEntityType *string               `json:"parent_entity_type,omitzero"`
-	Status           *string               `json:"status,omitzero"`
-	TenantID         *string               `json:"tenant_id,omitzero"`
-	UpdatedAt        *string               `json:"updated_at,omitzero"`
-	UpdatedBy        *string               `json:"updated_by,omitzero"`
-	Wallet           *DtoWalletResponse    `json:"wallet,omitzero"`
+	Customer         *DtoCustomerResponse `json:"customer,omitzero"`
+	CustomerID       *string              `json:"customer_id,omitzero"`
+	EntityID         *string              `json:"entity_id,omitzero"`
+	EntityType       *AlertEntityType     `json:"entity_type,omitzero"`
+	EnvironmentID    *string              `json:"environment_id,omitzero"`
+	Feature          *DtoFeatureResponse  `json:"feature,omitzero"`
+	ID               *string              `json:"id,omitzero"`
+	ParentEntityID   *string              `json:"parent_entity_id,omitzero"`
+	ParentEntityType *string              `json:"parent_entity_type,omitzero"`
+	Status           *string              `json:"status,omitzero"`
+	TenantID         *string              `json:"tenant_id,omitzero"`
+	UpdatedAt        *string              `json:"updated_at,omitzero"`
+	UpdatedBy        *string              `json:"updated_by,omitzero"`
+	Wallet           *DtoWalletResponse   `json:"wallet,omitzero"`
 }
 
 func (d DtoAlertLogResponse) MarshalJSON() ([]byte, error) {
@@ -40,21 +40,21 @@ func (d *DtoAlertLogResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoAlertLogResponse) GetAlertInfo() *TypesAlertInfo {
+func (d *DtoAlertLogResponse) GetAlertInfo() *AlertInfo {
 	if d == nil {
 		return nil
 	}
 	return d.AlertInfo
 }
 
-func (d *DtoAlertLogResponse) GetAlertStatus() *TypesAlertState {
+func (d *DtoAlertLogResponse) GetAlertStatus() *AlertState {
 	if d == nil {
 		return nil
 	}
 	return d.AlertStatus
 }
 
-func (d *DtoAlertLogResponse) GetAlertType() *TypesAlertType {
+func (d *DtoAlertLogResponse) GetAlertType() *AlertType {
 	if d == nil {
 		return nil
 	}
@@ -96,7 +96,7 @@ func (d *DtoAlertLogResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoAlertLogResponse) GetEntityType() *TypesAlertEntityType {
+func (d *DtoAlertLogResponse) GetEntityType() *AlertEntityType {
 	if d == nil {
 		return nil
 	}

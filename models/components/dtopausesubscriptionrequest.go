@@ -23,8 +23,8 @@ type DtoPauseSubscriptionRequest struct {
 	// End date for the subscription pause
 	// @Description ISO 8601 timestamp when the pause should end. Cannot be used together with pause_days. Must be after pause_start
 	// @Example "2024-02-15T00:00:00Z"
-	PauseEnd  *string        `json:"pause_end,omitzero"`
-	PauseMode TypesPauseMode `json:"pause_mode"`
+	PauseEnd  *string   `json:"pause_end,omitzero"`
+	PauseMode PauseMode `json:"pause_mode"`
 	// Start date for the subscription pause
 	// @Description ISO 8601 timestamp when the pause should begin. Required when pause_mode is "scheduled"
 	// @Example "2024-01-15T00:00:00Z"
@@ -74,9 +74,9 @@ func (d *DtoPauseSubscriptionRequest) GetPauseEnd() *string {
 	return d.PauseEnd
 }
 
-func (d *DtoPauseSubscriptionRequest) GetPauseMode() TypesPauseMode {
+func (d *DtoPauseSubscriptionRequest) GetPauseMode() PauseMode {
 	if d == nil {
-		return TypesPauseMode("")
+		return PauseMode("")
 	}
 	return d.PauseMode
 }

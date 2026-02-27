@@ -34,7 +34,7 @@ func main() {
 
     res, err := s.EntityIntegrationMappings.CreateEntityIntegrationMapping(ctx, components.DtoCreateEntityIntegrationMappingRequest{
         EntityID: "<id>",
-        EntityType: components.TypesIntegrationEntityTypeCreditNote,
+        EntityType: components.IntegrationEntityTypeCreditNote,
         ProviderEntityID: "<id>",
         ProviderType: "<value>",
     })

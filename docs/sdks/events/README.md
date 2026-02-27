@@ -331,7 +331,7 @@ func main() {
     )
 
     res, err := s.Events.GetUsageStatistics(ctx, components.DtoGetUsageRequest{
-        AggregationType: components.TypesAggregationTypeCountUnique,
+        AggregationType: components.AggregationTypeCountUnique,
         BillingAnchor: flexprice.Pointer("2024-03-05T14:30:45.123456789Z"),
         CustomerID: flexprice.Pointer("customer456"),
         EndTime: flexprice.Pointer("2024-03-20T00:00:00Z"),

@@ -3,11 +3,11 @@
 package components
 
 type DtoUpdateEntitlementRequest struct {
-	IsEnabled        *bool                             `json:"is_enabled,omitzero"`
-	IsSoftLimit      *bool                             `json:"is_soft_limit,omitzero"`
-	StaticValue      *string                           `json:"static_value,omitzero"`
-	UsageLimit       *int64                            `json:"usage_limit,omitzero"`
-	UsageResetPeriod *TypesEntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
+	IsEnabled        *bool                        `json:"is_enabled,omitzero"`
+	IsSoftLimit      *bool                        `json:"is_soft_limit,omitzero"`
+	StaticValue      *string                      `json:"static_value,omitzero"`
+	UsageLimit       *int64                       `json:"usage_limit,omitzero"`
+	UsageResetPeriod *EntitlementUsageResetPeriod `json:"usage_reset_period,omitzero"`
 }
 
 func (d *DtoUpdateEntitlementRequest) GetIsEnabled() *bool {
@@ -38,7 +38,7 @@ func (d *DtoUpdateEntitlementRequest) GetUsageLimit() *int64 {
 	return d.UsageLimit
 }
 
-func (d *DtoUpdateEntitlementRequest) GetUsageResetPeriod() *TypesEntitlementUsageResetPeriod {
+func (d *DtoUpdateEntitlementRequest) GetUsageResetPeriod() *EntitlementUsageResetPeriod {
 	if d == nil {
 		return nil
 	}

@@ -7,9 +7,9 @@ import (
 )
 
 type DtoPriceLookupResult struct {
-	Error         *ErrorsErrorResponse     `json:"error,omitzero"`
-	MatchedPrices []DtoMatchedPrice        `json:"matched_prices,omitzero"`
-	Status        *TypesDebugTrackerStatus `json:"status,omitzero"`
+	Error         *ErrorsErrorResponse `json:"error,omitzero"`
+	MatchedPrices []DtoMatchedPrice    `json:"matched_prices,omitzero"`
+	Status        *DebugTrackerStatus  `json:"status,omitzero"`
 }
 
 func (d DtoPriceLookupResult) MarshalJSON() ([]byte, error) {
@@ -37,7 +37,7 @@ func (d *DtoPriceLookupResult) GetMatchedPrices() []DtoMatchedPrice {
 	return d.MatchedPrices
 }
 
-func (d *DtoPriceLookupResult) GetStatus() *TypesDebugTrackerStatus {
+func (d *DtoPriceLookupResult) GetStatus() *DebugTrackerStatus {
 	if d == nil {
 		return nil
 	}

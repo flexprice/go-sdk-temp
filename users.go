@@ -552,7 +552,7 @@ func (s *Users) GetUserInfo(ctx context.Context, opts ...operations.Option) (*op
 
 // QueryUser - Query users
 // Use when listing or searching service accounts in an admin UI, or when auditing who has API access and which roles they have.
-func (s *Users) QueryUser(ctx context.Context, request components.TypesUserFilter, opts ...operations.Option) (*operations.QueryUserResponse, error) {
+func (s *Users) QueryUser(ctx context.Context, request components.UserFilter, opts ...operations.Option) (*operations.QueryUserResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

@@ -7,25 +7,25 @@ import (
 )
 
 type DtoAddonAssociationResponse struct {
-	Addon              *DtoAddonResponse                `json:"addon,omitzero"`
-	AddonID            *string                          `json:"addon_id,omitzero"`
-	AddonStatus        *TypesAddonStatus                `json:"addon_status,omitzero"`
-	CancellationReason *string                          `json:"cancellation_reason,omitzero"`
-	CancelledAt        *string                          `json:"cancelled_at,omitzero"`
-	CreatedAt          *string                          `json:"created_at,omitzero"`
-	CreatedBy          *string                          `json:"created_by,omitzero"`
-	EndDate            *string                          `json:"end_date,omitzero"`
-	EntityID           *string                          `json:"entity_id,omitzero"`
-	EntityType         *TypesAddonAssociationEntityType `json:"entity_type,omitzero"`
-	EnvironmentID      *string                          `json:"environment_id,omitzero"`
-	ID                 *string                          `json:"id,omitzero"`
-	Metadata           map[string]any                   `json:"metadata,omitzero"`
-	StartDate          *string                          `json:"start_date,omitzero"`
-	Status             *TypesStatus                     `json:"status,omitzero"`
-	Subscription       *DtoSubscriptionResponse         `json:"subscription,omitzero"`
-	TenantID           *string                          `json:"tenant_id,omitzero"`
-	UpdatedAt          *string                          `json:"updated_at,omitzero"`
-	UpdatedBy          *string                          `json:"updated_by,omitzero"`
+	Addon              *DtoAddonResponse           `json:"addon,omitzero"`
+	AddonID            *string                     `json:"addon_id,omitzero"`
+	AddonStatus        *AddonStatus                `json:"addon_status,omitzero"`
+	CancellationReason *string                     `json:"cancellation_reason,omitzero"`
+	CancelledAt        *string                     `json:"cancelled_at,omitzero"`
+	CreatedAt          *string                     `json:"created_at,omitzero"`
+	CreatedBy          *string                     `json:"created_by,omitzero"`
+	EndDate            *string                     `json:"end_date,omitzero"`
+	EntityID           *string                     `json:"entity_id,omitzero"`
+	EntityType         *AddonAssociationEntityType `json:"entity_type,omitzero"`
+	EnvironmentID      *string                     `json:"environment_id,omitzero"`
+	ID                 *string                     `json:"id,omitzero"`
+	Metadata           map[string]any              `json:"metadata,omitzero"`
+	StartDate          *string                     `json:"start_date,omitzero"`
+	Status             *Status                     `json:"status,omitzero"`
+	Subscription       *DtoSubscriptionResponse    `json:"subscription,omitzero"`
+	TenantID           *string                     `json:"tenant_id,omitzero"`
+	UpdatedAt          *string                     `json:"updated_at,omitzero"`
+	UpdatedBy          *string                     `json:"updated_by,omitzero"`
 }
 
 func (d DtoAddonAssociationResponse) MarshalJSON() ([]byte, error) {
@@ -53,7 +53,7 @@ func (d *DtoAddonAssociationResponse) GetAddonID() *string {
 	return d.AddonID
 }
 
-func (d *DtoAddonAssociationResponse) GetAddonStatus() *TypesAddonStatus {
+func (d *DtoAddonAssociationResponse) GetAddonStatus() *AddonStatus {
 	if d == nil {
 		return nil
 	}
@@ -102,7 +102,7 @@ func (d *DtoAddonAssociationResponse) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoAddonAssociationResponse) GetEntityType() *TypesAddonAssociationEntityType {
+func (d *DtoAddonAssociationResponse) GetEntityType() *AddonAssociationEntityType {
 	if d == nil {
 		return nil
 	}
@@ -137,7 +137,7 @@ func (d *DtoAddonAssociationResponse) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoAddonAssociationResponse) GetStatus() *TypesStatus {
+func (d *DtoAddonAssociationResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

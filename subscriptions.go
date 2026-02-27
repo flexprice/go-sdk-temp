@@ -1358,7 +1358,7 @@ func (s *Subscriptions) DeleteSubscriptionLineItem(ctx context.Context, id strin
 
 // QuerySubscription - Query subscriptions
 // Use when listing or searching subscriptions (e.g. admin view or customer subscription list). Returns a paginated list; supports filtering by customer, plan, status.
-func (s *Subscriptions) QuerySubscription(ctx context.Context, request components.TypesSubscriptionFilter, opts ...operations.Option) (*operations.QuerySubscriptionResponse, error) {
+func (s *Subscriptions) QuerySubscription(ctx context.Context, request components.SubscriptionFilter, opts ...operations.Option) (*operations.QuerySubscriptionResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

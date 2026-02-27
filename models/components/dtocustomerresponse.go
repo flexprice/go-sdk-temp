@@ -37,11 +37,11 @@ type DtoCustomerResponse struct {
 	// Customer response object containing all customer information
 	ParentCustomer *DtoCustomerResponse `json:"parent_customer,omitzero"`
 	// ParentCustomerID is the parent customer identifier for the customer
-	ParentCustomerID *string      `json:"parent_customer_id,omitzero"`
-	Status           *TypesStatus `json:"status,omitzero"`
-	TenantID         *string      `json:"tenant_id,omitzero"`
-	UpdatedAt        *string      `json:"updated_at,omitzero"`
-	UpdatedBy        *string      `json:"updated_by,omitzero"`
+	ParentCustomerID *string `json:"parent_customer_id,omitzero"`
+	Status           *Status `json:"status,omitzero"`
+	TenantID         *string `json:"tenant_id,omitzero"`
+	UpdatedAt        *string `json:"updated_at,omitzero"`
+	UpdatedBy        *string `json:"updated_by,omitzero"`
 }
 
 func (d DtoCustomerResponse) MarshalJSON() ([]byte, error) {
@@ -167,7 +167,7 @@ func (d *DtoCustomerResponse) GetParentCustomerID() *string {
 	return d.ParentCustomerID
 }
 
-func (d *DtoCustomerResponse) GetStatus() *TypesStatus {
+func (d *DtoCustomerResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

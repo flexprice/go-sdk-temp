@@ -296,7 +296,7 @@ func (s *Groups) CreateGroup(ctx context.Context, request components.DtoCreateGr
 
 // QueryGroup - Query groups
 // Use when listing or searching groups (e.g. admin catalog). Returns a paginated list; supports filtering and sorting.
-func (s *Groups) QueryGroup(ctx context.Context, request components.TypesGroupFilter, opts ...operations.Option) (*operations.QueryGroupResponse, error) {
+func (s *Groups) QueryGroup(ctx context.Context, request components.GroupFilter, opts ...operations.Option) (*operations.QueryGroupResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

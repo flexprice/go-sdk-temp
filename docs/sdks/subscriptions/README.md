@@ -56,8 +56,8 @@ func main() {
     )
 
     res, err := s.Subscriptions.CreateSubscription(ctx, components.DtoCreateSubscriptionRequest{
-        BillingCadence: components.TypesBillingCadenceOnetime,
-        BillingPeriod: components.TypesBillingPeriodDaily,
+        BillingCadence: components.BillingCadenceOnetime,
+        BillingPeriod: components.BillingPeriodDaily,
         Currency: "New Leu",
         PlanID: "<id>",
     })
@@ -342,7 +342,7 @@ func main() {
         flexprice.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    res, err := s.Subscriptions.QuerySubscription(ctx, components.TypesSubscriptionFilter{})
+    res, err := s.Subscriptions.QuerySubscription(ctx, components.SubscriptionFilter{})
     if err != nil {
         log.Fatal(err)
     }
@@ -354,11 +354,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `ctx`                                                                                    | [context.Context](https://pkg.go.dev/context#Context)                                    | :heavy_check_mark:                                                                       | The context to use for the request.                                                      |
-| `request`                                                                                | [components.TypesSubscriptionFilter](../../models/components/typessubscriptionfilter.md) | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
-| `opts`                                                                                   | [][operations.Option](../../models/operations/option.md)                                 | :heavy_minus_sign:                                                                       | The options for this request.                                                            |
+| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `ctx`                                                                          | [context.Context](https://pkg.go.dev/context#Context)                          | :heavy_check_mark:                                                             | The context to use for the request.                                            |
+| `request`                                                                      | [components.SubscriptionFilter](../../models/components/subscriptionfilter.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
+| `opts`                                                                         | [][operations.Option](../../models/operations/option.md)                       | :heavy_minus_sign:                                                             | The options for this request.                                                  |
 
 ### Response
 
@@ -680,7 +680,7 @@ func main() {
     )
 
     res, err := s.Subscriptions.CancelSubscription(ctx, "<id>", components.DtoCancelSubscriptionRequest{
-        CancellationType: components.TypesCancellationTypeImmediate,
+        CancellationType: components.CancellationTypeImmediate,
     })
     if err != nil {
         log.Fatal(err)
@@ -738,10 +738,10 @@ func main() {
     )
 
     res, err := s.Subscriptions.ExecuteSubscriptionChange(ctx, "<id>", components.DtoSubscriptionChangeRequest{
-        BillingCadence: components.TypesBillingCadenceRecurring,
-        BillingCycle: components.TypesBillingCycleAnniversary,
-        BillingPeriod: components.TypesBillingPeriodQuarterly,
-        ProrationBehavior: components.TypesProrationBehaviorCreateProrations,
+        BillingCadence: components.BillingCadenceRecurring,
+        BillingCycle: components.BillingCycleAnniversary,
+        BillingPeriod: components.BillingPeriodQuarterly,
+        ProrationBehavior: components.ProrationBehaviorCreateProrations,
         TargetPlanID: "<id>",
     })
     if err != nil {
@@ -800,10 +800,10 @@ func main() {
     )
 
     res, err := s.Subscriptions.PreviewSubscriptionChange(ctx, "<id>", components.DtoSubscriptionChangeRequest{
-        BillingCadence: components.TypesBillingCadenceRecurring,
-        BillingCycle: components.TypesBillingCycleCalendar,
-        BillingPeriod: components.TypesBillingPeriodHalfYearly,
-        ProrationBehavior: components.TypesProrationBehaviorCreateProrations,
+        BillingCadence: components.BillingCadenceRecurring,
+        BillingCycle: components.BillingCycleCalendar,
+        BillingPeriod: components.BillingPeriodHalfYearly,
+        ProrationBehavior: components.ProrationBehaviorCreateProrations,
         TargetPlanID: "<id>",
     })
     if err != nil {
@@ -1027,7 +1027,7 @@ func main() {
     )
 
     res, err := s.Subscriptions.PauseSubscription(ctx, "<id>", components.DtoPauseSubscriptionRequest{
-        PauseMode: components.TypesPauseModeScheduled,
+        PauseMode: components.PauseModeScheduled,
     })
     if err != nil {
         log.Fatal(err)
@@ -1139,7 +1139,7 @@ func main() {
     )
 
     res, err := s.Subscriptions.ResumeSubscription(ctx, "<id>", components.DtoResumeSubscriptionRequest{
-        ResumeMode: components.TypesResumeModeAuto,
+        ResumeMode: components.ResumeModeAuto,
     })
     if err != nil {
         log.Fatal(err)

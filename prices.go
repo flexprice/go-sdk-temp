@@ -819,7 +819,7 @@ func (s *Prices) GetPriceByLookupKey(ctx context.Context, lookupKey string, opts
 
 // QueryPrice - Query prices
 // Use when listing or searching prices (e.g. plan builder or catalog). Returns a paginated list; supports filtering and sorting.
-func (s *Prices) QueryPrice(ctx context.Context, request components.TypesPriceFilter, opts ...operations.Option) (*operations.QueryPriceResponse, error) {
+func (s *Prices) QueryPrice(ctx context.Context, request components.PriceFilter, opts ...operations.Option) (*operations.QueryPriceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

@@ -16,7 +16,7 @@ type GithubComFlexpriceFlexpriceInternalDomainPlanPlan struct {
 	LookupKey     *string           `json:"lookup_key,omitzero"`
 	Metadata      map[string]string `json:"metadata,omitzero"`
 	Name          *string           `json:"name,omitzero"`
-	Status        *TypesStatus      `json:"status,omitzero"`
+	Status        *Status           `json:"status,omitzero"`
 	TenantID      *string           `json:"tenant_id,omitzero"`
 	UpdatedAt     *string           `json:"updated_at,omitzero"`
 	UpdatedBy     *string           `json:"updated_by,omitzero"`
@@ -96,7 +96,7 @@ func (g *GithubComFlexpriceFlexpriceInternalDomainPlanPlan) GetName() *string {
 	return g.Name
 }
 
-func (g *GithubComFlexpriceFlexpriceInternalDomainPlanPlan) GetStatus() *TypesStatus {
+func (g *GithubComFlexpriceFlexpriceInternalDomainPlanPlan) GetStatus() *Status {
 	if g == nil {
 		return nil
 	}

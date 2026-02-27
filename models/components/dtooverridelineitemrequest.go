@@ -8,8 +8,8 @@ import (
 
 type DtoOverrideLineItemRequest struct {
 	// Amount is the new price amount that overrides the original price (optional)
-	Amount       *string            `json:"amount,omitzero"`
-	BillingModel *TypesBillingModel `json:"billing_model,omitzero"`
+	Amount       *string       `json:"amount,omitzero"`
+	BillingModel *BillingModel `json:"billing_model,omitzero"`
 	// PriceID references the plan price to override
 	PriceID string `json:"price_id"`
 	// PriceUnitAmount is the amount of the price unit (for CUSTOM type, FLAT_FEE/PACKAGE billing models)
@@ -17,8 +17,8 @@ type DtoOverrideLineItemRequest struct {
 	// PriceUnitTiers are the tiers for the price unit (for CUSTOM type, TIERED billing model)
 	PriceUnitTiers []DtoCreatePriceTier `json:"price_unit_tiers,omitzero"`
 	// Quantity for this line item (optional)
-	Quantity *string           `json:"quantity,omitzero"`
-	TierMode *TypesBillingTier `json:"tier_mode,omitzero"`
+	Quantity *string      `json:"quantity,omitzero"`
+	TierMode *BillingTier `json:"tier_mode,omitzero"`
 	// Tiers determines the pricing tiers for this line item
 	Tiers             []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity,omitzero"`
@@ -42,7 +42,7 @@ func (d *DtoOverrideLineItemRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoOverrideLineItemRequest) GetBillingModel() *TypesBillingModel {
+func (d *DtoOverrideLineItemRequest) GetBillingModel() *BillingModel {
 	if d == nil {
 		return nil
 	}
@@ -77,7 +77,7 @@ func (d *DtoOverrideLineItemRequest) GetQuantity() *string {
 	return d.Quantity
 }
 
-func (d *DtoOverrideLineItemRequest) GetTierMode() *TypesBillingTier {
+func (d *DtoOverrideLineItemRequest) GetTierMode() *BillingTier {
 	if d == nil {
 		return nil
 	}

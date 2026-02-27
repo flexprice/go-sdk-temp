@@ -7,17 +7,17 @@ import (
 )
 
 type DtoScheduledTaskResponse struct {
-	ConnectionID  *string                       `json:"connection_id,omitzero"`
-	CreatedAt     *string                       `json:"created_at,omitzero"`
-	Enabled       *bool                         `json:"enabled,omitzero"`
-	EntityType    *TypesScheduledTaskEntityType `json:"entity_type,omitzero"`
-	EnvironmentID *string                       `json:"environment_id,omitzero"`
-	ID            *string                       `json:"id,omitzero"`
-	Interval      *TypesScheduledTaskInterval   `json:"interval,omitzero"`
-	JobConfig     *TypesS3JobConfig             `json:"job_config,omitzero"`
-	Status        *string                       `json:"status,omitzero"`
-	TenantID      *string                       `json:"tenant_id,omitzero"`
-	UpdatedAt     *string                       `json:"updated_at,omitzero"`
+	ConnectionID  *string                  `json:"connection_id,omitzero"`
+	CreatedAt     *string                  `json:"created_at,omitzero"`
+	Enabled       *bool                    `json:"enabled,omitzero"`
+	EntityType    *ScheduledTaskEntityType `json:"entity_type,omitzero"`
+	EnvironmentID *string                  `json:"environment_id,omitzero"`
+	ID            *string                  `json:"id,omitzero"`
+	Interval      *ScheduledTaskInterval   `json:"interval,omitzero"`
+	JobConfig     *S3JobConfig             `json:"job_config,omitzero"`
+	Status        *string                  `json:"status,omitzero"`
+	TenantID      *string                  `json:"tenant_id,omitzero"`
+	UpdatedAt     *string                  `json:"updated_at,omitzero"`
 }
 
 func (d DtoScheduledTaskResponse) MarshalJSON() ([]byte, error) {
@@ -52,7 +52,7 @@ func (d *DtoScheduledTaskResponse) GetEnabled() *bool {
 	return d.Enabled
 }
 
-func (d *DtoScheduledTaskResponse) GetEntityType() *TypesScheduledTaskEntityType {
+func (d *DtoScheduledTaskResponse) GetEntityType() *ScheduledTaskEntityType {
 	if d == nil {
 		return nil
 	}
@@ -73,14 +73,14 @@ func (d *DtoScheduledTaskResponse) GetID() *string {
 	return d.ID
 }
 
-func (d *DtoScheduledTaskResponse) GetInterval() *TypesScheduledTaskInterval {
+func (d *DtoScheduledTaskResponse) GetInterval() *ScheduledTaskInterval {
 	if d == nil {
 		return nil
 	}
 	return d.Interval
 }
 
-func (d *DtoScheduledTaskResponse) GetJobConfig() *TypesS3JobConfig {
+func (d *DtoScheduledTaskResponse) GetJobConfig() *S3JobConfig {
 	if d == nil {
 		return nil
 	}

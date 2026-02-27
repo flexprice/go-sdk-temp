@@ -3,7 +3,7 @@
 package components
 
 type MeterAggregation struct {
-	BucketSize *TypesWindowSize `json:"bucket_size,omitzero"`
+	BucketSize *WindowSize `json:"bucket_size,omitzero"`
 	// Field is the key in $event.properties on which the aggregation is to be applied
 	// For ex if the aggregation type is sum for API usage, the field could be "duration_ms"
 	Field *string `json:"field,omitzero"`
@@ -15,11 +15,11 @@ type MeterAggregation struct {
 	// Multiplier is the multiplier for the aggregation
 	// For ex if the aggregation type is sum_with_multiplier for API usage, the multiplier could be 1000
 	// to scale up by a factor of 1000. If not provided, it will be null.
-	Multiplier *string               `json:"multiplier,omitzero"`
-	Type       *TypesAggregationType `json:"type,omitzero"`
+	Multiplier *string          `json:"multiplier,omitzero"`
+	Type       *AggregationType `json:"type,omitzero"`
 }
 
-func (m *MeterAggregation) GetBucketSize() *TypesWindowSize {
+func (m *MeterAggregation) GetBucketSize() *WindowSize {
 	if m == nil {
 		return nil
 	}
@@ -47,7 +47,7 @@ func (m *MeterAggregation) GetMultiplier() *string {
 	return m.Multiplier
 }
 
-func (m *MeterAggregation) GetType() *TypesAggregationType {
+func (m *MeterAggregation) GetType() *AggregationType {
 	if m == nil {
 		return nil
 	}

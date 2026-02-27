@@ -7,10 +7,10 @@ import (
 )
 
 type DtoGetUsageResponse struct {
-	EventName *string               `json:"event_name,omitzero"`
-	Results   []DtoUsageResult      `json:"results,omitzero"`
-	Type      *TypesAggregationType `json:"type,omitzero"`
-	Value     *float64              `json:"value,omitzero"`
+	EventName *string          `json:"event_name,omitzero"`
+	Results   []DtoUsageResult `json:"results,omitzero"`
+	Type      *AggregationType `json:"type,omitzero"`
+	Value     *float64         `json:"value,omitzero"`
 }
 
 func (d DtoGetUsageResponse) MarshalJSON() ([]byte, error) {
@@ -38,7 +38,7 @@ func (d *DtoGetUsageResponse) GetResults() []DtoUsageResult {
 	return d.Results
 }
 
-func (d *DtoGetUsageResponse) GetType() *TypesAggregationType {
+func (d *DtoGetUsageResponse) GetType() *AggregationType {
 	if d == nil {
 		return nil
 	}

@@ -3,11 +3,11 @@
 package components
 
 type DtoCreateScheduledTaskRequest struct {
-	ConnectionID string                       `json:"connection_id"`
-	Enabled      *bool                        `json:"enabled,omitzero"`
-	EntityType   TypesScheduledTaskEntityType `json:"entity_type"`
-	Interval     TypesScheduledTaskInterval   `json:"interval"`
-	JobConfig    TypesS3JobConfig             `json:"job_config"`
+	ConnectionID string                  `json:"connection_id"`
+	Enabled      *bool                   `json:"enabled,omitzero"`
+	EntityType   ScheduledTaskEntityType `json:"entity_type"`
+	Interval     ScheduledTaskInterval   `json:"interval"`
+	JobConfig    S3JobConfig             `json:"job_config"`
 }
 
 func (d *DtoCreateScheduledTaskRequest) GetConnectionID() string {
@@ -24,23 +24,23 @@ func (d *DtoCreateScheduledTaskRequest) GetEnabled() *bool {
 	return d.Enabled
 }
 
-func (d *DtoCreateScheduledTaskRequest) GetEntityType() TypesScheduledTaskEntityType {
+func (d *DtoCreateScheduledTaskRequest) GetEntityType() ScheduledTaskEntityType {
 	if d == nil {
-		return TypesScheduledTaskEntityType("")
+		return ScheduledTaskEntityType("")
 	}
 	return d.EntityType
 }
 
-func (d *DtoCreateScheduledTaskRequest) GetInterval() TypesScheduledTaskInterval {
+func (d *DtoCreateScheduledTaskRequest) GetInterval() ScheduledTaskInterval {
 	if d == nil {
-		return TypesScheduledTaskInterval("")
+		return ScheduledTaskInterval("")
 	}
 	return d.Interval
 }
 
-func (d *DtoCreateScheduledTaskRequest) GetJobConfig() TypesS3JobConfig {
+func (d *DtoCreateScheduledTaskRequest) GetJobConfig() S3JobConfig {
 	if d == nil {
-		return TypesS3JobConfig{}
+		return S3JobConfig{}
 	}
 	return d.JobConfig
 }

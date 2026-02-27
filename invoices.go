@@ -819,7 +819,7 @@ func (s *Invoices) GetInvoicePreview(ctx context.Context, request components.Dto
 
 // QueryInvoice - Query invoices
 // Use when listing or searching invoices (e.g. admin view or customer history). Returns a paginated list; supports filtering by customer, status, date range.
-func (s *Invoices) QueryInvoice(ctx context.Context, request components.TypesInvoiceFilter, opts ...operations.Option) (*operations.QueryInvoiceResponse, error) {
+func (s *Invoices) QueryInvoice(ctx context.Context, request components.InvoiceFilter, opts ...operations.Option) (*operations.QueryInvoiceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,

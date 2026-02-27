@@ -12,7 +12,7 @@ type DtoEntitlementSource struct {
 	StaticValue      *string                         `json:"static_value,omitzero"`
 	SubscriptionID   *string                         `json:"subscription_id,omitzero"`
 	UsageLimit       *int64                          `json:"usage_limit,omitzero"`
-	UsageResetPeriod *TypesBillingPeriod             `json:"usage_reset_period,omitzero"`
+	UsageResetPeriod *BillingPeriod                  `json:"usage_reset_period,omitzero"`
 }
 
 func (d *DtoEntitlementSource) GetEntitlementID() *string {
@@ -78,7 +78,7 @@ func (d *DtoEntitlementSource) GetUsageLimit() *int64 {
 	return d.UsageLimit
 }
 
-func (d *DtoEntitlementSource) GetUsageResetPeriod() *TypesBillingPeriod {
+func (d *DtoEntitlementSource) GetUsageResetPeriod() *BillingPeriod {
 	if d == nil {
 		return nil
 	}

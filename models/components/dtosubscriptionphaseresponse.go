@@ -17,8 +17,8 @@ type DtoSubscriptionPhaseResponse struct {
 	ID       *string           `json:"id,omitzero"`
 	Metadata map[string]string `json:"metadata,omitzero"`
 	// StartDate is when the phase starts
-	StartDate *string      `json:"start_date,omitzero"`
-	Status    *TypesStatus `json:"status,omitzero"`
+	StartDate *string `json:"start_date,omitzero"`
+	Status    *Status `json:"status,omitzero"`
 	// SubscriptionID is the identifier for the subscription
 	SubscriptionID *string `json:"subscription_id,omitzero"`
 	TenantID       *string `json:"tenant_id,omitzero"`
@@ -86,7 +86,7 @@ func (d *DtoSubscriptionPhaseResponse) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoSubscriptionPhaseResponse) GetStatus() *TypesStatus {
+func (d *DtoSubscriptionPhaseResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

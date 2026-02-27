@@ -16,8 +16,8 @@ type DtoSubscriptionSummary struct {
 	// id of the subscription
 	ID *string `json:"id,omitzero"`
 	// plan_id of the subscription
-	PlanID *string                  `json:"plan_id,omitzero"`
-	Status *TypesSubscriptionStatus `json:"status,omitzero"`
+	PlanID *string             `json:"plan_id,omitzero"`
+	Status *SubscriptionStatus `json:"status,omitzero"`
 }
 
 func (d *DtoSubscriptionSummary) GetArchivedAt() *string {
@@ -69,7 +69,7 @@ func (d *DtoSubscriptionSummary) GetPlanID() *string {
 	return d.PlanID
 }
 
-func (d *DtoSubscriptionSummary) GetStatus() *TypesSubscriptionStatus {
+func (d *DtoSubscriptionSummary) GetStatus() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

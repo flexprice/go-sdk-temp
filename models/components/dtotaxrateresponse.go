@@ -7,23 +7,23 @@ import (
 )
 
 type DtoTaxRateResponse struct {
-	Code            *string             `json:"code,omitzero"`
-	CreatedAt       *string             `json:"created_at,omitzero"`
-	CreatedBy       *string             `json:"created_by,omitzero"`
-	Description     *string             `json:"description,omitzero"`
-	EnvironmentID   *string             `json:"environment_id,omitzero"`
-	FixedValue      *string             `json:"fixed_value,omitzero"`
-	ID              *string             `json:"id,omitzero"`
-	Metadata        map[string]string   `json:"metadata,omitzero"`
-	Name            *string             `json:"name,omitzero"`
-	PercentageValue *string             `json:"percentage_value,omitzero"`
-	Scope           *TypesTaxRateScope  `json:"scope,omitzero"`
-	Status          *TypesStatus        `json:"status,omitzero"`
-	TaxRateStatus   *TypesTaxRateStatus `json:"tax_rate_status,omitzero"`
-	TaxRateType     *TypesTaxRateType   `json:"tax_rate_type,omitzero"`
-	TenantID        *string             `json:"tenant_id,omitzero"`
-	UpdatedAt       *string             `json:"updated_at,omitzero"`
-	UpdatedBy       *string             `json:"updated_by,omitzero"`
+	Code            *string           `json:"code,omitzero"`
+	CreatedAt       *string           `json:"created_at,omitzero"`
+	CreatedBy       *string           `json:"created_by,omitzero"`
+	Description     *string           `json:"description,omitzero"`
+	EnvironmentID   *string           `json:"environment_id,omitzero"`
+	FixedValue      *string           `json:"fixed_value,omitzero"`
+	ID              *string           `json:"id,omitzero"`
+	Metadata        map[string]string `json:"metadata,omitzero"`
+	Name            *string           `json:"name,omitzero"`
+	PercentageValue *string           `json:"percentage_value,omitzero"`
+	Scope           *TaxRateScope     `json:"scope,omitzero"`
+	Status          *Status           `json:"status,omitzero"`
+	TaxRateStatus   *TaxRateStatus    `json:"tax_rate_status,omitzero"`
+	TaxRateType     *TaxRateType      `json:"tax_rate_type,omitzero"`
+	TenantID        *string           `json:"tenant_id,omitzero"`
+	UpdatedAt       *string           `json:"updated_at,omitzero"`
+	UpdatedBy       *string           `json:"updated_by,omitzero"`
 }
 
 func (d DtoTaxRateResponse) MarshalJSON() ([]byte, error) {
@@ -107,28 +107,28 @@ func (d *DtoTaxRateResponse) GetPercentageValue() *string {
 	return d.PercentageValue
 }
 
-func (d *DtoTaxRateResponse) GetScope() *TypesTaxRateScope {
+func (d *DtoTaxRateResponse) GetScope() *TaxRateScope {
 	if d == nil {
 		return nil
 	}
 	return d.Scope
 }
 
-func (d *DtoTaxRateResponse) GetStatus() *TypesStatus {
+func (d *DtoTaxRateResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
 	return d.Status
 }
 
-func (d *DtoTaxRateResponse) GetTaxRateStatus() *TypesTaxRateStatus {
+func (d *DtoTaxRateResponse) GetTaxRateStatus() *TaxRateStatus {
 	if d == nil {
 		return nil
 	}
 	return d.TaxRateStatus
 }
 
-func (d *DtoTaxRateResponse) GetTaxRateType() *TypesTaxRateType {
+func (d *DtoTaxRateResponse) GetTaxRateType() *TaxRateType {
 	if d == nil {
 		return nil
 	}

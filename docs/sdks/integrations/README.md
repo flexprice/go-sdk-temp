@@ -93,7 +93,7 @@ func main() {
             "key": "<value>",
         },
         Name: "<value>",
-        Provider: components.TypesSecretProviderChargebee,
+        Provider: components.SecretProviderChargebee,
     })
     if err != nil {
         log.Fatal(err)

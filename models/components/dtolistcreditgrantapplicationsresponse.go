@@ -8,7 +8,7 @@ import (
 
 type DtoListCreditGrantApplicationsResponse struct {
 	Items      []DtoCreditGrantApplicationResponse `json:"items,omitzero"`
-	Pagination *TypesPaginationResponse            `json:"pagination,omitzero"`
+	Pagination *PaginationResponse                 `json:"pagination,omitzero"`
 }
 
 func (d DtoListCreditGrantApplicationsResponse) MarshalJSON() ([]byte, error) {
@@ -29,7 +29,7 @@ func (d *DtoListCreditGrantApplicationsResponse) GetItems() []DtoCreditGrantAppl
 	return d.Items
 }
 
-func (d *DtoListCreditGrantApplicationsResponse) GetPagination() *TypesPaginationResponse {
+func (d *DtoListCreditGrantApplicationsResponse) GetPagination() *PaginationResponse {
 	if d == nil {
 		return nil
 	}

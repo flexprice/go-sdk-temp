@@ -7,33 +7,33 @@ import (
 )
 
 type DtoCreditGrantResponse struct {
-	Cadence *TypesCreditGrantCadence `json:"cadence,omitzero"`
+	Cadence *CreditGrantCadence `json:"cadence,omitzero"`
 	// amount in the currency =  number of credits * conversion_rate
 	// ex if conversion_rate is 1, then 1 USD = 1 credit
 	// ex if conversion_rate is 2, then 1 USD = 0.5 credits
 	// ex if conversion_rate is 0.5, then 1 USD = 2 credits
-	ConversionRate         *string                             `json:"conversion_rate,omitzero"`
-	CreatedAt              *string                             `json:"created_at,omitzero"`
-	CreatedBy              *string                             `json:"created_by,omitzero"`
-	CreditGrantAnchor      *string                             `json:"credit_grant_anchor,omitzero"`
-	Credits                *string                             `json:"credits,omitzero"`
-	EndDate                *string                             `json:"end_date,omitzero"`
-	EnvironmentID          *string                             `json:"environment_id,omitzero"`
-	ExpirationDuration     *int64                              `json:"expiration_duration,omitzero"`
-	ExpirationDurationUnit *TypesCreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
-	ExpirationType         *TypesCreditGrantExpiryType         `json:"expiration_type,omitzero"`
-	ID                     *string                             `json:"id,omitzero"`
-	Metadata               map[string]string                   `json:"metadata,omitzero"`
-	Name                   *string                             `json:"name,omitzero"`
-	Period                 *TypesCreditGrantPeriod             `json:"period,omitzero"`
-	PeriodCount            *int64                              `json:"period_count,omitzero"`
-	PlanID                 *string                             `json:"plan_id,omitzero"`
-	Priority               *int64                              `json:"priority,omitzero"`
-	Scope                  *TypesCreditGrantScope              `json:"scope,omitzero"`
-	StartDate              *string                             `json:"start_date,omitzero"`
-	Status                 *TypesStatus                        `json:"status,omitzero"`
-	SubscriptionID         *string                             `json:"subscription_id,omitzero"`
-	TenantID               *string                             `json:"tenant_id,omitzero"`
+	ConversionRate         *string                        `json:"conversion_rate,omitzero"`
+	CreatedAt              *string                        `json:"created_at,omitzero"`
+	CreatedBy              *string                        `json:"created_by,omitzero"`
+	CreditGrantAnchor      *string                        `json:"credit_grant_anchor,omitzero"`
+	Credits                *string                        `json:"credits,omitzero"`
+	EndDate                *string                        `json:"end_date,omitzero"`
+	EnvironmentID          *string                        `json:"environment_id,omitzero"`
+	ExpirationDuration     *int64                         `json:"expiration_duration,omitzero"`
+	ExpirationDurationUnit *CreditGrantExpiryDurationUnit `json:"expiration_duration_unit,omitzero"`
+	ExpirationType         *CreditGrantExpiryType         `json:"expiration_type,omitzero"`
+	ID                     *string                        `json:"id,omitzero"`
+	Metadata               map[string]string              `json:"metadata,omitzero"`
+	Name                   *string                        `json:"name,omitzero"`
+	Period                 *CreditGrantPeriod             `json:"period,omitzero"`
+	PeriodCount            *int64                         `json:"period_count,omitzero"`
+	PlanID                 *string                        `json:"plan_id,omitzero"`
+	Priority               *int64                         `json:"priority,omitzero"`
+	Scope                  *CreditGrantScope              `json:"scope,omitzero"`
+	StartDate              *string                        `json:"start_date,omitzero"`
+	Status                 *Status                        `json:"status,omitzero"`
+	SubscriptionID         *string                        `json:"subscription_id,omitzero"`
+	TenantID               *string                        `json:"tenant_id,omitzero"`
 	// topup_conversion_rate is the conversion rate for the topup to the currency
 	// ex if topup_conversion_rate is 1, then 1 USD = 1 credit
 	// ex if topup_conversion_rate is 2, then 1 USD = 0.5 credits
@@ -54,7 +54,7 @@ func (d *DtoCreditGrantResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCreditGrantResponse) GetCadence() *TypesCreditGrantCadence {
+func (d *DtoCreditGrantResponse) GetCadence() *CreditGrantCadence {
 	if d == nil {
 		return nil
 	}
@@ -117,14 +117,14 @@ func (d *DtoCreditGrantResponse) GetExpirationDuration() *int64 {
 	return d.ExpirationDuration
 }
 
-func (d *DtoCreditGrantResponse) GetExpirationDurationUnit() *TypesCreditGrantExpiryDurationUnit {
+func (d *DtoCreditGrantResponse) GetExpirationDurationUnit() *CreditGrantExpiryDurationUnit {
 	if d == nil {
 		return nil
 	}
 	return d.ExpirationDurationUnit
 }
 
-func (d *DtoCreditGrantResponse) GetExpirationType() *TypesCreditGrantExpiryType {
+func (d *DtoCreditGrantResponse) GetExpirationType() *CreditGrantExpiryType {
 	if d == nil {
 		return nil
 	}
@@ -152,7 +152,7 @@ func (d *DtoCreditGrantResponse) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoCreditGrantResponse) GetPeriod() *TypesCreditGrantPeriod {
+func (d *DtoCreditGrantResponse) GetPeriod() *CreditGrantPeriod {
 	if d == nil {
 		return nil
 	}
@@ -180,7 +180,7 @@ func (d *DtoCreditGrantResponse) GetPriority() *int64 {
 	return d.Priority
 }
 
-func (d *DtoCreditGrantResponse) GetScope() *TypesCreditGrantScope {
+func (d *DtoCreditGrantResponse) GetScope() *CreditGrantScope {
 	if d == nil {
 		return nil
 	}
@@ -194,7 +194,7 @@ func (d *DtoCreditGrantResponse) GetStartDate() *string {
 	return d.StartDate
 }
 
-func (d *DtoCreditGrantResponse) GetStatus() *TypesStatus {
+func (d *DtoCreditGrantResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}

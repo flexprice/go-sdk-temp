@@ -5,8 +5,8 @@ package components
 // DtoCancelScheduleResponse - Confirmation of schedule cancellation
 type DtoCancelScheduleResponse struct {
 	// message is a confirmation message
-	Message *string              `json:"message,omitzero"`
-	Status  *TypesScheduleStatus `json:"status,omitzero"`
+	Message *string         `json:"message,omitzero"`
+	Status  *ScheduleStatus `json:"status,omitzero"`
 }
 
 func (d *DtoCancelScheduleResponse) GetMessage() *string {
@@ -16,7 +16,7 @@ func (d *DtoCancelScheduleResponse) GetMessage() *string {
 	return d.Message
 }
 
-func (d *DtoCancelScheduleResponse) GetStatus() *TypesScheduleStatus {
+func (d *DtoCancelScheduleResponse) GetStatus() *ScheduleStatus {
 	if d == nil {
 		return nil
 	}

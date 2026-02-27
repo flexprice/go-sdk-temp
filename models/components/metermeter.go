@@ -22,12 +22,12 @@ type MeterMeter struct {
 	// ID is the unique identifier for the meter
 	ID *string `json:"id,omitzero"`
 	// Name is the display name of the meter
-	Name       *string          `json:"name,omitzero"`
-	ResetUsage *TypesResetUsage `json:"reset_usage,omitzero"`
-	Status     *TypesStatus     `json:"status,omitzero"`
-	TenantID   *string          `json:"tenant_id,omitzero"`
-	UpdatedAt  *string          `json:"updated_at,omitzero"`
-	UpdatedBy  *string          `json:"updated_by,omitzero"`
+	Name       *string     `json:"name,omitzero"`
+	ResetUsage *ResetUsage `json:"reset_usage,omitzero"`
+	Status     *Status     `json:"status,omitzero"`
+	TenantID   *string     `json:"tenant_id,omitzero"`
+	UpdatedAt  *string     `json:"updated_at,omitzero"`
+	UpdatedBy  *string     `json:"updated_by,omitzero"`
 }
 
 func (m MeterMeter) MarshalJSON() ([]byte, error) {
@@ -97,14 +97,14 @@ func (m *MeterMeter) GetName() *string {
 	return m.Name
 }
 
-func (m *MeterMeter) GetResetUsage() *TypesResetUsage {
+func (m *MeterMeter) GetResetUsage() *ResetUsage {
 	if m == nil {
 		return nil
 	}
 	return m.ResetUsage
 }
 
-func (m *MeterMeter) GetStatus() *TypesStatus {
+func (m *MeterMeter) GetStatus() *Status {
 	if m == nil {
 		return nil
 	}

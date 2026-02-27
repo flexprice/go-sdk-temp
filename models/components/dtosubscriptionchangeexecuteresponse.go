@@ -8,7 +8,7 @@ import (
 
 // DtoSubscriptionChangeExecuteResponse - Response after successfully executing a subscription plan change
 type DtoSubscriptionChangeExecuteResponse struct {
-	ChangeType *TypesSubscriptionChangeType `json:"change_type,omitzero"`
+	ChangeType *SubscriptionChangeType `json:"change_type,omitzero"`
 	// credit_grants contains any credit grants created for proration credits
 	CreditGrants []DtoCreditGrantResponse `json:"credit_grants,omitzero"`
 	// effective_date is when the change took effect
@@ -38,7 +38,7 @@ func (d *DtoSubscriptionChangeExecuteResponse) UnmarshalJSON(data []byte) error 
 	return nil
 }
 
-func (d *DtoSubscriptionChangeExecuteResponse) GetChangeType() *TypesSubscriptionChangeType {
+func (d *DtoSubscriptionChangeExecuteResponse) GetChangeType() *SubscriptionChangeType {
 	if d == nil {
 		return nil
 	}

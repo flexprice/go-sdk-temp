@@ -7,15 +7,15 @@ import (
 )
 
 type DtoCancelSubscriptionResponse struct {
-	CancellationType *TypesCancellationType `json:"cancellation_type,omitzero"`
-	EffectiveDate    *string                `json:"effective_date,omitzero"`
+	CancellationType *CancellationType `json:"cancellation_type,omitzero"`
+	EffectiveDate    *string           `json:"effective_date,omitzero"`
 	// Response metadata
-	Message          *string                  `json:"message,omitzero"`
-	ProcessedAt      *string                  `json:"processed_at,omitzero"`
-	ProrationDetails []DtoProrationDetail     `json:"proration_details,omitzero"`
-	ProrationInvoice *DtoInvoiceResponse      `json:"proration_invoice,omitzero"`
-	Reason           *string                  `json:"reason,omitzero"`
-	Status           *TypesSubscriptionStatus `json:"status,omitzero"`
+	Message          *string              `json:"message,omitzero"`
+	ProcessedAt      *string              `json:"processed_at,omitzero"`
+	ProrationDetails []DtoProrationDetail `json:"proration_details,omitzero"`
+	ProrationInvoice *DtoInvoiceResponse  `json:"proration_invoice,omitzero"`
+	Reason           *string              `json:"reason,omitzero"`
+	Status           *SubscriptionStatus  `json:"status,omitzero"`
 	// Basic cancellation info
 	SubscriptionID    *string `json:"subscription_id,omitzero"`
 	TotalCreditAmount *string `json:"total_credit_amount,omitzero"`
@@ -32,7 +32,7 @@ func (d *DtoCancelSubscriptionResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *DtoCancelSubscriptionResponse) GetCancellationType() *TypesCancellationType {
+func (d *DtoCancelSubscriptionResponse) GetCancellationType() *CancellationType {
 	if d == nil {
 		return nil
 	}
@@ -81,7 +81,7 @@ func (d *DtoCancelSubscriptionResponse) GetReason() *string {
 	return d.Reason
 }
 
-func (d *DtoCancelSubscriptionResponse) GetStatus() *TypesSubscriptionStatus {
+func (d *DtoCancelSubscriptionResponse) GetStatus() *SubscriptionStatus {
 	if d == nil {
 		return nil
 	}

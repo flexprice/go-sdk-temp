@@ -4,8 +4,8 @@ package components
 
 type DtoCreateUserRequest struct {
 	// Roles are required
-	Roles []string      `json:"roles"`
-	Type  TypesUserType `json:"type"`
+	Roles []string `json:"roles"`
+	Type  UserType `json:"type"`
 }
 
 func (d *DtoCreateUserRequest) GetRoles() []string {
@@ -15,9 +15,9 @@ func (d *DtoCreateUserRequest) GetRoles() []string {
 	return d.Roles
 }
 
-func (d *DtoCreateUserRequest) GetType() TypesUserType {
+func (d *DtoCreateUserRequest) GetType() UserType {
 	if d == nil {
-		return TypesUserType("")
+		return UserType("")
 	}
 	return d.Type
 }

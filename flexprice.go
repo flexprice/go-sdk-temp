@@ -2,7 +2,7 @@
 
 package flexprice
 
-// Generated from OpenAPI doc version 1.0 and generator version 2.845.1
+// Generated from OpenAPI doc version 1.0 and generator version 2.845.5
 
 import (
 	"context"
@@ -82,6 +82,24 @@ type Flexprice struct {
 
 type SDKOption func(*Flexprice)
 
+// WithServerURL allows providing an alternative server URL
+func WithServerURL(serverURL string) SDKOption {
+	return func(sdk *Flexprice) {
+		sdk.sdkConfiguration.ServerURL = serverURL
+	}
+}
+
+// WithTemplatedServerURL allows the overriding of the default server URL with a templated URL populated with the provided parameters
+func WithTemplatedServerURL(serverURL string, params map[string]string) SDKOption {
+	return func(sdk *Flexprice) {
+		if params != nil {
+			serverURL = utils.ReplaceParameters(serverURL, params)
+		}
+
+		sdk.sdkConfiguration.ServerURL = serverURL
+	}
+}
+
 // WithClient allows the overriding of the default HTTP client used by the SDK
 func WithClient(client HTTPClient) SDKOption {
 	return func(sdk *Flexprice) {
@@ -122,9 +140,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided serverURL and options
 func New(serverURL string, opts ...SDKOption) *Flexprice {
 	sdk := &Flexprice{
-		SDKVersion: "0.0.47",
+		SDKVersion: "0.0.50",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent: "speakeasy-sdk/go 0.0.47 2.845.1 1.0 github.com/flexprice/flexprice-go",
+			UserAgent: "speakeasy-sdk/go 0.0.50 2.845.5 1.0 github.com/flexprice/flexprice-go",
 		},
 		hooks: hooks.New(),
 	}

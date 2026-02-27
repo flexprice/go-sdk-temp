@@ -7,14 +7,14 @@ import (
 )
 
 type DtoCreateTaxAssociationRequest struct {
-	AutoApply          *bool                   `json:"auto_apply,omitzero"`
-	Currency           *string                 `json:"currency,omitzero"`
-	EntityID           *string                 `json:"entity_id,omitzero"`
-	EntityType         *TypesTaxRateEntityType `json:"entity_type,omitzero"`
-	ExternalCustomerID *string                 `json:"external_customer_id,omitzero"`
-	Metadata           map[string]string       `json:"metadata,omitzero"`
-	Priority           *int64                  `json:"priority,omitzero"`
-	TaxRateCode        string                  `json:"tax_rate_code"`
+	AutoApply          *bool              `json:"auto_apply,omitzero"`
+	Currency           *string            `json:"currency,omitzero"`
+	EntityID           *string            `json:"entity_id,omitzero"`
+	EntityType         *TaxRateEntityType `json:"entity_type,omitzero"`
+	ExternalCustomerID *string            `json:"external_customer_id,omitzero"`
+	Metadata           map[string]string  `json:"metadata,omitzero"`
+	Priority           *int64             `json:"priority,omitzero"`
+	TaxRateCode        string             `json:"tax_rate_code"`
 }
 
 func (d DtoCreateTaxAssociationRequest) MarshalJSON() ([]byte, error) {
@@ -49,7 +49,7 @@ func (d *DtoCreateTaxAssociationRequest) GetEntityID() *string {
 	return d.EntityID
 }
 
-func (d *DtoCreateTaxAssociationRequest) GetEntityType() *TypesTaxRateEntityType {
+func (d *DtoCreateTaxAssociationRequest) GetEntityType() *TaxRateEntityType {
 	if d == nil {
 		return nil
 	}

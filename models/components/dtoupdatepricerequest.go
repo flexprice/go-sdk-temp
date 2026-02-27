@@ -8,11 +8,11 @@ import (
 
 type DtoUpdatePriceRequest struct {
 	// Amount is the new price amount that overrides the original price (optional)
-	Amount        *string            `json:"amount,omitzero"`
-	BillingModel  *TypesBillingModel `json:"billing_model,omitzero"`
-	Description   *string            `json:"description,omitzero"`
-	DisplayName   *string            `json:"display_name,omitzero"`
-	EffectiveFrom *string            `json:"effective_from,omitzero"`
+	Amount        *string       `json:"amount,omitzero"`
+	BillingModel  *BillingModel `json:"billing_model,omitzero"`
+	Description   *string       `json:"description,omitzero"`
+	DisplayName   *string       `json:"display_name,omitzero"`
+	EffectiveFrom *string       `json:"effective_from,omitzero"`
 	// GroupID is the id of the group to update the price in
 	GroupID *string `json:"group_id,omitzero"`
 	// All price fields that can be updated
@@ -23,7 +23,7 @@ type DtoUpdatePriceRequest struct {
 	PriceUnitAmount *string `json:"price_unit_amount,omitzero"`
 	// PriceUnitTiers are the price unit tiers (for CUSTOM price unit type, TIERED billing model)
 	PriceUnitTiers []DtoCreatePriceTier `json:"price_unit_tiers,omitzero"`
-	TierMode       *TypesBillingTier    `json:"tier_mode,omitzero"`
+	TierMode       *BillingTier         `json:"tier_mode,omitzero"`
 	// Tiers determines the pricing tiers for this line item
 	Tiers             []DtoCreatePriceTier    `json:"tiers,omitzero"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity,omitzero"`
@@ -47,7 +47,7 @@ func (d *DtoUpdatePriceRequest) GetAmount() *string {
 	return d.Amount
 }
 
-func (d *DtoUpdatePriceRequest) GetBillingModel() *TypesBillingModel {
+func (d *DtoUpdatePriceRequest) GetBillingModel() *BillingModel {
 	if d == nil {
 		return nil
 	}
@@ -110,7 +110,7 @@ func (d *DtoUpdatePriceRequest) GetPriceUnitTiers() []DtoCreatePriceTier {
 	return d.PriceUnitTiers
 }
 
-func (d *DtoUpdatePriceRequest) GetTierMode() *TypesBillingTier {
+func (d *DtoUpdatePriceRequest) GetTierMode() *BillingTier {
 	if d == nil {
 		return nil
 	}

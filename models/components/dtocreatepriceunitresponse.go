@@ -16,7 +16,7 @@ type DtoCreatePriceUnitResponse struct {
 	ID             *string           `json:"id,omitzero"`
 	Metadata       map[string]string `json:"metadata,omitzero"`
 	Name           *string           `json:"name,omitzero"`
-	Status         *TypesStatus      `json:"status,omitzero"`
+	Status         *Status           `json:"status,omitzero"`
 	Symbol         *string           `json:"symbol,omitzero"`
 	TenantID       *string           `json:"tenant_id,omitzero"`
 	UpdatedAt      *string           `json:"updated_at,omitzero"`
@@ -97,7 +97,7 @@ func (d *DtoCreatePriceUnitResponse) GetName() *string {
 	return d.Name
 }
 
-func (d *DtoCreatePriceUnitResponse) GetStatus() *TypesStatus {
+func (d *DtoCreatePriceUnitResponse) GetStatus() *Status {
 	if d == nil {
 		return nil
 	}
